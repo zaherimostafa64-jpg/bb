@@ -1,0 +1,3 @@
+node_modules/
+build/qa/
+build/source-images/_strip*.jpg

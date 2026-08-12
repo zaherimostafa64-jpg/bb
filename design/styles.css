@@ -1,0 +1,504 @@
+@import url("fonts/fonts.css");
+
+/* ==========================================================================
+   PAYA ORIGIN — Corporate Profile 2026
+   Design system
+
+   The document is built from nine page archetypes, not one template.
+   Every page declares which archetype it uses; the archetype owns the
+   composition. Sequencing rules live in profile.html.
+   ========================================================================== */
+
+:root {
+  /* --- brand, sampled from the existing wordmark and profile ------------ */
+  --burgundy:        #831D23;
+  --burgundy-deep:   #4E1116;
+  --burgundy-tint:   #F0E4E1;
+  --amber:           #C08018;   /* muted harvest gold — structural use     */
+  --amber-bright:    #F49E0C;   /* brand amber — accents only, never large */
+
+  /* --- paper and ink ---------------------------------------------------- */
+  --ink:             #17130F;
+  --ink-2:           #4A4038;
+  --ink-3:           #7C7167;
+  --ink-4:           #A79C90;
+  --paper:           #F6F2EA;
+  --paper-2:         #EFE9DD;
+  --paper-3:         #E6DECF;
+  --rule:            #DCD2C1;
+  --rule-soft:       #E8E1D4;
+  --dark:            #16120E;
+  --dark-2:          #221C16;
+  --dark-rule:       #3A312A;
+  --dark-ink-2:      #BDB2A4;
+  --dark-ink-3:      #8B8175;
+
+  /* --- geometry --------------------------------------------------------- */
+  --mx:   20mm;   /* outer margin           */
+  --mt:   17mm;   /* top margin             */
+  --mb:   15mm;   /* bottom margin          */
+  --col:  10.5mm; /* 12-col grid, 4mm gutter */
+  --gut:  4mm;
+}
+
+/* --------------------------------------------------------------------------
+   reset + page
+   -------------------------------------------------------------------------- */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+@page { size: A4 portrait; margin: 0; }
+
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+body {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 9.4pt;
+  line-height: 1.55;
+  color: var(--ink);
+  background: #8C8C8C;
+  font-feature-settings: "kern" 1, "liga" 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  position: relative;
+  width: 210mm;
+  height: 297mm;
+  overflow: hidden;
+  background: var(--paper);
+  break-after: page;
+  page-break-after: always;
+}
+.page:last-child { break-after: auto; page-break-after: auto; }
+
+/* screen-only preview spacing; ignored in print */
+@media screen {
+  body { padding: 12mm 0; }
+  .page { margin: 0 auto 8mm; box-shadow: 0 3mm 12mm rgba(0,0,0,.28); }
+}
+
+/* paper grain — the whole document sits on stock, not on white ------------ */
+.page::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  opacity: .55;
+  background-size: 11mm 11mm;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAFSklEQVR42q1Z6XLyOgw9QNnLFsJSICyhLGVpCu//cPcHxsiy5IT5rmc6BJLYsnSkc6wC8higaa4+xftN5b0bOgA2mLPf/wBM2btXtNxXF+ZqZz4n9t7KfGbeciAT9wDURbPOoukL+sgPuY6RPx5GXrDBESfnzhFFB9nOt7dnANiazxOb9gBgYK7XbNIN8eArnHoIE9g4xN7+wPYGzAAAI/vtYK6mABrOva6waGo+LzZkJQAuEAAkuSFoAygbYCEI1QcUG+HpJsJve/N731kEZuHX6HlvLgOz8hUKjZcBXfH+zKYUxfWOGZWF4PlD0uRqgLXBhuEhAfAVNPVGku0XX8ZXjcI5Ie4wEu5VjSFnm0F1L0Qnr1rMAHyhEzKgZv6e4y7ipU9gtzMeA1JbjGxyqZtRYbO3O3yZ0HIw/ohkS0XJhv129gLw8tWXlqM0l5+DLtknuJgQlFRJhqwLBn3/NLmHzNZ13zOPUSEFu8PMu1tTGuyt5xiGLVmTIEyVZ6a5+/lggTlZs/kzDRuQBkfvwNS5x/dlATf+2quTV7B2uW8vXhH+NFEd2oqwATBBwibqiSjRjGJLCaWoFKpufOjL9q0zr2qK+yVYLGxjJjrK4mR1Rs5AhE3A9Cg/llujCSL8P+MgMKhER7XXolvV4l/z5zLjXYl4WyjvS8/xa5qaqzd3N1DSOHK+lQ1oW0Qd9D1d2AZOWDhZfBUR/CrUi4BpTa9Qu9vbWhylntfRYdIUOOKsqIBQ7pQYIwydXe+QATghNcG7Uza4GULpCKr/ZOm37mnHAYt8RozIBFPLYXmUiCTk/tKz3NFCmcivvcn4b+JVOr7lCnBXi+7FkgmNVgMHJee7SjlrC/lz9vW8xIJ+RtM4Z0ECPhM/BERqYvdZlP/4aSEmzqXnrFjQGq5inmm7nFn0NolCcslmQQw5eJIFAmRHjFEGHokLMotLkpfjP8TgyM7+yz0n2EiOvbNeJqTPKpApUZAF+s6b82KllgI19vxBp1kCOLj1rZBaMNPGJNEU3kLVVoCGxYsvwu+OL32G7bAOAyL0SDLNBJ3XwiXYOWgJ4gMCgJ1lpfu/SIUjJ1QdEyvyq+lAuSaVHqgFpu2dFiJVpKVCjd8TP8a68is+SqzS1VQNUVYO7bcAtD3QfWJk7e+qMpNH8GLL0th77tOkbllgGaH0jlnpTEnsrhgEDHrPq48C1fZPwSMLr6PYgmkJh60R0TdLJmJantCZun7XU+tK1EGFPLn0dERZPFWGugHXUMco1qLkRPjisOI+yJ8p48STSv5KvdIk1Y/QFyvnEk9q4B2oC9O3AHW2JtUdNl0rtKwQ1YERy1vNNIwsmJeFju8DP0/vojQ5CwpvGCwr68COe5Lm7Io0IQ+fhKvWlU1lry52RoYrdmHS3ili1HVwV1hs5uTTlzNLoRI2JFq37fUFKgGmnBjX30zhXSFC3RxdYkWILCWWnpNcbQh9HgR6aJGHhyvrkbghGtLsHQsIvSlNyw1Lr5HTLZ8UzJw1FPJ8RuvmyYhtjlT58cqSL2NrWo4cVeGU5jaWriIB54/Vi9nDkT56CVq1Z4SbE5iBcPJyz8hlXuivpuY9zkCJEutHpCu5e5Ja3HNB/Iz5a5nHBIl4DqTor7AOwF+ueXuD/ZJ2av9wAFfNUcS+DC8JnqgJz/b/TaYmNtUmFqSnwPOfQVrCAUAPcxKpEquMYRHLi9Lc8e05yKuRrvrXTrLI0iHGwqinLWt3hihtI4UvRf6/XBPhOtxDy8RTU0Um6JEiM2ivvFYozolI3s+lhu9DLmPo/zBZvHxjjh/91n8WmEozkU00RwAAAABJRU5ErkJggg==");
+  background-repeat: repeat;
+}
+/* dark pages read as ink, not stock — no grain */
+.page.is-dark::after { display: none; }
+.page.no-grain::after { display: none; }
+
+.page.is-dark { background: var(--dark); color: #F2ECE2; }
+
+/* --------------------------------------------------------------------------
+   typography
+   -------------------------------------------------------------------------- */
+
+.display,
+h1, h2 {
+  font-family: "Fraunces", Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 90;
+  font-weight: 300;
+  letter-spacing: -.012em;
+  line-height: 1.04;
+  color: var(--ink);
+}
+
+.d-xl   { font-size: 46pt; line-height: .99; letter-spacing: -.021em;
+          font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 144; }
+.d-lg   { font-size: 31pt; line-height: 1.06; letter-spacing: -.016em;
+          font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 120; }
+.d-md   { font-size: 22pt; line-height: 1.12; letter-spacing: -.012em; }
+.d-sm   { font-size: 15pt; line-height: 1.2;  letter-spacing: -.008em; font-weight: 400; }
+
+.lede {
+  font-size: 11.2pt;
+  line-height: 1.5;
+  color: var(--ink-2);
+  font-weight: 350;
+  letter-spacing: -.004em;
+}
+
+p { color: var(--ink-2); }
+p + p { margin-top: 2.6mm; }
+
+.small   { font-size: 8.4pt; line-height: 1.5; }
+.muted   { color: var(--ink-3); }
+.caption { font-size: 6.8pt; line-height: 1.35; color: var(--ink-3); letter-spacing: .002em; }
+
+/* mono is the document's "instrument panel": labels, data, coordinates ---- */
+.label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 6.6pt;
+  font-weight: 500;
+  letter-spacing: .155em;
+  text-transform: uppercase;
+  color: var(--burgundy);
+}
+.label.is-muted { color: var(--ink-3); }
+.label.is-amber { color: var(--amber); }
+.label.on-dark  { color: var(--amber-bright); }
+
+.mono {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 6.8pt;
+  letter-spacing: .04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.num {
+  font-family: "Fraunces", Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 144;
+  font-weight: 300;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -.02em;
+  color: var(--burgundy);
+}
+
+em  { font-style: normal; color: var(--burgundy); }
+b, strong { font-weight: 600; color: var(--ink); }
+.is-dark p, .is-dark .lede { color: var(--dark-ink-2); }
+.is-dark .display, .is-dark h1, .is-dark h2, .is-dark b { color: #F6F1E8; }
+.is-dark .muted, .is-dark .caption { color: var(--dark-ink-3); }
+.is-dark .num { color: var(--amber-bright); }
+
+/* --------------------------------------------------------------------------
+   page furniture
+   -------------------------------------------------------------------------- */
+
+.frame {              /* the standard text area */
+  position: absolute;
+  left: var(--mx); right: var(--mx);
+  top: var(--mt); bottom: var(--mb);
+}
+
+.running {
+  position: absolute;
+  left: var(--mx); right: var(--mx);
+  bottom: 9mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 6.2pt;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  z-index: 30;
+}
+.running .folio { color: var(--ink-3); font-weight: 500; letter-spacing: .1em; }
+.is-dark .running { color: #6A6055; }
+.is-dark .running .folio { color: var(--dark-ink-3); }
+.running.on-image, .running.on-image .folio { color: rgba(255,255,255,.62); }
+
+/* section marker: the only element repeated on every content page --------- */
+.marker {
+  position: absolute;
+  top: var(--mt); left: var(--mx);
+  display: flex; align-items: baseline; gap: 3mm;
+  z-index: 30;
+}
+.marker .rule { display: block; width: 12mm; height: .35mm; background: var(--burgundy); opacity: .55; }
+
+.hr        { height: .3mm; background: var(--rule); border: 0; }
+.hr-strong { height: .5mm; background: var(--ink); border: 0; }
+.hr-soft   { height: .25mm; background: var(--rule-soft); border: 0; }
+.is-dark .hr { background: var(--dark-rule); }
+
+/* --------------------------------------------------------------------------
+   archetype: PLATE — full-bleed photography, type is a guest on the image
+   -------------------------------------------------------------------------- */
+
+.plate { position: absolute; inset: 0; }
+.plate img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Scrims are directional and local. The image is never globally darkened. */
+.scrim-b::before, .scrim-t::before, .scrim-l::before {
+  content: ""; position: absolute; inset: 0; z-index: 5;
+}
+.scrim-b::before { background: linear-gradient(to top,
+    rgba(14,11,8,.80) 0%, rgba(14,11,8,.55) 18%, rgba(14,11,8,.12) 42%, rgba(14,11,8,0) 62%); }
+.scrim-t::before { background: linear-gradient(to bottom,
+    rgba(14,11,8,.55) 0%, rgba(14,11,8,.18) 26%, rgba(14,11,8,0) 48%); }
+.scrim-l::before { background: linear-gradient(to right,
+    rgba(14,11,8,.72) 0%, rgba(14,11,8,.34) 34%, rgba(14,11,8,0) 66%); }
+
+.plate-type {
+  position: absolute; z-index: 20;
+  left: var(--mx); right: var(--mx); bottom: 24mm;
+  color: #FFF;
+}
+.plate-type .display, .plate-type h1, .plate-type h2 { color: #FFF; }
+.plate-type p { color: rgba(255,255,255,.80); }
+.plate-type .label { color: var(--amber-bright); }
+
+.logo-mark { position: absolute; z-index: 25; }
+.logo-mark img { display: block; }
+
+/* --------------------------------------------------------------------------
+   archetype: DATA — numerals hang, rules carry the structure
+   -------------------------------------------------------------------------- */
+
+.data-row {
+  display: grid;
+  grid-template-columns: 34mm 1fr 52mm;
+  gap: var(--gut);
+  align-items: baseline;
+  padding: 8.4mm 0 7.4mm;
+  border-top: .3mm solid var(--rule);
+}
+.data-row:last-child { border-bottom: .3mm solid var(--rule); }
+.data-row .num { font-size: 30pt; line-height: .9; }
+.data-row .k   { font-size: 10pt; font-weight: 600; letter-spacing: -.004em; color: var(--ink); }
+.data-row .v   { font-size: 8.2pt; line-height: 1.45; color: var(--ink-3); }
+.is-dark .data-row { border-color: var(--dark-rule); }
+.is-dark .data-row .k { color: #F2ECE2; }
+.is-dark .data-row .v { color: var(--dark-ink-3); }
+
+/* --------------------------------------------------------------------------
+   archetype: MATRIX — typographic comparison, no cards
+   -------------------------------------------------------------------------- */
+
+.matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12mm; }
+.matrix .col-head {
+  display: flex; align-items: baseline; gap: 2.5mm;
+  padding-bottom: 3mm; border-bottom: .5mm solid var(--ink);
+  margin-bottom: 1mm;
+}
+.matrix .col-head.is-neg { border-bottom-color: var(--rule); }
+.matrix li {
+  list-style: none;
+  padding: 4.8mm 0;
+  border-bottom: .3mm solid var(--rule-soft);
+  font-size: 8.6pt; line-height: 1.42; color: var(--ink-2);
+  display: grid; grid-template-columns: 5mm 1fr; gap: 1mm;
+}
+.matrix li .m { font-family: "IBM Plex Mono", monospace; font-size: 7.4pt; color: var(--burgundy); }
+.matrix .is-neg li .m { color: var(--ink-4); }
+.matrix .is-neg li { color: var(--ink-3); }
+
+/* --------------------------------------------------------------------------
+   archetype: DIAGRAM — one large visual, few words
+   -------------------------------------------------------------------------- */
+
+.spine { position: relative; }
+.spine .track { position: absolute; left: 0; right: 0; top: 6.6mm; height: .3mm; background: var(--rule); }
+.is-dark .spine .track { background: var(--dark-rule); }
+.spine .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--gut); position: relative; }
+.spine .step .dot {
+  width: 3.2mm; height: 3.2mm; border-radius: 50%;
+  background: var(--paper); border: .5mm solid var(--burgundy);
+  margin: 5mm 0 5mm;
+}
+.spine .step.is-key .dot { background: var(--burgundy); }
+.is-dark .spine .step .dot { background: var(--dark); border-color: var(--amber-bright); }
+.is-dark .spine .step.is-key .dot { background: var(--amber-bright); }
+.spine .step h3 { font-size: 9.6pt; font-weight: 600; letter-spacing: -.006em; margin-bottom: 1.6mm; }
+.spine .step p  { font-size: 7.6pt; line-height: 1.42; color: var(--ink-3); }
+
+/* second tier of the process diagram: the deliverable each stage hands over */
+.output { display: block; border-top: .3mm solid var(--rule); padding-top: 2.6mm; }
+.output .o-n { font-family: "IBM Plex Mono", monospace; font-size: 6.2pt; letter-spacing: .1em;
+               color: var(--ink-4); display: block; margin-bottom: 1.6mm; }
+.output .o-t { font-size: 8.4pt; font-weight: 600; color: var(--ink); display: block;
+               letter-spacing: -.004em; line-height: 1.25; }
+.output .o-d { font-size: 7.2pt; color: var(--ink-3); display: block; margin-top: 1mm; line-height: 1.38; }
+
+/* fragmented-vs-coordinated comparison */
+.compare { display: grid; grid-template-columns: 1fr 14mm 1fr; align-items: center; }
+.node {
+  border: .3mm solid var(--dark-rule);
+  padding: 4mm 4.5mm;
+  font-size: 8pt; line-height: 1.4;
+}
+.node .t { font-weight: 600; color: #F2ECE2; display: block; margin-bottom: 1mm; }
+.node .s { color: var(--dark-ink-3); font-size: 7.4pt; }
+
+/* --------------------------------------------------------------------------
+   archetype: SPECIMEN — product pages
+   -------------------------------------------------------------------------- */
+
+.spec-grid { display: grid; gap: var(--gut); }
+.spec {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper-3);
+}
+.spec img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.spec-cap { margin-top: 2.2mm; }
+.spec-cap .n { font-size: 8.8pt; font-weight: 600; letter-spacing: -.004em; display: block; }
+.spec-cap .o { font-size: 6.6pt; letter-spacing: .06em; text-transform: uppercase;
+               font-family: "IBM Plex Mono", monospace; color: var(--ink-4); }
+
+/* --------------------------------------------------------------------------
+   harvest calendar
+   -------------------------------------------------------------------------- */
+
+.cal { width: 100%; }
+.cal .months {
+  display: grid; grid-template-columns: 36mm repeat(12, 1fr); gap: 0;
+  padding-bottom: 2mm; border-bottom: .3mm solid var(--rule);
+}
+.cal .months span {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.6pt; letter-spacing: .06em;
+  font-weight: 500; color: var(--ink-3); text-align: center;
+}
+.cal .row {
+  display: grid; grid-template-columns: 36mm repeat(12, 1fr);
+  align-items: center; height: 7.1mm;
+  border-bottom: .25mm solid var(--rule-soft);
+}
+.cal .row .name { font-size: 8.6pt; font-weight: 500; color: var(--ink); padding-right: 3mm; }
+.cal .row .cell { height: 100%; border-left: .25mm solid var(--rule-soft); position: relative; }
+.cal .bar {
+  position: absolute; left: 0; right: 0; top: 2.2mm; height: 2.7mm;
+  background: var(--burgundy);
+}
+.cal .bar.is-peak { background: var(--burgundy); }
+.cal .bar.is-shoulder { background: #EAD7D2; }
+.cal .bar.is-year { background: var(--amber); }
+
+/* --------------------------------------------------------------------------
+   map
+   -------------------------------------------------------------------------- */
+
+.map-wrap { position: relative; }
+.map-wrap svg { display: block; width: 100%; height: auto; overflow: visible; }
+.iran-fill    { fill: #EAE1D1; stroke: none; }
+.iran-stroke  { fill: none; stroke: var(--burgundy); stroke-width: 2.6; opacity: .9;
+                stroke-linejoin: round; }
+.origin-halo  { fill: var(--burgundy); opacity: .13; }
+.origin-pin   { fill: var(--burgundy); }
+.origin-num   { font-family: "IBM Plex Mono", monospace; font-size: 19px; font-weight: 600;
+                letter-spacing: .5px; fill: #F6F2EA; text-anchor: middle; }
+
+/* legend rail beside the map ---------------------------------------------- */
+.origin-key { display: block; }
+.origin-key .k-n { font-family: "IBM Plex Mono", monospace; font-size: 6.6pt; font-weight: 600;
+                   letter-spacing: .1em; color: var(--burgundy); display: block; margin-bottom: 1.6mm; }
+.origin-key .k-r { font-size: 9.4pt; font-weight: 600; letter-spacing: -.006em;
+                   color: var(--ink); display: block; }
+.origin-key .k-c { font-size: 7.4pt; line-height: 1.35; color: var(--ink-3);
+                   display: block; margin-top: .8mm; }
+.origin-key .k-h { font-family: "IBM Plex Mono", monospace; font-size: 6pt; letter-spacing: .1em;
+                   color: var(--amber); display: block; margin-top: 1.6mm; }
+
+/* --------------------------------------------------------------------------
+   misc components
+   -------------------------------------------------------------------------- */
+
+.rule-list { }
+.rule-list .item {
+  display: grid; grid-template-columns: 10mm 1fr;
+  gap: var(--gut);
+  padding: 5.4mm 0;
+  border-top: .3mm solid var(--rule);
+}
+.rule-list .item:last-child { border-bottom: .3mm solid var(--rule); }
+.rule-list .item .i { font-family: "IBM Plex Mono", monospace; font-size: 7pt;
+                      color: var(--amber); letter-spacing: .08em; padding-top: .6mm; }
+.rule-list .item h3 { font-size: 9.4pt; font-weight: 600; letter-spacing: -.004em; margin-bottom: 1.2mm; }
+.rule-list .item p  { font-size: 8.2pt; line-height: 1.45; color: var(--ink-3); }
+.is-dark .rule-list .item { border-color: var(--dark-rule); }
+
+.pull {
+  font-family: "Fraunces", Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 100;
+  font-weight: 300; font-size: 14pt; line-height: 1.3;
+  letter-spacing: -.01em; color: var(--burgundy);
+}
+
+.note {
+  font-size: 7pt; line-height: 1.4; color: var(--ink-4);
+  border-top: .25mm solid var(--rule-soft); padding-top: 2.2mm;
+}
+
+.tint { background: var(--paper-2); }
+
+/* quiet call to action — a ruled line, not a button ---------------------- */
+.cta-quiet {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 6mm; padding-top: 3.4mm; border-top: .5mm solid var(--ink);
+}
+.cta-quiet .t { font-size: 9pt; font-weight: 500; color: var(--ink); }
+.cta-quiet .a { font-family: "IBM Plex Mono", monospace; font-size: 7pt;
+                letter-spacing: .12em; text-transform: uppercase; color: var(--burgundy); }
+
+/* contents ---------------------------------------------------------------- */
+.toc-row {
+  display: grid; grid-template-columns: 8mm 1fr 8mm;
+  align-items: baseline; gap: 2mm;
+  padding: 3.4mm 0;
+  border-top: .25mm solid var(--rule-soft);
+  font-size: 8.6pt;
+}
+.toc-row:last-child { border-bottom: .25mm solid var(--rule-soft); }
+.toc-row .mono { color: var(--ink-4); font-size: 6.4pt; }
+.toc-row span:nth-child(2) { color: var(--ink); letter-spacing: -.004em; }
+.toc-row span:last-child { text-align: right; color: var(--burgundy); }
+
+/* origin table ------------------------------------------------------------ */
+.origin-row {
+  display: grid;
+  grid-template-columns: 9mm 34mm 34mm 1fr 21mm;
+  gap: var(--gut);
+  padding: 6.4mm 0;
+  border-top: .3mm solid var(--rule);
+  align-items: start;
+}
+.origin-row:last-of-type { border-bottom: .3mm solid var(--rule); }
+.origin-row.is-head {
+  border-top: .5mm solid var(--ink); border-bottom: 0;
+  padding: 2.4mm 0 2.4mm;
+}
+.origin-row.is-head .mono { color: var(--ink-4); font-size: 6pt; letter-spacing: .13em; }
+.origin-row .r  { color: var(--amber); font-size: 7pt; padding-top: .5mm; }
+.origin-row .rg { font-size: 9.6pt; font-weight: 600; letter-spacing: -.006em; line-height: 1.25; }
+.origin-row .rg .sub { font-size: 7pt; font-weight: 400; color: var(--ink-4); letter-spacing: 0; }
+.origin-row .cr { font-size: 8.2pt; color: var(--burgundy); line-height: 1.4; }
+.origin-row .cd { font-size: 7.8pt; color: var(--ink-3); line-height: 1.45; }
+.origin-row .hv { font-family: "IBM Plex Mono", monospace; font-size: 7pt;
+                  color: var(--ink); text-align: right; letter-spacing: .02em; white-space: nowrap; }
+
+/* markets ----------------------------------------------------------------- */
+.market-row {
+  display: grid;
+  grid-template-columns: 9mm 34mm 1fr 42mm;
+  gap: var(--gut);
+  padding: 6.8mm 0;
+  border-top: .3mm solid var(--rule);
+  align-items: start;
+}
+.market-row:last-of-type { border-bottom: .3mm solid var(--rule); }
+.market-row .r  { color: var(--amber); font-size: 7pt; padding-top: .8mm; }
+.market-row .mk { font-size: 11pt; font-weight: 600; letter-spacing: -.008em; }
+.market-row .ds { font-size: 8pt; color: var(--ink-3); line-height: 1.45; }
+.market-row .pc { font-family: "IBM Plex Mono", monospace; font-size: 6.6pt;
+                  letter-spacing: .04em; color: var(--burgundy); text-align: right; line-height: 1.6; }
+
+/* calendar group heading -------------------------------------------------- */
+.cal-group {
+  display: block;
+  padding: 3.6mm 0 1.6mm;
+  color: var(--ink-4) !important;
+}
+
+/* utilities -------------------------------------------------------------- */
+.flex   { display: flex; }
+.between{ justify-content: space-between; }
+.end    { align-items: flex-end; }
+.grid   { display: grid; gap: var(--gut); }
+.g2 { grid-template-columns: repeat(2, 1fr); }
+.g3 { grid-template-columns: repeat(3, 1fr); }
+.g4 { grid-template-columns: repeat(4, 1fr); }
+.mt1 { margin-top: 2mm; }  .mt2 { margin-top: 4mm; }  .mt3 { margin-top: 6mm; }
+.mt4 { margin-top: 9mm; }  .mt5 { margin-top: 13mm; } .mt6 { margin-top: 18mm; }
+.mb1 { margin-bottom: 2mm; } .mb2 { margin-bottom: 4mm; } .mb3 { margin-bottom: 6mm; }
+.mb4 { margin-bottom: 9mm; } .mb5 { margin-bottom: 13mm; }
+.w-60 { max-width: 60%; } .w-70 { max-width: 70%; } .w-80 { max-width: 80%; }
+.w-85 { max-width: 85%; } .w-90 { max-width: 90%; }
