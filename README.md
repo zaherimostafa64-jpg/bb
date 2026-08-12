@@ -3,7 +3,13 @@
 A 20-page A4 corporate profile, built as HTML/CSS and rendered to PDF by
 headless Chromium.
 
-**Output:** [`dist/PAYA-ORIGIN-Company-Profile-2026.pdf`](dist/PAYA-ORIGIN-Company-Profile-2026.pdf)
+**Outputs**
+
+| File | What it is |
+|---|---|
+| `dist/PAYA-ORIGIN-Company-Profile-2026.pdf` | The profile. This is the master. |
+| `dist/…-layout.docx` | Word, layout-faithful: each page placed as a full-bleed A4 picture. Looks identical, text not editable. |
+| `dist/…-editable.docx` | Word, re-authored natively: real headings, tables and pictures. Fully editable, flows like a Word document. |
 
 The art-direction review that produced this edition — including what was wrong
 with the previous profile and what to confirm before it goes to buyers — is in
@@ -34,8 +40,14 @@ dist/
 Requires Python (Pillow, PyMuPDF) and Node with Playwright's Chromium.
 
 ```bash
-python3 build/prepare_assets.py
-node    build/render.mjs
+python3 build/prepare_assets.py     # raw library -> art-directed assets
+node    build/render.mjs            # -> dist/*.pdf  (the master)
+
+python3 build/pdf-to-pages.py 170   # page rasters for the layout export
+node    build/docx-layout.mjs       # -> dist/*-layout.docx
+python3 build/word-figures.py       # crops the map plate out of the PDF
+node    build/docx-editable.mjs     # -> dist/*-editable.docx
+python3 build/verify-docx.py dist/…docx
 ```
 
 `render.mjs` prints the page count, the file size, any console errors, and an
@@ -65,6 +77,26 @@ that ships, and print rendering differs from screen.
 - **The map** outline is vector geometry in `design/assets/iran-path.js`,
   normalised to a 1000 × 905.8 box. Origin pins are plotted from latitude and
   longitude; the mapping is documented in the page's comments.
+
+## The Word exports
+
+Word cannot reproduce an absolutely-positioned print canvas, so there are two
+exports rather than one compromise:
+
+- **layout** — 20 page images at exactly 210 × 297 mm, anchored to the page and
+  set behind the text layer. An *inline* image at full page size fights the
+  paragraph mark and spills a blank page after each one; anchoring avoids that.
+  Note that docx-js sizes images in **pixels at 96 dpi**, not points.
+- **editable** — the same content rebuilt in Word's idiom. Typefaces fall back
+  to Georgia / Calibri / Consolas, which ship with Office; Fraunces, Inter Tight
+  and IBM Plex Mono will not be on a recipient's machine. The harvest calendar
+  is a real table with per-cell shading, so it stays editable.
+
+`build/verify-docx.py` checks page geometry, that every image reference resolves
+to a media part that exists, and that pandoc — a strict independent reader — can
+parse the file. LibreOffice is not usable in this container (it fails to load
+even a plain text file), so the exports have not been through a visual render in
+a word processor; verify them once in Word before sending to a client.
 
 ## Notes
 
