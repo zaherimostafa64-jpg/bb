@@ -354,7 +354,6 @@ const push = (...xs) => children.push(...xs);
 
 /* ---- cover ---- */
 push(
-  pngPicture("logo-burgundy.png", 42, 42 * (451 / 989)),
   new Paragraph({
     spacing: { before: 400, after: 100 },
     children: [new TextRun({
@@ -596,6 +595,12 @@ push(
       font: SERIF, size: 26, color: BURGUNDY,
     })],
   }),
+  pageBreak(),
+  eyebrow("Principle 02"),
+  h1("Producers are selected, not assumed."),
+  lede("The decision that determines a shipment's quality is made long before the " +
+       "shipment exists — in the choice of who grows it."),
+  picture("plate-selection.jpg", TEXT_MM, TEXT_MM * (297 / 210)),
   pageBreak(),
 );
 
@@ -1065,17 +1070,41 @@ const doc = new Document({
   },
   sections: [{
     properties: {
+      titlePage: true,
       page: {
         size: { width: 11906, height: 16838, orientation: PageOrientation.PORTRAIT },
         margin: {
-          top: dxa(MARGIN_MM), bottom: dxa(MARGIN_MM),
+          top: dxa(30), bottom: dxa(MARGIN_MM),
           left: dxa(MARGIN_MM), right: dxa(MARGIN_MM),
-          header: dxa(12), footer: dxa(12),
+          header: dxa(14), footer: dxa(12),
         },
       },
     },
     headers: {
-      default: new Header({ children: [new Paragraph({ children: [] })] }),
+      // the wordmark rides in the header so it appears on every page, the
+      // same way the print edition carries a page mark
+      default: new Header({
+        children: [new Paragraph({
+          alignment: AlignmentType.RIGHT,
+          spacing: { before: 0, after: 0 },
+          children: [new ImageRun({
+            type: "png",
+            data: img("logo-burgundy.png"),
+            transformation: { width: px(22), height: px(22 * (451 / 989)) },
+          })],
+        })],
+      }),
+      // the cover gets the mark at cover scale instead of the running size
+      first: new Header({
+        children: [new Paragraph({
+          spacing: { before: 0, after: 0 },
+          children: [new ImageRun({
+            type: "png",
+            data: img("logo-burgundy.png"),
+            transformation: { width: px(42), height: px(42 * (451 / 989)) },
+          })],
+        })],
+      }),
     },
     footers: {
       default: new Footer({

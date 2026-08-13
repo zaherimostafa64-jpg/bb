@@ -205,6 +205,15 @@ b, strong { font-weight: 600; color: var(--ink); }
 }
 .marker .rule { display: block; width: 12mm; height: .35mm; background: var(--burgundy); opacity: .55; }
 
+/* page mark: the wordmark carried on every page, one size, one position ---- */
+.page-mark {
+  position: absolute;
+  top: 15.4mm; right: var(--mx);
+  z-index: 30;
+}
+.page-mark img { display: block; width: 22mm; }
+.page-mark.on-image { opacity: .92; }
+
 .hr        { height: .3mm; background: var(--rule); border: 0; }
 .hr-strong { height: .5mm; background: var(--ink); border: 0; }
 .hr-soft   { height: .25mm; background: var(--rule-soft); border: 0; }
@@ -222,9 +231,10 @@ b, strong { font-weight: 600; color: var(--ink); }
   content: ""; position: absolute; inset: 0; z-index: 5;
 }
 .scrim-b::before { background: linear-gradient(to top,
-    rgba(14,11,8,.80) 0%, rgba(14,11,8,.55) 18%, rgba(14,11,8,.12) 42%, rgba(14,11,8,0) 62%); }
+    rgba(14,11,8,.55) 0%, rgba(14,11,8,.28) 8%, rgba(14,11,8,0) 20%); }
 .scrim-t::before { background: linear-gradient(to bottom,
-    rgba(14,11,8,.55) 0%, rgba(14,11,8,.18) 26%, rgba(14,11,8,0) 48%); }
+    rgba(14,11,8,.74) 0%, rgba(14,11,8,.58) 18%, rgba(14,11,8,.30) 34%,
+    rgba(14,11,8,.08) 46%, rgba(14,11,8,0) 58%); }
 .scrim-l::before { background: linear-gradient(to right,
     rgba(14,11,8,.72) 0%, rgba(14,11,8,.34) 34%, rgba(14,11,8,0) 66%); }
 
@@ -233,6 +243,8 @@ b, strong { font-weight: 600; color: var(--ink); }
   left: var(--mx); right: var(--mx); bottom: 24mm;
   color: #FFF;
 }
+/* type set into the top of a plate, where this photograph is already dark */
+.plate-type.at-top { bottom: auto; top: 36mm; }
 .plate-type .display, .plate-type h1, .plate-type h2 { color: #FFF; }
 .plate-type p { color: rgba(255,255,255,.80); }
 .plate-type .label { color: var(--amber-bright); }

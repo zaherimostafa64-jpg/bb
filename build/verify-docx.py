@@ -67,6 +67,19 @@ if sizes:
     print(f"   sizes mm  {uniq[:4]}{' …' if len(uniq) > 4 else ''}")
 assert not missing, f"UNRESOLVED IMAGE REFS: {missing}"
 
+# headers and footers are separate parts with their own relationships; the
+# body check above never sees them, and that is where a running logo lives
+for part in sorted(n for n in names if re.match(r"word/(header|footer)\d+\.xml$", n)):
+    px = ET.fromstring(z.read(part))
+    prels = ET.fromstring(z.read(part.replace("word/", "word/_rels/") + ".rels"))
+    ptarget = {r.get("Id"): r.get("Target") for r in prels}
+    refs = [b.get(f"{R}embed") for b in px.iter(f"{A}blip")]
+    bad = [r for r in refs
+           if ("word/" + (ptarget.get(r) or "").lstrip("/")).replace("word/../", "")
+           not in names]
+    print(f"   {os.path.basename(part):<13} {len(refs)} image ref(s), {len(bad)} unresolved")
+    assert not bad, f"UNRESOLVED IN {part}: {bad}"
+
 txt = pypandoc.convert_file(path, "plain", extra_args=["--wrap=none"])
 words = len(txt.split())
 print(f"   pandoc    parsed OK, {words} words of extractable text")

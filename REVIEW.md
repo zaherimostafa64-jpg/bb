@@ -112,17 +112,22 @@ No photograph appears twice in the new document.
 
 ### E — Logo discipline
 
-One master mark, two colourways, two sizes, two placements:
+The wordmark appears on **all twenty pages**. Discipline here is not about
+restraint in frequency — it is about the mark landing in the same place, at the
+same size, every time:
 
 | Use | Colourway | Size | Placement |
 |---|---|---|---|
+| Running page mark (pp. 2–19) | burgundy, or white on ink and photography | 22 mm | top right, aligned to the section marker opposite |
 | Cover | burgundy on paper | 34 mm | top of the title panel |
-| Contents | burgundy on paper | 28 mm | top left of the frame |
 | Closing | white on ink | 28 mm | bottom left of the frame |
 
-The mark never sits on a photograph, is never scaled to fit a gap, and never
-appears twice on a page. The cover photograph carries the brand on the crate
-itself, so no second mark competes with it.
+Two rules follow from this and are enforced in the layout: the mark never
+appears twice on a page (the cover and closing carry it at their own scale
+instead of the running one), and where a page bleeds a photograph into the
+top-right corner, the composition yields rather than the mark. On page 3 the
+image column starts below the head band so the mark sits on paper; on page 8,
+the full-bleed plate, the mark switches to white over a top scrim.
 
 ---
 
@@ -182,9 +187,18 @@ profile. None of it is invented, but all of it is *yours to confirm*:
    Fandoghi. Confirm which you actually supply.
 6. **15+ years** — carried over unchanged from the previous profile.
 
-## 6. The one thing this redesign cannot fix
+## 6. Photography
 
-The photography. The library tops out around 1000–1900 px on the long edge,
+One frame has since been replaced: the selection plate on page 8 was rebuilt
+around a client-supplied 1299 × 1672 photograph, in place of the ~700 px frame
+that had been sliced out of the old composite and was visibly soft at full-bleed
+A4. The page was re-art-directed around it rather than simply swapping the file:
+the headline moved from the foot of the page to the **top**, where the
+photograph is already dark, so no scrim is doing work the composition should be
+doing. That is the general rule to apply to any future replacement — put the
+type where the picture is dark, do not darken the picture to take type.
+
+The rest of the library still tops out around 1000–1900 px on the long edge,
 which is below true 300 dpi for the sizes used here. It is sharp on screen and
 acceptable in print, but a premium profile deserves a commissioned shoot:
 producers at work, the regions themselves, packhouse and loading, and a proper

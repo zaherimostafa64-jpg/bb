@@ -253,6 +253,16 @@ def main():
     for i, nm in enumerate(["scene-field", "scene-inspection", "scene-selection",
                             "scene-documents", "scene-transit"], start=1):
         scene(nm, f"_strip{i}.jpg", (4, 3), focus=(0.5, 0.5), width=1100)
+
+    # Client-supplied replacement for the selection plate. The strip-sliced
+    # version of this shot was ~700px on the long edge and visibly soft at
+    # full-bleed A4; this one is 1299x1672 and carries the page on its own.
+    # Zoomed a touch and framed low: the source is wider than A4, so without a
+    # zoom the full height is always used and the focal point does nothing.
+    # Framing low lifts the hands clear of the type and leaves the defocused
+    # ground at the foot of the page for the headline to sit on.
+    scene("plate-selection", "hands-pistachio-hires.jpeg", (210, 297),
+          focus=(0.5, 0.62), zoom=1.14, width=1400, sat=0.95, contrast=1.04)
     scene("scene-field-wide", "_strip1.jpg", (16, 7), focus=(0.5, 0.5), width=1600)
     scene("scene-transit-wide", "_strip5.jpg", (16, 7), focus=(0.5, 0.5), width=1600)
 
