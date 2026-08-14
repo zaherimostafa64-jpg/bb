@@ -167,7 +167,7 @@ export default function OriginsPage() {
       </section>
 
       {/* Harvest calendar */}
-      <section id="harvest-calendar" className="scroll-mt-20 border-t border-line bg-canvas-subtle">
+      <section id="harvest-calendar" className="scroll-mt-24 border-t border-line bg-canvas-subtle">
         <div className="container-page py-20 md:py-28">
           <SectionHeader
             eyebrow="Harvest calendar"

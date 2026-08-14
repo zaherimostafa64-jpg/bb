@@ -57,7 +57,7 @@ export default function ProductsPage() {
             key={slug}
             id={slug}
             className={cn(
-              "scroll-mt-20",
+              "scroll-mt-24",
               dark ? "bg-ground text-cream" : index % 2 ? "bg-canvas" : "bg-canvas-subtle"
             )}
           >

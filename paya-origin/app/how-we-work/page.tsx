@@ -101,7 +101,7 @@ export default function HowWeWorkPage() {
       </section>
 
       {/* The five stages */}
-      <section id="model" className="scroll-mt-20 bg-ground text-cream">
+      <section id="model" className="scroll-mt-24 bg-ground text-cream">
         <div className="container-page py-20 md:py-28">
           <SectionHeader
             eyebrow="The model"
@@ -131,7 +131,7 @@ export default function HowWeWorkPage() {
       </section>
 
       {/* Quality verification */}
-      <section id="quality" className="scroll-mt-20 container-page py-20 md:py-28">
+      <section id="quality" className="scroll-mt-24 container-page py-20 md:py-28">
         <div className="grid gap-x-16 gap-y-12 lg:grid-cols-12">
           <div className="lg:col-span-6">
             <p className="eyebrow mb-6">Quality verification</p>
@@ -200,7 +200,7 @@ export default function HowWeWorkPage() {
       </section>
 
       {/* Packaging */}
-      <section id="packaging" className="scroll-mt-20 border-t border-line bg-canvas-subtle">
+      <section id="packaging" className="scroll-mt-24 border-t border-line bg-canvas-subtle">
         <div className="container-page py-20 md:py-28">
           <SectionHeader
             eyebrow="Packaging & private label"
@@ -253,7 +253,7 @@ export default function HowWeWorkPage() {
       </section>
 
       {/* Working with us */}
-      <section id="working-with-us" className="scroll-mt-20 container-page py-20 md:py-28">
+      <section id="working-with-us" className="scroll-mt-24 container-page py-20 md:py-28">
         <SectionHeader
           eyebrow="Working with us"
           title="What happens after you send an enquiry."

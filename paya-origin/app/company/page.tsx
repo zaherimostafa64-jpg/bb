@@ -188,7 +188,7 @@ export default function CompanyPage() {
       </section>
 
       {/* Markets */}
-      <section id="markets" className="scroll-mt-20 bg-ground text-cream">
+      <section id="markets" className="scroll-mt-24 bg-ground text-cream">
         <div className="container-page py-20 md:py-28">
           <SectionHeader
             eyebrow="Markets"
