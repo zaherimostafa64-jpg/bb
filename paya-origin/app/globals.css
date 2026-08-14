@@ -1,0 +1,184 @@
+@import "tailwindcss";
+@import "@fontsource-variable/manrope/wght.css";
+@import "@fontsource-variable/inter/wght.css";
+
+/* ------------------------------------------------------------------
+   PAYA ORIGIN — design tokens
+
+   Precision + life. The palette is deliberately neutral: black, warm
+   white and a single brand accent taken from the logo wordmark. Colour
+   energy comes from the product photography, never from the interface.
+   There is no agricultural green system, and no gradients.
+------------------------------------------------------------------- */
+@theme {
+  /* Surfaces */
+  --color-canvas: #faf8f4;
+  --color-canvas-subtle: #f2eee6;
+  --color-surface: #ffffff;
+  /* Deep ground for the dried-fruit editorial bands, matched to the
+     catalogue's own studio backdrop so photography sits flush on it. */
+  --color-ground: #17120f;
+  --color-ground-soft: #221b16;
+
+  /* Ink */
+  --color-ink: #14110f;
+  --color-ink-soft: #5f574f;
+  /* Meets AA against both the canvas and the subtle ground at 11px. */
+  --color-ink-faint: #6f685e;
+  --color-cream: #f4f0e9;
+  --color-cream-soft: #b0a79c;
+
+  /* Lines */
+  --color-line: #e2dbcf;
+  --color-line-strong: #cec5b5;
+  --color-line-dark: #352d26;
+
+  /* Brand accent — the logo wordmark. Used for metadata, rules and
+     harvest bands. Never as a large field of colour. */
+  --color-brand: #7b080e;
+  --color-brand-soft: #cf7b80;
+  /* Reserved for the year-round band in the harvest calendar, matching
+     the printed Corporate Profile. */
+  --color-signal: #cf8c14;
+
+  /* Type */
+  --font-display: "Manrope Variable", "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Editorial rhythm */
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+    min-width: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.028em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background-color: var(--color-brand);
+    color: var(--color-cream);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: 22px;
+  }
+
+  @media (min-width: 768px) {
+    .container-page { padding-inline: 48px; }
+  }
+
+  @media (min-width: 1280px) {
+    .container-page { padding-inline: 72px; }
+  }
+
+  /* Section-level metadata: the small tracked label above a heading. */
+  .eyebrow {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+
+  /* Field labels inside specification tables and data blocks. */
+  .metadata {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+  }
+
+  /* Editorial display sizes — three steps, no more. */
+  .display-xl {
+    font-size: clamp(2.75rem, 7.2vw, 6rem);
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+  }
+
+  .display-lg {
+    font-size: clamp(2.15rem, 4.6vw, 3.9rem);
+    letter-spacing: -0.032em;
+    line-height: 1.02;
+  }
+
+  .display-md {
+    font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+    letter-spacing: -0.025em;
+    line-height: 1.12;
+  }
+
+  .lede {
+    font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
+    line-height: 1.55;
+    color: var(--color-ink-soft);
+  }
+
+  /* Number pair used for figures and step indices. */
+  .figure-number {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+
+  /* Horizontal scroll containers must never push the page sideways. */
+  .scroll-x {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+}
