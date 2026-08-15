@@ -166,8 +166,8 @@ export function InquiryForm() {
           {summary}
         </pre>
         <div className="mt-8 flex flex-wrap gap-4">
-          <Button href={contactInfo.salesWhatsappHref} variant="secondary">
-            WhatsApp the sales line
+          <Button href={contactInfo.whatsappHref} variant="secondary">
+            WhatsApp us instead
           </Button>
           <Button
             variant="quiet"

@@ -72,15 +72,6 @@ export default function ContactPage() {
                   </a>
                 </li>
                 <li>
-                  <p className="metadata mb-1">Sales &amp; WhatsApp</p>
-                  <a
-                    href={contactInfo.salesPhoneHref}
-                    className="block text-[1.0625rem] hover:text-brand"
-                  >
-                    {contactInfo.salesPhone}
-                  </a>
-                </li>
-                <li>
                   <p className="metadata mb-1">Office</p>
                   <address className="text-[1.0625rem] not-italic">
                     {contactInfo.addressLines.map((line) => (

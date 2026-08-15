@@ -26,14 +26,9 @@ export const primaryCta = {
 export const contactInfo = {
   email: "sale@payaorigin.com",
   emailHref: "mailto:sale@payaorigin.com",
-  /** Recorded in the Corporate Profile. */
   phone: "+98 912 410 7606",
   phoneHref: "tel:+989124107606",
   whatsappHref: "https://wa.me/989124107606",
-  /** Recorded in both product catalogues. */
-  salesPhone: "+98 930 458 9965",
-  salesPhoneHref: "tel:+989304589965",
-  salesWhatsappHref: "https://wa.me/989304589965",
   addressLines: ["Valiasr Street", "Tehran, Iran"],
 };
 

@@ -79,12 +79,6 @@ export function Footer() {
                 </a>
                 <span className="ml-2 text-ink-faint">Phone &amp; WhatsApp</span>
               </li>
-              <li>
-                <a href={contactInfo.salesPhoneHref} className="hover:text-brand">
-                  {contactInfo.salesPhone}
-                </a>
-                <span className="ml-2 text-ink-faint">Sales &amp; WhatsApp</span>
-              </li>
             </ul>
 
             <address className="mt-6 text-[0.9375rem] not-italic text-ink-soft">
