@@ -1,0 +1,4 @@
+# Regenerable font binaries — rebuild with build_fonts.py
+fonts/sc/
+fonts/sc-static/
+fonts/*.ttf
