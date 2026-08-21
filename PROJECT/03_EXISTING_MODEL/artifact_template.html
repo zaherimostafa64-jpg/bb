@@ -96,13 +96,13 @@ section{padding:56px 0}
 .lede{margin:0 0 26px;color:var(--muted);max-width:64ch}
 
 /* ---- viewer --------------------------------------------------------- */
-.viewer{display:grid;grid-template-columns:1fr 232px;gap:0;overflow:hidden}
+.viewer{display:grid;grid-template-columns:1fr 248px;gap:0;overflow:hidden}
 @media(max-width:860px){.viewer{grid-template-columns:1fr}}
-#stage{display:block;width:100%;height:520px;background:var(--raise);
+#stage{display:block;width:100%;height:580px;background:var(--raise);
   cursor:grab;touch-action:none}
 #stage:active{cursor:grabbing}
 .panel{border-left:1px solid var(--rule);padding:16px;display:flex;
-  flex-direction:column;gap:16px;overflow-y:auto;max-height:520px}
+  flex-direction:column;gap:16px;overflow-y:auto;max-height:580px}
 @media(max-width:860px){.panel{border-left:0;border-top:1px solid var(--rule);
   max-height:none}}
 .panel h3{font-size:11px;font-weight:600;letter-spacing:.14em;
@@ -226,11 +226,14 @@ this.</p></div></div>
 
 <section>
   <div class="wrap">
-    <div class="sechead"><span class="idx">01</span><h2>The reconstructed space</h2></div>
-    <p class="lede">Drag to orbit, scroll to zoom. Every element is a separately
-    named object &mdash; nothing is merged &mdash; so any wall, cabinet or the
-    fireplace blade itself can be moved or deleted without rebuilding the model.
-    The six camera buttons place you where each key photograph was taken.</p>
+    <div class="sechead"><span class="idx">01</span><h2>Interior cutaway</h2></div>
+    <p class="lede">The ceiling is lifted off and the two facades nearest the
+    camera are cut down to 950&nbsp;mm, so the whole plan reads at a glance.
+    Orthographic projection throughout, so what you see here measures the same
+    as the floor plan. Drag to swing the model, scroll to zoom.
+    <strong>A</strong> restores the complete model with its ceiling;
+    <strong>B</strong> is the cutaway. The six interior cameras drop you where
+    each key photograph was taken.</p>
 
     <div class="plate viewer">
       <canvas id="stage"></canvas>
@@ -240,16 +243,18 @@ this.</p></div></div>
           <div class="btns" id="layers"></div>
         </div>
         <div>
-          <h3>Views</h3>
+          <h3>Representation</h3>
           <div class="btns">
-            <button class="chip" data-view="iso">Isometric</button>
-            <button class="chip" data-view="plan">Plan</button>
-            <button class="chip" data-view="hall">Hall</button>
-            <button class="chip" data-view="kitchen">Kitchen</button>
+            <button class="chip" data-mode="A">A &middot; Complete</button>
+            <button class="chip is-on" data-mode="B">B &middot; Cutaway</button>
           </div>
         </div>
         <div>
-          <h3>Camera stations</h3>
+          <h3>Axonometric</h3>
+          <div class="btns" id="axo"></div>
+        </div>
+        <div>
+          <h3>Photo-matched interior</h3>
           <div class="btns" id="cams"></div>
         </div>
         <div class="readout" id="readout"></div>
@@ -409,116 +414,185 @@ this.</p></div></div>
 const SCENE = /*__SCENE__*/;
 document.getElementById('s-obj').textContent = SCENE.boxes.length;
 
-/* ---- palette per group --------------------------------------------- */
-const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-const GROUP_KEY = [
-  [/^ARCHITECTURE\/Walls/,      'Walls',      '--wall'],
-  [/^ARCHITECTURE\/Floor/,      'Floor',      '--floor'],
-  [/^ARCHITECTURE\/Ceiling/,    'Ceiling',    '--ceil'],
-  [/^FIXED_ELEMENTS/,           'Fixed',      '--fixed'],
-  [/^KITCHEN/,                  'Kitchen',    '--kit'],
-  [/^FURNITURE/,                'Furniture',  '--furn'],
-  [/^LIGHTING/,                 'Lighting',   '--light'],
-];
-function palette(){
-  const dark = matchMedia('(prefers-color-scheme:dark)').matches
-    && document.documentElement.getAttribute('data-theme') !== 'light'
-    || document.documentElement.getAttribute('data-theme') === 'dark';
-  return dark
-    ? {Walls:'#3A4547',Floor:'#242C2D',Ceiling:'#2E3739',Fixed:'#5A4438',
-       Kitchen:'#4A3A2C',Furniture:'#333B3C',Lighting:'#6E5A2E',
-       bg:'#1B2122',edge:'#8A9695'}
-    : {Walls:'#DDE3E1',Floor:'#EAEDEB',Ceiling:'#F0F3F1',Fixed:'#E3D3C8',
-       Kitchen:'#D9C4B0',Furniture:'#E6EAE8',Lighting:'#EADFC0',
-       bg:'#F5F7F6',edge:'#596465'};
-}
-const groupName = g => (GROUP_KEY.find(k => k[0].test(g)) || [,'Other'])[1];
+/* ---- materials (section 36.11) -------------------------------------- */
+const MAT_L = {
+  floor_stone:'#DCD3C2', floor_tile:'#D2D9D7', rug:'#B9A891', plaster:'#F2F1ED',
+  tile_wall:'#E8ECEC', panelling:'#F4F3EF', marble:'#E9E4D8', brick:'#A9634A',
+  mirror:'#CFD8D8', ceiling:'#EDEEEB', cabinet:'#9A6440', worktop:'#EDEDE8',
+  appliance:'#E6E8E8', door_dark:'#6B3B2A', door_white:'#F0EFEA',
+  joinery_dark:'#6E4334', glazing:'#CBDCE2', upholstery:'#BFC4BC',
+  timber:'#9C7A55', brass:'#C6A24B'
+};
+const MAT_D = {
+  floor_stone:'#5A5145', floor_tile:'#565D5C', rug:'#6B5D4E', plaster:'#6E706B',
+  tile_wall:'#657070', panelling:'#7A7C76', marble:'#75705F', brick:'#8E4E36',
+  mirror:'#5D6A6C', ceiling:'#7A7C78', cabinet:'#7A4D2E', worktop:'#8E9089',
+  appliance:'#8A908F', door_dark:'#5A3123', door_white:'#8B8D86',
+  joinery_dark:'#5C382C', glazing:'#4C6871', upholstery:'#727A70',
+  timber:'#7A5E40', brass:'#9C7F38'
+};
+const POCHE_L = '#5C5A55', POCHE_D = '#20262A';
+const isDark = () => {
+  const t = document.documentElement.getAttribute('data-theme');
+  if (t === 'dark') return true;
+  if (t === 'light') return false;
+  return matchMedia('(prefers-color-scheme:dark)').matches;
+};
 
 /* ---- geometry ------------------------------------------------------- */
-const FACES = [[0,1,2,3],[4,7,6,5],[0,4,5,1],[1,5,6,2],[2,6,7,3],[3,7,4,0]];
-const SHADE = [0.62,1.0,0.86,0.74,0.86,0.74];   // bottom, top, and four sides
+const FACES = [[0,1,2,3,'bot'],[4,7,6,5,'top'],[0,4,5,1,'s1'],
+               [1,5,6,2,'s2'],[2,6,7,3,'s3'],[3,7,4,0,'s2']];
+const SHADE = {top:1.00, s1:0.90, s2:0.80, s3:0.72, bot:0.64};
+const F_CEIL = 1, F_EXT = 2, F_OPEN = 4, F_LIGHT = 8;
+const CUT_H = SCENE.cutHeight;
 
-const BOXES = SCENE.boxes.map(b => {
-  const [name,gi,x0,y0,z0,x1,y1,z1] = b;
-  const g = groupName(SCENE.groups[gi]);
-  return {name, g, v:[
-    [x0,y0,z0],[x1,y0,z0],[x1,y1,z0],[x0,y1,z0],
-    [x0,y0,z1],[x1,y0,z1],[x1,y1,z1],[x0,y1,z1]]};
-});
-const CENTRE = (() => {
-  let a=[1e9,1e9,0], b=[-1e9,-1e9,0];
-  BOXES.forEach(o => o.v.forEach(p => {
-    for(let i=0;i<2;i++){ a[i]=Math.min(a[i],p[i]); b[i]=Math.max(b[i],p[i]); }
-  }));
-  return [(a[0]+b[0])/2,(a[1]+b[1])/2,1300];
+const BOXES = SCENE.boxes.map(([name,gi,x0,y0,z0,x1,y1,z1,mi,flags]) => ({
+  name, g: SCENE.groups[gi], mat: SCENE.materials[mi], flags,
+  x0,y0,z0,x1,y1,z1,
+  facade: SCENE.facadeOf[name.split('-glazing')[0].split('-jamb')[0]
+            .split('-cill')[0].split('-head')[0].split('-leaf')[0]]
+          || (flags & F_EXT ? name.split('_')[0] : null)
+}));
+
+const GROUPS = [...new Set(BOXES.map(b => b.g.split('/')[0]))];
+const BB = (() => {
+  let a=[1e9,1e9], c=[-1e9,-1e9];
+  BOXES.forEach(o => { a[0]=Math.min(a[0],o.x0); a[1]=Math.min(a[1],o.y0);
+                       c[0]=Math.max(c[0],o.x1); c[1]=Math.max(c[1],o.y1); });
+  return {cx:(a[0]+c[0])/2, cy:(a[1]+c[1])/2, w:c[0]-a[0], d:c[1]-a[1]};
 })();
 
+/* ---- VIEW_CUTAWAY_INTERIOR (section 36.4) --------------------------- */
+/* A display rule over the same objects. Nothing here mutates geometry.  */
+function nearFacades(az){
+  const a = az*Math.PI/180, cam = [-Math.sin(a), -Math.cos(a)];
+  const n = {'W-EXT-S':[0,-1], 'W-EXT-N':[0,1], 'W-EXT-W':[-1,0], 'W-EXT-E':[1,0]};
+  return new Set(Object.keys(n).filter(k => n[k][0]*cam[0]+n[k][1]*cam[1] > 0.06));
+}
+function display(o, az, cutaway){
+  if (hidden.has(o.g.split('/')[0])) return null;
+  if (!cutaway) return o.z1;
+  if (o.flags & F_CEIL) return null;
+  if (o.flags & F_LIGHT) return null;
+  if (o.facade && nearFacades(az).has(o.facade)){
+    if (o.z0 >= CUT_H) return null;
+    return Math.min(o.z1, CUT_H);
+  }
+  return o.z1;
+}
+
 /* ---- camera --------------------------------------------------------- */
-const cam = {az:-40, el:38, dist:20000, target:[...CENTRE], fov:42, fpv:null};
-const hidden = new Set(['Ceiling']);
+/* CAM_INTERIOR_AXONOMETRIC — orthographic, per sections 36.9 / 36.10.   */
+const cam = {az:SCENE.axo.az, el:SCENE.axo.el, zoom:1, ortho:true,
+             cutaway:true, fpv:null, label:SCENE.axo.id};
+const hidden = new Set();
 
 const cv = document.getElementById('stage');
 const ctx = cv.getContext('2d');
-let W=0, H=0, DPR=1;
+let W=0, H=0;
 
 function resize(){
-  DPR = Math.min(devicePixelRatio||1, 2);
+  const d = Math.min(devicePixelRatio||1, 2);
   W = cv.clientWidth; H = cv.clientHeight;
-  cv.width = W*DPR; cv.height = H*DPR;
-  ctx.setTransform(DPR,0,0,DPR,0,0);
+  cv.width = W*d; cv.height = H*d;
+  ctx.setTransform(d,0,0,d,0,0);
   draw();
 }
 
-function basis(){
-  if(cam.fpv){
-    const b = cam.fpv.bearing*Math.PI/180;
-    const fwd = [Math.sin(b), Math.cos(b), -0.06];
-    return {eye:cam.fpv.pos, fwd};
+/* orthographic axonometric: identical basis to the Python renderer */
+function axoProject(x,y,z,az,el){
+  const a=az*Math.PI/180, e=el*Math.PI/180;
+  const ca=Math.cos(a), sa=Math.sin(a), ce=Math.cos(e), se=Math.sin(e);
+  const u = x*ca - y*sa;
+  const w = x*sa + y*ca;
+  return [u, w*se + z*ce, w*ce - z*se];
+}
+/* Fit the visible geometry to the canvas for the current direction, the
+   same way the A-004 sheet is fitted, so the composition never crops. */
+function axoFit(az, el, cutaway){
+  let u0=1e9,u1=-1e9,v0=1e9,v1=-1e9;
+  for(const o of BOXES){
+    const zt = display(o, az, cutaway);
+    if(zt === null || zt <= o.z0) continue;
+    for(const q of [[o.x0,o.y0,o.z0],[o.x1,o.y0,o.z0],[o.x1,o.y1,o.z0],
+                    [o.x0,o.y1,o.z0],[o.x0,o.y0,zt],[o.x1,o.y0,zt],
+                    [o.x1,o.y1,zt],[o.x0,o.y1,zt]]){
+      const [u,v] = axoProject(q[0]-BB.cx, q[1]-BB.cy, q[2], az, el);
+      if(u<u0)u0=u; if(u>u1)u1=u; if(v<v0)v0=v; if(v>v1)v1=v;
+    }
   }
-  const a=cam.az*Math.PI/180, e=cam.el*Math.PI/180;
-  const d=cam.dist;
-  const eye=[cam.target[0]+d*Math.cos(e)*Math.sin(a),
-             cam.target[1]-d*Math.cos(e)*Math.cos(a),
-             cam.target[2]+d*Math.sin(e)];
-  const fwd=[cam.target[0]-eye[0], cam.target[1]-eye[1], cam.target[2]-eye[2]];
-  return {eye, fwd};
+  const k = Math.min(W*0.94/(u1-u0), H*0.94/(v1-v0)) * cam.zoom;
+  return {k, ox: W/2 - ((u0+u1)/2)*k, oy: H/2 + ((v0+v1)/2)*k};
 }
 
-function view(){
-  const {eye,fwd}=basis();
-  let n=Math.hypot(...fwd); const f=fwd.map(c=>c/n);
-  let r=[f[1],-f[0],0]; n=Math.hypot(...r)||1; r=r.map(c=>c/n);
-  const u=[r[1]*f[2]-r[2]*f[1], r[2]*f[0]-r[0]*f[2], r[0]*f[1]-r[1]*f[0]];
-  return {eye,f,r,u};
+/* photo-matched interior camera — perspective, section 36.13 */
+function fpvBasis(){
+  const b = cam.fpv.bearing*Math.PI/180;
+  const f = [Math.sin(b), Math.cos(b), -0.05];
+  const n = Math.hypot(...f), F = f.map(c=>c/n);
+  let r = [F[1],-F[0],0]; const rn = Math.hypot(...r)||1; r = r.map(c=>c/rn);
+  const u = [r[1]*F[2]-r[2]*F[1], r[2]*F[0]-r[0]*F[2], r[0]*F[1]-r[1]*F[0]];
+  return {eye:cam.fpv.pos, F, r, u, k:(H/2)/Math.tan(cam.fov*Math.PI/360)};
 }
-
-function project(p, vw, k){
+function fpvProject(p, vw){
   const d=[p[0]-vw.eye[0], p[1]-vw.eye[1], p[2]-vw.eye[2]];
-  const z=d[0]*vw.f[0]+d[1]*vw.f[1]+d[2]*vw.f[2];
-  if(z<=60) return null;
-  const x=d[0]*vw.r[0]+d[1]*vw.r[1]+d[2]*vw.r[2];
-  const y=d[0]*vw.u[0]+d[1]*vw.u[1]+d[2]*vw.u[2];
-  return [W/2 + x*k/z, H/2 - y*k/z, z];
+  const z=d[0]*vw.F[0]+d[1]*vw.F[1]+d[2]*vw.F[2];
+  if(z<=50) return null;
+  return [W/2 + (d[0]*vw.r[0]+d[1]*vw.r[1]+d[2]*vw.r[2])*vw.k/z,
+          H/2 - (d[0]*vw.u[0]+d[1]*vw.u[1]+d[2]*vw.u[2])*vw.k/z, z];
+}
+
+function shade(hex,f){
+  const n=parseInt(hex.slice(1),16);
+  const c=[n>>16&255,n>>8&255,n&255].map(v=>Math.min(255,Math.round(v*f)));
+  return `rgb(${c[0]},${c[1]},${c[2]})`;
 }
 
 function draw(){
-  const P=palette(), vw=view();
-  const k = (H/2)/Math.tan(cam.fov*Math.PI/360);
-  ctx.fillStyle=P.bg; ctx.fillRect(0,0,W,H);
+  const dark = isDark();
+  const MAT = dark ? MAT_D : MAT_L;
+  const POCHE = dark ? POCHE_D : POCHE_L;
+  const edge = dark ? 'rgba(0,0,0,.55)' : 'rgba(40,46,48,.42)';
+  ctx.fillStyle = getComputedStyle(document.documentElement)
+                    .getPropertyValue('--raise').trim() || '#eee';
+  ctx.fillRect(0,0,W,H);
 
-  const polys=[];
+  const cutaway = cam.cutaway && !cam.fpv;
+  const vw = cam.fpv ? fpvBasis() : null;
+  const cAz = cam.fpv ? 0 : cam.az;
+  const fit = cam.fpv ? {k:0, ox:0, oy:0} : axoFit(cam.az, cam.el, cutaway);
+  const k = fit.k, ox = fit.ox, oy = fit.oy;
+  const polys = [];
+
   for(const o of BOXES){
-    if(hidden.has(o.g)) continue;
-    const pts=o.v.map(p=>project(p,vw,k));
-    for(let i=0;i<6;i++){
-      const f=FACES[i], q=[pts[f[0]],pts[f[1]],pts[f[2]],pts[f[3]]];
-      if(q.some(p=>!p)) continue;
+    const ztop = cam.fpv
+      ? (hidden.has(o.g.split('/')[0]) ? null : o.z1)
+      : display(o, cAz, cutaway);
+    if(ztop === null || ztop <= o.z0) continue;
+    const trimmed = ztop < o.z1 - 1;
+    const flat = ztop <= 60;
+    const c = [[o.x0,o.y0,o.z0],[o.x1,o.y0,o.z0],[o.x1,o.y1,o.z0],[o.x0,o.y1,o.z0],
+               [o.x0,o.y0,ztop],[o.x1,o.y0,ztop],[o.x1,o.y1,ztop],[o.x0,o.y1,ztop]];
+    let p;
+    if(cam.fpv){
+      p = c.map(q => fpvProject(q, vw));
+      if(p.some(q => !q)) continue;
+    } else {
+      p = c.map(q => {
+        const [u,v,d] = axoProject(q[0]-BB.cx, q[1]-BB.cy, q[2], cam.az, cam.el);
+        return [ox + u*k, oy - v*k, d];
+      });
+    }
+    const base = MAT[o.mat] || '#CCCCCC';
+    for(const f of FACES){
+      const q=[p[f[0]],p[f[1]],p[f[2]],p[f[3]]];
       const area=(q[1][0]-q[0][0])*(q[2][1]-q[0][1])-(q[2][0]-q[0][0])*(q[1][1]-q[0][1]);
-      if(area<=0) continue;                       // back-face cull
-      polys.push({q, z:(q[0][2]+q[1][2]+q[2][2]+q[3][2])/4, g:o.g, s:SHADE[i]});
+      if(!cam.fpv && area>=0) continue;   // back-face cull (exterior views only)
+      const fill = (trimmed && f[4]==='top') ? POCHE : shade(base, SHADE[f[4]]);
+      polys.push({q, d:Math.min(...q.map(t=>t[2])), layer:flat?0:1, fill});
     }
   }
-  polys.sort((a,b)=>b.z-a.z);
+  polys.sort((a,b)=> (cam.fpv ? 0 : a.layer-b.layer) || b.d-a.d);
 
   ctx.lineJoin='round';
   for(const p of polys){
@@ -526,36 +600,48 @@ function draw(){
     ctx.moveTo(p.q[0][0],p.q[0][1]);
     for(let i=1;i<4;i++) ctx.lineTo(p.q[i][0],p.q[i][1]);
     ctx.closePath();
-    ctx.fillStyle=shade(P[p.g]||P.Walls, p.s);
-    ctx.fill();
-    ctx.strokeStyle=P.edge; ctx.globalAlpha=0.32; ctx.lineWidth=0.6;
-    ctx.stroke(); ctx.globalAlpha=1;
+    ctx.fillStyle=p.fill; ctx.fill();
+    ctx.strokeStyle=edge; ctx.lineWidth=0.5; ctx.stroke();
   }
+
+  if(!cam.fpv) roomLabels(k, ox, oy, dark);
   readout();
 }
 
-function shade(hex,f){
-  const n=parseInt(hex.slice(1),16);
-  const c=[n>>16&255,n>>8&255,n&255].map(v=>Math.max(0,Math.min(255,Math.round(v*f))));
-  return `rgb(${c[0]},${c[1]},${c[2]})`;
+function roomLabels(k, ox, oy, dark){
+  ctx.font='600 11px Archivo, Helvetica, Arial, sans-serif';
+  ctx.textAlign='center';
+  for(const key of Object.keys(SCENE.rooms)){
+    const r = SCENE.rooms[key];
+    let cx=(r.x0+r.x1)/2, cy=(r.y0+r.y1)/2;
+    if(key==='HALL'){ cx=r.x0+3200; cy=r.y0+2400; }
+    const [u,v] = axoProject(cx-BB.cx, cy-BB.cy, 40, cam.az, cam.el);
+    const X=ox+u*k, Y=oy-v*k;
+    const t=r.label, w=ctx.measureText(t).width;
+    ctx.fillStyle = dark ? 'rgba(14,18,19,.78)' : 'rgba(255,255,255,.80)';
+    ctx.fillRect(X-w/2-6, Y-11, w+12, 16);
+    ctx.fillStyle = dark ? '#E9EDEC' : '#151A1B';
+    ctx.fillText(t, X, Y+1);
+  }
 }
 
 function readout(){
-  const r=document.getElementById('readout');
-  const shown=BOXES.filter(o=>!hidden.has(o.g)).length;
-  r.innerHTML = cam.fpv
-    ? `<b>${cam.fpv.id}</b> &mdash; ${cam.fpv.note}<br>eye ${cam.fpv.pos[2]} mm &middot; bearing ${cam.fpv.bearing}&deg;<br>${shown} of ${BOXES.length} objects`
-    : `orbit ${Math.round(cam.az)}&deg; &middot; elev ${Math.round(cam.el)}&deg;<br>range <b>${(cam.dist/1000).toFixed(1)} m</b><br>${shown} of ${BOXES.length} objects`;
+  const shown = BOXES.filter(o => !hidden.has(o.g.split('/')[0])).length;
+  document.getElementById('readout').innerHTML = cam.fpv
+    ? `<b>${cam.fpv.id}</b><br>${cam.fpv.note}<br>eye ${cam.fpv.pos[2]} mm &middot;
+       bearing ${Math.round(cam.fpv.bearing)}&deg; &middot; perspective`
+    : `<b>${cam.label}</b><br>orthographic &middot; az ${Math.round(cam.az)}&deg;
+       / el ${Math.round(cam.el)}&deg;<br>
+       ${cam.cutaway ? 'VIEW B &mdash; interior cutaway' : 'VIEW A &mdash; complete model'}
+       <br>${shown} of ${BOXES.length} objects`;
 }
 
 /* ---- controls ------------------------------------------------------- */
 const layers=document.getElementById('layers');
-[...new Set(BOXES.map(o=>o.g))].forEach(g=>{
+GROUPS.forEach(g=>{
   const b=document.createElement('button');
-  b.className='chip'+(hidden.has(g)?'':' is-on');
-  const P=palette();
-  b.innerHTML=`<span class="swatch" style="background:${P[g]||P.Walls}"></span>${g}`;
-  b.setAttribute('aria-pressed', hidden.has(g)?'false':'true');
+  b.className='chip is-on'; b.textContent=g.replace('_',' ');
+  b.setAttribute('aria-pressed','true');
   b.onclick=()=>{
     hidden.has(g)?hidden.delete(g):hidden.add(g);
     b.classList.toggle('is-on');
@@ -565,31 +651,44 @@ const layers=document.getElementById('layers');
   layers.appendChild(b);
 });
 
+function clearActive(sel){
+  document.querySelectorAll(sel).forEach(c=>c.classList.remove('is-on'));
+}
+function toAxo(az, el, id){
+  clearActive('#cams .chip'); clearActive('#axo .chip');
+  cam.fpv=null; cam.az=az; cam.el=el; cam.zoom=1; cam.label=id;
+  draw();
+}
+
+const axoBox=document.getElementById('axo');
+[[SCENE.axo.id.replace('CAM_','').replace(/_/g,' '), SCENE.axo.az, SCENE.axo.el]]
+  .concat(SCENE.axoCorners.map(c=>[c[0].replace('CAM_AXO_',''), c[1], c[2]]))
+  .forEach(([lab,az,el],i)=>{
+    const b=document.createElement('button');
+    b.className='chip'+(i===0?' is-on':''); b.textContent=lab;
+    b.onclick=()=>{ toAxo(az,el,i===0?SCENE.axo.id:'CAM_AXO_'+lab); b.classList.add('is-on'); };
+    axoBox.appendChild(b);
+  });
+
 const cams=document.getElementById('cams');
 SCENE.cameras.forEach(([id,x,y,z,bearing,note])=>{
   const b=document.createElement('button');
-  b.className='chip'; b.textContent=id;
+  b.className='chip'; b.textContent=id.replace('CAM_','').replace(/_/g,' ');
   b.title=note;
   b.onclick=()=>{
-    document.querySelectorAll('#cams .chip').forEach(c=>c.classList.remove('is-on'));
+    clearActive('#cams .chip'); clearActive('#axo .chip');
     b.classList.add('is-on');
-    cam.fpv={id,pos:[x,y,z],bearing,note}; cam.fov=78;
-    hidden.add('Ceiling'); draw();
+    cam.fpv={id,pos:[x,y,z],bearing,note}; cam.fov=76;
+    draw();
   };
   cams.appendChild(b);
 });
 
-const PRESETS={
-  iso:{az:-40,el:38,dist:20000,t:CENTRE},
-  plan:{az:0,el:88,dist:19000,t:CENTRE},
-  hall:{az:-25,el:26,dist:13000,t:[6200,2800,1300]},
-  kitchen:{az:150,el:30,dist:8500,t:[2400,7500,1300]},
-};
-document.querySelectorAll('[data-view]').forEach(b=>{
+document.querySelectorAll('[data-mode]').forEach(b=>{
   b.onclick=()=>{
-    document.querySelectorAll('#cams .chip').forEach(c=>c.classList.remove('is-on'));
-    const p=PRESETS[b.dataset.view];
-    Object.assign(cam,{az:p.az,el:p.el,dist:p.dist,target:[...p.t],fov:42,fpv:null});
+    clearActive('[data-mode]');
+    b.classList.add('is-on');
+    cam.cutaway = b.dataset.mode === 'B';
     draw();
   };
 });
@@ -603,14 +702,19 @@ cv.addEventListener('pointermove',e=>{
   const dx=e.clientX-drag.x, dy=e.clientY-drag.y;
   drag={x:e.clientX,y:e.clientY};
   if(cam.fpv){ cam.fpv.bearing=(cam.fpv.bearing-dx*0.3+360)%360; }
-  else { cam.az-=dx*0.35; cam.el=Math.max(-12,Math.min(89,cam.el+dy*0.3)); }
+  else {
+    cam.az=(cam.az - dx*0.35 + 360)%360;
+    cam.el=Math.max(14,Math.min(80,cam.el+dy*0.25));   // stays a dollhouse view
+    cam.label='CAM_INTERIOR_AXONOMETRIC';
+    clearActive('#axo .chip');
+  }
   draw();
 });
 addEventListener('pointerup',()=>drag=null);
 cv.addEventListener('wheel',e=>{
   e.preventDefault();
-  if(cam.fpv) cam.fov=Math.max(40,Math.min(110,cam.fov+e.deltaY*0.05));
-  else cam.dist=Math.max(3000,Math.min(46000,cam.dist*(1+e.deltaY*0.0012)));
+  if(cam.fpv) cam.fov=Math.max(40,Math.min(105,cam.fov+e.deltaY*0.05));
+  else cam.zoom=Math.max(0.55,Math.min(3.2,cam.zoom*(1-e.deltaY*0.0012)));
   draw();
 },{passive:false});
 

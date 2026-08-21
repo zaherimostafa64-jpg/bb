@@ -15,6 +15,8 @@ SHEETS = [
     ("A-001", "Existing floor plan", "A-001_existing_floor_plan.svg"),
     ("A-002", "Dimensioned floor plan", "A-002_dimensioned_floor_plan.svg"),
     ("A-003", "Furniture plan", "A-003_furniture_plan.svg"),
+    ("A-004", "Interior cutaway axonometric", "A-004_interior_cutaway_axonometric.svg"),
+    ("A-005", "Cutaway \u2014 four corners", "A-005_cutaway_four_corners.svg"),
     ("E-001", "Hall south facade", "E-001_hall_south_facade_elevation.svg"),
     ("E-002", "Kitchen work wall", "E-002_kitchen_work_wall_elevation.svg"),
     ("E-003", "Kitchen pass-through", "E-003_kitchen_passthrough_elevation.svg"),

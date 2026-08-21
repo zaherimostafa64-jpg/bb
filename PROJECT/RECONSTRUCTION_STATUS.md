@@ -16,6 +16,7 @@ Assumed Geometry:    15 %
 
 **Existing Model:** READY — as an approximation
 **2D Drawings:** READY — as an approximation
+**3D Presentation:** READY — interior cutaway axonometric, section 36
 **Camera Matching:** READY — with the panoramic limitation stated below
 **Redesign:** NOT STARTED — awaiting approval, per section 19
 
@@ -60,14 +61,15 @@ PROJECT/
 ├── 02_ANALYSIS/             photo_inventory · spatial_relationships
 │                            dimension_assumptions · confidence_map · materials
 ├── 03_EXISTING_MODEL/       params.py · model.py · draw.py · build.py
-├── 04_DRAWINGS/             A-001..A-003 · E-001..E-004 · S-001..S-002 (SVG + DXF)
-├── 05_CAMERA_MATCH/         cameras.md — 6 stations
+├── 04_DRAWINGS/             A-001..A-005 · E-001..E-004 · S-001..S-002 (SVG + DXF)
+├── 05_CAMERA_MATCH/         cameras.md — 6 photo stations
+│                            presentation_views.md — VIEW A / VIEW B, axo cameras
 ├── 06_REDESIGN/             empty — not started
 ├── 07_EXPORTS/              OBJ + MTL · DXF · scene JSON
 └── reconstruction_review.html
 ```
 
-**96 independently named objects. 70 named parameters.** Regenerate everything
+**143 independently named objects. 70 named parameters.** Regenerate everything
 with:
 
 ```bash
@@ -91,7 +93,26 @@ python3 PROJECT/03_EXISTING_MODEL/build.py
 | Walls separate objects | PASS |
 | Kitchen cabinets separate | PASS |
 | Movable furniture separate | PASS — own group, excluded from sections |
-| Cameras saved | PASS — 6 stations |
+| Cameras saved | PASS — 6 photo stations + 5 axonometric |
+| Cutaway does not duplicate architecture (36.8) | PASS — display rule, one object list |
+| Underlying geometry unmodified by the cutaway (36.4) | PASS — nothing is mutated |
+| Ceiling still an editable object (36.2) | PASS — hidden, not deleted |
+| Interior materials preserved (36.11) | PASS — 20 materials, not a monochrome mass |
+| Doors and windows visible in 3D (36.2) | PASS — leaves, glazing, jambs, cill, head |
+
+## 3D representation (section 36)
+
+The primary 3D presentation is an **interior cutaway axonometric**, not an
+exterior model: orthographic, elevated 38 degrees, ceiling removed and the near
+facades cut down to 950 mm with a section poché on every cut surface. The
+complete model (VIEW A) and the cutaway (VIEW B) are the **same 143 objects** —
+the cutaway is a display rule evaluated per camera direction, so it duplicates
+no architecture and modifies nothing. Full method in
+`05_CAMERA_MATCH/presentation_views.md`.
+
+No exterior massing, roof, street or landscape is modelled: this is an interior
+reconstruction, and interior accuracy took priority throughout (sections 36.5,
+36.12).
 
 ## Method limitation
 

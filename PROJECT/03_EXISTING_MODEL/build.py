@@ -11,6 +11,8 @@ import os
 
 import ezdxf
 
+import axo
+import cutaway as CUT
 import model as M
 from draw import Sheet, project
 
@@ -411,6 +413,8 @@ def main():
     a001()
     a002()
     a003()
+    axo.sheet(SOLIDS, DRW, NOTES_COMMON)
+    axo.sheet_corners(SOLIDS, DRW, NOTES_COMMON)
     elevations_and_sections()
     dxf_plan()
     n = obj()
@@ -433,17 +437,21 @@ def scene_json():
         "groups": groups,
         "rooms": {k: {"x0": a[0], "y0": a[1], "x1": b_[0], "y1": b_[1], "label": lab}
                   for k, (a, b_, lab) in M.ROOMS.items()},
+        "materials": sorted({M.material_of(b) for b in SOLIDS}),
+        "cutHeight": CUT.CUT_HEIGHT,
         "boxes": [[b.name, groups.index(b.group),
                    round(b.x0), round(b.y0), round(b.z0),
-                   round(b.x1), round(b.y1), round(b.z1)] for b in SOLIDS],
-        "cameras": [
-            ["C-01", 6300, 6600, 1600, 180, "IMG_22 entrance -> blade"],
-            ["C-02", 2900, 2600, 1550, 100, "IMG_01 hall -> balcony"],
-            ["C-03", 11000, 2400, 1550, 280, "IMG_03 hall -> kitchen"],
-            ["C-04", 2600, 3100, 1500, 0, "IMG_05 pass-through"],
-            ["C-05", 4200, 8300, 1550, 250, "IMG_18 kitchen"],
-            ["C-06", 10200, 4600, 1550, 20, "IMG_10 alcove"],
-        ],
+                   round(b.x1), round(b.y1), round(b.z1),
+                   sorted({M.material_of(x) for x in SOLIDS}).index(M.material_of(b)),
+                   (1 if M.is_ceiling(b) else 0)
+                   | (2 if M.is_exterior_wall(b) else 0)
+                   | (4 if b.group.startswith("OPENINGS") else 0)
+                   | (8 if b.group == "LIGHTING" else 0)] for b in SOLIDS],
+        "facadeOf": {o.ref: w.name for w in M.walls()
+                     if w.name.startswith("W-EXT") for o in w.openings},
+        "axo": CUT.CAM_INTERIOR_AXONOMETRIC,
+        "axoCorners": [list(c) for c in CUT.AXO_CORNERS],
+        "cameras": [list(c) for c in CUT.PHOTO_CAMERAS],
     }
     with open(os.path.join(EXP, "scene_V01.json"), "w") as f:
         json.dump(data, f, separators=(",", ":"))

@@ -221,8 +221,16 @@ def walls():
 
 
 def shell():
-    out = [Box("FLOOR", "ARCHITECTURE/Floor",
-               HALL_X0 - TE, HALL_Y0 - TE, -50, HALL_X1 + TE, CORR_Y1, 0)]
+    # one slab per room: a single scene-wide slab breaks depth sorting in any
+    # painter's-algorithm view, and the kitchen has a different floor finish
+    out = []
+    for key, ((x0, y0), (x1, y1), _) in ROOMS.items():
+        out.append(Box(f"FLOOR-{key}", "ARCHITECTURE/Floor",
+                       x0, y0, -50, x1, y1, 0))
+    out.append(Box("FLOOR-CORRIDOR", "ARCHITECTURE/Floor",
+                   CORR_X0, ROW_Y1, -50, CORR_X1, CORR_Y1, 0))
+    out.append(Box("FLOOR-THRESHOLDS", "ARCHITECTURE/Floor",
+                   HALL_X0, HALL_Y1, -50, ENT_X1, ROW_Y0, 0))
     # hall ceiling: flat soffit with two coves lifted by the cove step
     out.append(Box("CEIL-HALL", "ARCHITECTURE/Ceiling",
                    HALL_X0, HALL_Y0, H_SOF, HALL_X1, HALL_Y1, H_SOF + 20))
@@ -409,10 +417,158 @@ def lighting():
 # ---------------------------------------------------------------------------
 
 
+# ---------------------------------------------------------------------------
+# OPENINGS — door leaves, glazing and frames as real objects (section 36.2)
+# Doors and windows must be VISIBLE in the cutaway, not just voids.
+# ---------------------------------------------------------------------------
+
+LEAF = 45          # door leaf thickness
+GLASS = 30         # glazing thickness
+FRAME = 70         # window frame section
+
+
+def _perp(wall, a0, a1, z0, z1, depth, swing, name, group):
+    """Box perpendicular to `wall`, hinged at a0, projecting `depth` to `swing`."""
+    h = wall.thickness / 2
+    face = wall.offset + h if swing > 0 else wall.offset - h
+    o0, o1 = sorted((face, face + depth * swing))
+    if wall.axis == "x":
+        return Box(name, group, a0, o0, z0, a1, o1, z1)
+    return Box(name, group, o0, a0, z0, o1, a1, z1)
+
+
+def _inplane(wall, a0, a1, z0, z1, thick, name, group):
+    """Box lying in the plane of `wall`, centred in its thickness."""
+    c = wall.offset
+    if wall.axis == "x":
+        return Box(name, group, a0, c - thick / 2, z0, a1, c + thick / 2, z1)
+    return Box(name, group, c - thick / 2, a0, z0, c + thick / 2, a1, z1)
+
+
+def openings3d():
+    """Leaves, glazing and frames, derived from the same Opening data as the
+    plans — so an opening can never drift between plan, elevation and 3D."""
+    out = []
+    for w in walls():
+        for o in w.openings:
+            a0 = w.start + o.pos
+            a1 = a0 + o.width
+            sw = SWING.get(o.ref, 1)
+
+            if o.kind in ("door", "balcony"):
+                g = "OPENINGS/Doors"
+                if o.ref == "D-01":                      # unequal double leaf
+                    wide = o.width * 0.64
+                    out.append(_perp(w, a0, a0 + LEAF, 0, o.head, wide, sw,
+                                     f"{o.ref}-leaf-A", g))
+                    out.append(_perp(w, a1 - LEAF, a1, 0, o.head,
+                                     o.width - wide, sw, f"{o.ref}-leaf-B", g))
+                else:
+                    out.append(_perp(w, a0, a0 + LEAF, 0, o.head, o.width, sw,
+                                     f"{o.ref}-leaf", g))
+                out.append(_inplane(w, a0 - 60, a1 + 60, o.head, o.head + 90,
+                                    w.thickness + 40, f"{o.ref}-head", g))
+
+            elif o.kind == "window":
+                g = "OPENINGS/Windows"
+                out.append(_inplane(w, a0 + FRAME, a1 - FRAME,
+                                    o.sill + FRAME, o.head - FRAME, GLASS,
+                                    f"{o.ref}-glazing", g))
+                t = w.thickness * 0.8
+                out.append(_inplane(w, a0, a0 + FRAME, o.sill, o.head, t,
+                                    f"{o.ref}-jamb-A", g))
+                out.append(_inplane(w, a1 - FRAME, a1, o.sill, o.head, t,
+                                    f"{o.ref}-jamb-B", g))
+                out.append(_inplane(w, a0, a1, o.sill, o.sill + FRAME, t,
+                                    f"{o.ref}-cill", g))
+                out.append(_inplane(w, a0, a1, o.head - FRAME, o.head, t,
+                                    f"{o.ref}-head", g))
+    return out
+
+
+# which way each hinged leaf opens, along the wall's normal
+SWING = {"D-01": -1, "D-02": 1, "BD-01": 1}
+
+
+# ---------------------------------------------------------------------------
+# FURNITURE / Rugs — floor finishes read far better with the rugs in place
+# ---------------------------------------------------------------------------
+
+
+def rugs():
+    g = "FURNITURE/Rugs"
+    return [
+        Box("R-Hall-01", g, 8600, 1500, 0, 11400, 3600, 12),
+        Box("R-Hall-02", g, 5400, 700, 0, 8200, 2600, 12),
+        Box("R-Dining", g, 1200, 1500, 0, 4200, 3500, 12),
+        Box("R-Alcove", g, ALC_X0 + 900, ROW_Y0 + 900, 0,
+            ALC_X0 + 3300, ROW_Y0 + 2600, 12),
+        Box("R-Entrance", g, ENT_X0 + 800, ROW_Y1 - 700, 0,
+            ENT_X0 + 2000, ROW_Y1 - 200, 12),
+    ]
+
+
+# ---------------------------------------------------------------------------
+# MATERIALS — section 36.11: the cutaway must not read as a monochrome mass
+# ---------------------------------------------------------------------------
+
+def material_of(box):
+    n, g = box.name, box.group
+    if g == "OPENINGS/Windows":
+        return "glazing" if "glazing" in n else "joinery_dark"
+    if g == "OPENINGS/Doors":
+        return "door_dark" if n.startswith("D-01") else "door_white"
+    if g == "FURNITURE/Rugs":
+        return "rug"
+    if n.startswith("FLOOR"):
+        return "floor_tile" if "KITCHEN" in n else "floor_stone"
+    if n.startswith("CEIL"):
+        return "ceiling"
+    if n.startswith("BLADE") or n.startswith("COLUMN"):
+        return "brick" if "core" in n else "panelling"
+    if n.startswith(("MANTEL", "HEARTH")):
+        return "marble"
+    if n.startswith("MIRROR"):
+        return "mirror"
+    if n.startswith("RADIATOR"):
+        return "appliance"
+    if n.startswith(("PIER-KITCHEN",)):
+        return "tile_wall"
+    if g.startswith("KITCHEN"):
+        if "Countertop" in g or "Bar" in n:
+            return "worktop"
+        if "Appliances" in g or "Fixtures" in g:
+            return "appliance"
+        return "cabinet"
+    if g == "FURNITURE":
+        return "upholstery" if ("Sofa" in n or "Armchair" in n) else "timber"
+    if g == "LIGHTING":
+        return "brass"
+    if g.startswith("ARCHITECTURE/Wall"):
+        # kitchen walls are tiled full height
+        inside_kitchen = (box.x1 <= KIT_X1 + TI and box.y0 >= ROW_Y0 - TI)
+        return "tile_wall" if inside_kitchen else "plaster"
+    return "plaster"
+
+
+def is_exterior_wall(box):
+    return box.name.startswith("W-EXT")
+
+
+def is_ceiling(box):
+    return box.name.startswith("CEIL")
+
+
+# ---------------------------------------------------------------------------
+# assembly
+# ---------------------------------------------------------------------------
+
+
 def build():
     W = walls()
     solids = []
     for w in W:
         solids += w.solids()
-    solids += shell() + fixed_elements() + kitchen() + furniture() + lighting()
+    solids += (shell() + fixed_elements() + kitchen() + furniture() + rugs()
+               + openings3d() + lighting())
     return W, solids
