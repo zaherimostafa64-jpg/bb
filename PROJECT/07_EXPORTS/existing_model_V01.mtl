@@ -1,0 +1,72 @@
+newmtl ceiling
+Kd 0.960 0.960 0.950
+Ka 0.1 0.1 0.1
+Ks 0.05 0.05 0.05
+Ns 20
+d 1.0
+illum 2
+
+newmtl floor
+Kd 0.860 0.840 0.780
+Ka 0.1 0.1 0.1
+Ks 0.05 0.05 0.05
+Ns 20
+d 1.0
+illum 2
+
+newmtl wall
+Kd 0.910 0.900 0.860
+Ka 0.1 0.1 0.1
+Ks 0.05 0.05 0.05
+Ns 20
+d 1.0
+illum 2
+
+newmtl stone
+Kd 0.880 0.860 0.820
+Ka 0.1 0.1 0.1
+Ks 0.05 0.05 0.05
+Ns 20
+d 1.0
+illum 2
+
+newmtl furniture
+Kd 0.700 0.680 0.660
+Ka 0.1 0.1 0.1
+Ks 0.05 0.05 0.05
+Ns 20
+d 1.0
+illum 2
+
+newmtl appliance
+Kd 0.930 0.930 0.920
+Ka 0.1 0.1 0.1
+Ks 0.05 0.05 0.05
+Ns 20
+d 1.0
+illum 2
+
+newmtl timber
+Kd 0.550 0.330 0.200
+Ka 0.1 0.1 0.1
+Ks 0.05 0.05 0.05
+Ns 20
+d 1.0
+illum 2
+
+newmtl worktop
+Kd 0.900 0.890 0.860
+Ka 0.1 0.1 0.1
+Ks 0.05 0.05 0.05
+Ns 20
+d 1.0
+illum 2
+
+newmtl brass
+Kd 0.720 0.600 0.300
+Ka 0.1 0.1 0.1
+Ks 0.05 0.05 0.05
+Ns 20
+d 1.0
+illum 2
+

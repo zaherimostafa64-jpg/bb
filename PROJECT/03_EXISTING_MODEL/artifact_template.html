@@ -1,0 +1,638 @@
+<title>Blade &amp; Pass-Through Survey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#EDF0EF; --sheet:#FBFCFB; --raise:#F5F7F6;
+  --ink:#151A1B; --body:#2C3536; --muted:#677273; --faint:#8C9797;
+  --rule:#C7CFCE; --hair:#DDE3E2;
+  --petrol:#14505C; --petrol-soft:#E1ECEC;
+  --ochre:#8E6612; --ochre-soft:#F2EAD6;
+  --brick:#8C4A32;
+  --line:#151A1B;
+  --shadow:0 1px 2px rgba(21,26,27,.06), 0 8px 24px -12px rgba(21,26,27,.18);
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --paper:#0E1213; --sheet:#161B1C; --raise:#1B2122;
+  --ink:#E9EDEC; --body:#C3CCCB; --muted:#8A9695; --faint:#6B7777;
+  --rule:#2C3435; --hair:#232A2B;
+  --petrol:#63B5C4; --petrol-soft:#15292E;
+  --ochre:#D6A73F; --ochre-soft:#2A2417;
+  --brick:#C4805F;
+  --line:#C3CCCB;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 10px 30px -14px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+  --paper:#0E1213; --sheet:#161B1C; --raise:#1B2122;
+  --ink:#E9EDEC; --body:#C3CCCB; --muted:#8A9695; --faint:#6B7777;
+  --rule:#2C3435; --hair:#232A2B;
+  --petrol:#63B5C4; --petrol-soft:#15292E;
+  --ochre:#D6A73F; --ochre-soft:#2A2417;
+  --brick:#C4805F;
+  --line:#C3CCCB;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 10px 30px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--body);
+  font-family:Newsreader,Georgia,serif; font-size:17px; line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.disp{font-family:Archivo,"Helvetica Neue",Arial,sans-serif;color:var(--ink);
+  text-wrap:balance;letter-spacing:-.015em;margin:0}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  font-variant-numeric:tabular-nums}
+a{color:var(--petrol)}
+:focus-visible{outline:2px solid var(--petrol);outline-offset:2px;border-radius:2px}
+
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.narrow{max-width:66ch}
+
+/* ---- drafting sheet frame ------------------------------------------ */
+.plate{
+  background:var(--sheet); border:1px solid var(--rule);
+  box-shadow:var(--shadow); border-radius:2px;
+}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+}
+
+/* ---- masthead ------------------------------------------------------- */
+header{border-bottom:1px solid var(--rule);background:var(--sheet)}
+.mast{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-end;
+  justify-content:space-between;padding:34px 0 24px}
+.mast h1{font-size:clamp(30px,4.6vw,50px);font-weight:800;line-height:1.02;
+  text-transform:uppercase;letter-spacing:-.025em}
+.mast h1 em{font-style:normal;color:var(--petrol);display:block}
+.mast p{margin:12px 0 0;max-width:52ch;color:var(--muted);font-size:16px}
+.stamp{
+  border:1px solid var(--rule);border-radius:2px;padding:12px 16px;
+  min-width:236px;background:var(--raise);
+}
+.stamp dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:3px 18px;
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+  font-variant-numeric:tabular-nums}
+.stamp dt{color:var(--faint);text-transform:uppercase;letter-spacing:.09em}
+.stamp dd{margin:0;color:var(--ink);text-align:right;font-weight:500}
+
+.warn{
+  background:var(--ochre-soft);border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+}
+.warn p{margin:0;padding:11px 0;font-family:"IBM Plex Mono",monospace;
+  font-size:12px;line-height:1.5;color:var(--ochre);letter-spacing:.02em}
+.warn strong{font-weight:600}
+
+section{padding:56px 0}
+.sechead{display:flex;align-items:baseline;gap:16px;margin-bottom:8px}
+.sechead .idx{font-family:"IBM Plex Mono",monospace;font-size:12px;
+  color:var(--petrol);font-weight:600}
+.sechead h2{font-size:25px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.01em}
+.lede{margin:0 0 26px;color:var(--muted);max-width:64ch}
+
+/* ---- viewer --------------------------------------------------------- */
+.viewer{display:grid;grid-template-columns:1fr 232px;gap:0;overflow:hidden}
+@media(max-width:860px){.viewer{grid-template-columns:1fr}}
+#stage{display:block;width:100%;height:520px;background:var(--raise);
+  cursor:grab;touch-action:none}
+#stage:active{cursor:grabbing}
+.panel{border-left:1px solid var(--rule);padding:16px;display:flex;
+  flex-direction:column;gap:16px;overflow-y:auto;max-height:520px}
+@media(max-width:860px){.panel{border-left:0;border-top:1px solid var(--rule);
+  max-height:none}}
+.panel h3{font-size:11px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);
+  font-family:"IBM Plex Mono",monospace;margin-bottom:7px}
+.btns{display:flex;flex-wrap:wrap;gap:5px}
+button{font:inherit;cursor:pointer}
+.chip{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500;
+  padding:5px 9px;border:1px solid var(--rule);background:var(--sheet);
+  color:var(--body);border-radius:2px;transition:.13s;
+}
+.chip:hover{border-color:var(--petrol);color:var(--petrol)}
+.chip.is-on{background:var(--petrol);border-color:var(--petrol);color:var(--sheet)}
+.swatch{width:8px;height:8px;display:inline-block;margin-right:6px;
+  vertical-align:1px;border:1px solid rgba(0,0,0,.25)}
+.readout{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--faint);
+  line-height:1.7;border-top:1px solid var(--hair);padding-top:12px}
+.readout b{color:var(--ink);font-weight:500}
+
+/* ---- ledger --------------------------------------------------------- */
+.scroller{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-family:"IBM Plex Mono",monospace;
+  font-size:12.5px;font-variant-numeric:tabular-nums}
+th{text-align:left;font-weight:600;font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);padding:0 14px 8px 0;
+  border-bottom:1px solid var(--rule);white-space:nowrap}
+td{padding:8px 14px 8px 0;border-bottom:1px solid var(--hair);
+  vertical-align:top;color:var(--body)}
+td:first-child{color:var(--ink);font-weight:500}
+.tag{display:inline-block;padding:1px 6px;border-radius:2px;font-size:10.5px;
+  font-weight:600;letter-spacing:.05em}
+.t-D{background:var(--petrol-soft);color:var(--petrol)}
+.t-E{background:var(--ochre-soft);color:var(--ochre)}
+.t-A{background:transparent;color:var(--muted);border:1px solid var(--rule)}
+
+.bars{display:grid;gap:12px;margin:0 0 26px}
+.bar{display:grid;grid-template-columns:104px 1fr 52px;gap:14px;align-items:center;
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px}
+.bar .lab{color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.bar .track{height:9px;background:var(--hair);border-radius:1px;overflow:hidden}
+.bar .fill{height:100%;display:block}
+.bar .val{text-align:right;color:var(--ink);font-weight:600;
+  font-variant-numeric:tabular-nums}
+
+/* ---- drawing set ---------------------------------------------------- */
+.dwg{overflow:hidden}
+.tabs{display:flex;overflow-x:auto;border-bottom:1px solid var(--rule);
+  background:var(--raise)}
+.tab{display:flex;flex-direction:column;gap:1px;align-items:flex-start;
+  padding:10px 15px;border:0;border-right:1px solid var(--hair);
+  background:transparent;white-space:nowrap;transition:.13s}
+.tab:hover{background:var(--sheet)}
+.tab.is-on{background:var(--sheet);box-shadow:inset 0 -2px 0 var(--petrol)}
+.tab-num{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;
+  color:var(--petrol);letter-spacing:.06em}
+.tab-name{font-family:Archivo,sans-serif;font-size:12px;color:var(--muted)}
+.tab.is-on .tab-name{color:var(--ink)}
+.sheet{display:none;background:var(--sheet)}
+.sheet.is-on{display:block}
+.sheet svg{display:block;width:100%;height:auto}
+
+/* ---- measurements --------------------------------------------------- */
+.asks{list-style:none;margin:0;padding:0;display:grid;gap:0;
+  border-top:1px solid var(--rule)}
+.asks li{display:grid;grid-template-columns:38px 1fr auto;gap:18px;
+  padding:15px 16px;border-bottom:1px solid var(--hair);align-items:baseline}
+.asks .n{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;
+  color:var(--petrol)}
+.asks .what{color:var(--ink);font-size:16.5px}
+.asks .why{display:block;color:var(--muted);font-size:14px;margin-top:2px}
+.asks .gain{font-family:"IBM Plex Mono",monospace;font-size:11px;
+  color:var(--muted);white-space:nowrap;letter-spacing:.04em}
+
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:28px}
+.note{border-left:2px solid var(--rule);padding-left:16px}
+.note h3{font-size:13px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.08em;margin-bottom:6px}
+.note p{margin:0;font-size:15.5px;color:var(--muted)}
+.note code{font-family:"IBM Plex Mono",monospace;font-size:12.5px;
+  background:var(--raise);padding:1px 5px;border:1px solid var(--hair)}
+
+footer{border-top:1px solid var(--rule);background:var(--sheet);
+  padding:26px 0;margin-top:20px}
+footer p{margin:0;font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+  color:var(--faint);letter-spacing:.03em}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header>
+  <div class="wrap mast">
+    <div>
+      <p class="eyebrow">Existing condition survey &middot; V01</p>
+      <h1>Blade &amp; Pass&#8209;Through<em>Reconstruction</em></h1>
+      <p>Twenty&#8209;two panoramic photographs of one residential unit &mdash;
+      entrance, hall, kitchen &mdash; resolved into a single measured model,
+      a drawing set, and an honest account of what is still unknown.</p>
+    </div>
+    <div class="stamp">
+      <dl>
+        <dt>Model</dt><dd>V01_EXISTING</dd>
+        <dt>Source</dt><dd>22 photographs</dd>
+        <dt>Objects</dt><dd id="s-obj">&mdash;</dd>
+        <dt>Parameters</dt><dd>70</dd>
+        <dt>Units</dt><dd>mm &middot; Z=0 FFL</dd>
+        <dt>Confidence</dt><dd>55&thinsp;%</dd>
+      </dl>
+    </div>
+  </div>
+</header>
+
+<div class="warn"><div class="wrap"><p>
+<strong>NO DIMENSION IN THIS MODEL IS VERIFIED.</strong> No site survey has been
+carried out. Every dimension is derived from a standard element, estimated from
+photographic proportion, or assumed. Wall thicknesses and all structural
+elements are <strong>not verifiable from photographs</strong>. Do not build from
+this.</p></div></div>
+
+<main>
+
+<section>
+  <div class="wrap">
+    <div class="sechead"><span class="idx">01</span><h2>The reconstructed space</h2></div>
+    <p class="lede">Drag to orbit, scroll to zoom. Every element is a separately
+    named object &mdash; nothing is merged &mdash; so any wall, cabinet or the
+    fireplace blade itself can be moved or deleted without rebuilding the model.
+    The six camera buttons place you where each key photograph was taken.</p>
+
+    <div class="plate viewer">
+      <canvas id="stage"></canvas>
+      <div class="panel">
+        <div>
+          <h3>Layers</h3>
+          <div class="btns" id="layers"></div>
+        </div>
+        <div>
+          <h3>Views</h3>
+          <div class="btns">
+            <button class="chip" data-view="iso">Isometric</button>
+            <button class="chip" data-view="plan">Plan</button>
+            <button class="chip" data-view="hall">Hall</button>
+            <button class="chip" data-view="kitchen">Kitchen</button>
+          </div>
+        </div>
+        <div>
+          <h3>Camera stations</h3>
+          <div class="btns" id="cams"></div>
+        </div>
+        <div class="readout" id="readout"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sechead"><span class="idx">02</span><h2>What is actually known</h2></div>
+    <p class="lede narrow">Confidence is tracked element by element, not as a
+    single number on the drawing. Weighted by each element&rsquo;s share of the
+    modelled geometry:</p>
+
+    <div class="bars">
+      <div class="bar"><span class="lab">Verified</span>
+        <span class="track"><span class="fill" style="width:0%;background:var(--petrol)"></span></span>
+        <span class="val">0&thinsp;%</span></div>
+      <div class="bar"><span class="lab">Derived</span>
+        <span class="track"><span class="fill" style="width:34%;background:var(--petrol)"></span></span>
+        <span class="val">34&thinsp;%</span></div>
+      <div class="bar"><span class="lab">Estimated</span>
+        <span class="track"><span class="fill" style="width:51%;background:var(--ochre)"></span></span>
+        <span class="val">51&thinsp;%</span></div>
+      <div class="bar"><span class="lab">Assumed</span>
+        <span class="track"><span class="fill" style="width:15%;background:var(--muted)"></span></span>
+        <span class="val">15&thinsp;%</span></div>
+    </div>
+
+    <div class="scroller plate" style="padding:18px">
+    <table>
+      <thead><tr><th>Element</th><th>Dimension</th><th>Tag</th><th>Basis</th></tr></thead>
+      <tbody>
+        <tr><td>Kitchen pass&#8209;through</td><td>2,100 &times; 1,150, sill 1,000</td>
+          <td><span class="tag t-D">DERIVED</span></td>
+          <td>Clear width read against the 910&nbsp;mm side&#8209;by&#8209;side fridge, both faces photographed</td></tr>
+        <tr><td>Kitchen, internal</td><td>4,800 &times; 3,400</td>
+          <td><span class="tag t-D">DERIVED</span></td>
+          <td>Work&#8209;run build&#8209;up: washer 600 + base 900 + sink 1,200 + range 900 + base 700</td></tr>
+        <tr><td>Fireplace blade</td><td>2,400 long &times; 600 thick</td>
+          <td><span class="tag t-D">DERIVED</span></td>
+          <td>Seen from both sides; double&#8209;sided firebox &mdash; conflict C&#8209;001</td></tr>
+        <tr><td>Kitchen door</td><td>900 &times; 2,100</td>
+          <td><span class="tag t-E">ESTIMATED</span></td>
+          <td>Standard leaf, photographed square&#8209;on &mdash; primary scale anchor</td></tr>
+        <tr><td>Ceiling, hall soffit</td><td>2,750</td>
+          <td><span class="tag t-E">ESTIMATED</span></td>
+          <td>Door head 2,100 : soffit reads 1&#8239;:&#8239;1.31 across three images</td></tr>
+        <tr><td>Ceiling, tray cove</td><td>2,950</td>
+          <td><span class="tag t-E">ESTIMATED</span></td>
+          <td>Cove step reads about 200 above the flat soffit</td></tr>
+        <tr><td>Hall, long axis</td><td>12,400 &plusmn;&thinsp;800</td>
+          <td><span class="tag t-E">ESTIMATED</span></td>
+          <td><strong>Conflict C&#8209;003</strong> &mdash; reads 11&nbsp;m from one end, 13&nbsp;m from the other. Largest single error in the model</td></tr>
+        <tr><td>Kitchen west window</td><td>1,600 wide</td>
+          <td><span class="tag t-A">ASSUMED</span></td>
+          <td>One oblique view only &mdash; conflict C&#8209;002</td></tr>
+        <tr><td>Wall thicknesses</td><td>300 ext / 200 int</td>
+          <td><span class="tag t-A">ASSUMED</span></td>
+          <td>Not verifiable from photographs at all</td></tr>
+        <tr><td>Structure, services, flue</td><td>&mdash;</td>
+          <td><span class="tag t-A">ASSUMED</span></td>
+          <td>Placeholder geometry. Never claimed</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sechead"><span class="idx">03</span><h2>Drawing set</h2></div>
+    <p class="lede narrow">Nine sheets, all regenerated from the same parameter
+    set. Change one dimension and every sheet follows.</p>
+    <div class="plate dwg">
+      <div class="tabs" role="tablist"><!--__TABS__--></div>
+      <!--__SHEETS__-->
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sechead"><span class="idx">04</span><h2>Seven measurements</h2></div>
+    <p class="lede narrow">Rather than a long survey list, these are the fewest
+    measurements that move the most geometry. Taking all seven is projected to
+    lift overall confidence from 55&thinsp;% to about 88&thinsp;%.</p>
+    <ol class="asks plate" style="border-top:0">
+      <li><span class="n">01</span><span><span class="what">Hall ceiling height</span>
+        <span class="why">Floor to ceiling, measured twice: under the flat soffit, and inside the tray cove.</span></span>
+        <span class="gain">all vertical dims</span></li>
+      <li><span class="n">02</span><span><span class="what">Hall length</span>
+        <span class="why">Dining&#8209;end wall to living&#8209;end wall. This is the one that resolves conflict C&#8209;003.</span></span>
+        <span class="gain">largest error</span></li>
+      <li><span class="n">03</span><span><span class="what">Hall depth</span>
+        <span class="why">Window facade across to the kitchen and entrance partition.</span></span>
+        <span class="gain">hall area</span></li>
+      <li><span class="n">04</span><span><span class="what">Main entrance door width</span>
+        <span class="why">Structural opening, not the leaf. Tightens the whole entrance zone.</span></span>
+        <span class="gain">entrance zone</span></li>
+      <li><span class="n">05</span><span><span class="what">Kitchen, both dimensions</span>
+        <span class="why">Confirms or corrects the derived work&#8209;run build&#8209;up.</span></span>
+        <span class="gain">kitchen box</span></li>
+      <li><span class="n">06</span><span><span class="what">Pass&#8209;through opening</span>
+        <span class="why">Clear width and sill height above the floor.</span></span>
+        <span class="gain">calibration check</span></li>
+      <li><span class="n">07</span><span><span class="what">Fireplace blade</span>
+        <span class="why">Overall length, thickness, and the width of the panelled column.</span></span>
+        <span class="gain">alcove opening</span></li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sechead"><span class="idx">05</span><h2>Open questions</h2></div>
+    <div class="cols">
+      <div class="note"><h3>C&#8209;001 &middot; Two fireplaces</h3>
+        <p>A brick firebox faces the hall in four images and the alcove in four
+        others, from opposite sides of the blade. Modelled as one blade with a
+        recess in each face, sharing a flue. Confirm on site.</p></div>
+      <div class="note"><h3>C&#8209;002 &middot; Kitchen windows</h3>
+        <p>Two windows with a pier between them are unambiguous. A third,
+        larger window appears in one frame only and may be the same pair read
+        across a panorama seam.</p></div>
+      <div class="note"><h3>C&#8209;003 &middot; Hall length</h3>
+        <p>The two end&#8209;to&#8209;end views disagree by about two metres.
+        The mid&#8209;value is carried. Everything downstream of this number
+        inherits the error.</p></div>
+      <div class="note"><h3>C&#8209;004 &middot; Orientation</h3>
+        <p>No compass information exists in the set. The drawings carry a
+        project north only, marked <code>ASSUMED</code>. Kitchen windows face
+        mountains, hall windows face roofscape &mdash; consistent with a corner
+        unit, but the bearing is unrecoverable.</p></div>
+      <div class="note"><h3>Panoramic distortion</h3>
+        <p>Every source frame is an ultra&#8209;wide stitched panorama. No line
+        was traced directly; geometry was recovered only from features repeated
+        across several viewpoints, using each frame&rsquo;s central third.</p></div>
+      <div class="note"><h3>Out of scope</h3>
+        <p>The corridor past its threshold and the entire private zone were not
+        photographed and are not modelled. The drawings mark the cut with a
+        scope boundary.</p></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap">
+  <p>V01_EXISTING &middot; parametric &middot; regenerate with
+  <code>python3 03_EXISTING_MODEL/build.py</code> &middot; exports OBJ + DXF +
+  SVG &middot; redesign versions not started</p>
+</div></footer>
+
+<script>
+const SCENE = /*__SCENE__*/;
+document.getElementById('s-obj').textContent = SCENE.boxes.length;
+
+/* ---- palette per group --------------------------------------------- */
+const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const GROUP_KEY = [
+  [/^ARCHITECTURE\/Walls/,      'Walls',      '--wall'],
+  [/^ARCHITECTURE\/Floor/,      'Floor',      '--floor'],
+  [/^ARCHITECTURE\/Ceiling/,    'Ceiling',    '--ceil'],
+  [/^FIXED_ELEMENTS/,           'Fixed',      '--fixed'],
+  [/^KITCHEN/,                  'Kitchen',    '--kit'],
+  [/^FURNITURE/,                'Furniture',  '--furn'],
+  [/^LIGHTING/,                 'Lighting',   '--light'],
+];
+function palette(){
+  const dark = matchMedia('(prefers-color-scheme:dark)').matches
+    && document.documentElement.getAttribute('data-theme') !== 'light'
+    || document.documentElement.getAttribute('data-theme') === 'dark';
+  return dark
+    ? {Walls:'#3A4547',Floor:'#242C2D',Ceiling:'#2E3739',Fixed:'#5A4438',
+       Kitchen:'#4A3A2C',Furniture:'#333B3C',Lighting:'#6E5A2E',
+       bg:'#1B2122',edge:'#8A9695'}
+    : {Walls:'#DDE3E1',Floor:'#EAEDEB',Ceiling:'#F0F3F1',Fixed:'#E3D3C8',
+       Kitchen:'#D9C4B0',Furniture:'#E6EAE8',Lighting:'#EADFC0',
+       bg:'#F5F7F6',edge:'#596465'};
+}
+const groupName = g => (GROUP_KEY.find(k => k[0].test(g)) || [,'Other'])[1];
+
+/* ---- geometry ------------------------------------------------------- */
+const FACES = [[0,1,2,3],[4,7,6,5],[0,4,5,1],[1,5,6,2],[2,6,7,3],[3,7,4,0]];
+const SHADE = [0.62,1.0,0.86,0.74,0.86,0.74];   // bottom, top, and four sides
+
+const BOXES = SCENE.boxes.map(b => {
+  const [name,gi,x0,y0,z0,x1,y1,z1] = b;
+  const g = groupName(SCENE.groups[gi]);
+  return {name, g, v:[
+    [x0,y0,z0],[x1,y0,z0],[x1,y1,z0],[x0,y1,z0],
+    [x0,y0,z1],[x1,y0,z1],[x1,y1,z1],[x0,y1,z1]]};
+});
+const CENTRE = (() => {
+  let a=[1e9,1e9,0], b=[-1e9,-1e9,0];
+  BOXES.forEach(o => o.v.forEach(p => {
+    for(let i=0;i<2;i++){ a[i]=Math.min(a[i],p[i]); b[i]=Math.max(b[i],p[i]); }
+  }));
+  return [(a[0]+b[0])/2,(a[1]+b[1])/2,1300];
+})();
+
+/* ---- camera --------------------------------------------------------- */
+const cam = {az:-40, el:38, dist:20000, target:[...CENTRE], fov:42, fpv:null};
+const hidden = new Set(['Ceiling']);
+
+const cv = document.getElementById('stage');
+const ctx = cv.getContext('2d');
+let W=0, H=0, DPR=1;
+
+function resize(){
+  DPR = Math.min(devicePixelRatio||1, 2);
+  W = cv.clientWidth; H = cv.clientHeight;
+  cv.width = W*DPR; cv.height = H*DPR;
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  draw();
+}
+
+function basis(){
+  if(cam.fpv){
+    const b = cam.fpv.bearing*Math.PI/180;
+    const fwd = [Math.sin(b), Math.cos(b), -0.06];
+    return {eye:cam.fpv.pos, fwd};
+  }
+  const a=cam.az*Math.PI/180, e=cam.el*Math.PI/180;
+  const d=cam.dist;
+  const eye=[cam.target[0]+d*Math.cos(e)*Math.sin(a),
+             cam.target[1]-d*Math.cos(e)*Math.cos(a),
+             cam.target[2]+d*Math.sin(e)];
+  const fwd=[cam.target[0]-eye[0], cam.target[1]-eye[1], cam.target[2]-eye[2]];
+  return {eye, fwd};
+}
+
+function view(){
+  const {eye,fwd}=basis();
+  let n=Math.hypot(...fwd); const f=fwd.map(c=>c/n);
+  let r=[f[1],-f[0],0]; n=Math.hypot(...r)||1; r=r.map(c=>c/n);
+  const u=[r[1]*f[2]-r[2]*f[1], r[2]*f[0]-r[0]*f[2], r[0]*f[1]-r[1]*f[0]];
+  return {eye,f,r,u};
+}
+
+function project(p, vw, k){
+  const d=[p[0]-vw.eye[0], p[1]-vw.eye[1], p[2]-vw.eye[2]];
+  const z=d[0]*vw.f[0]+d[1]*vw.f[1]+d[2]*vw.f[2];
+  if(z<=60) return null;
+  const x=d[0]*vw.r[0]+d[1]*vw.r[1]+d[2]*vw.r[2];
+  const y=d[0]*vw.u[0]+d[1]*vw.u[1]+d[2]*vw.u[2];
+  return [W/2 + x*k/z, H/2 - y*k/z, z];
+}
+
+function draw(){
+  const P=palette(), vw=view();
+  const k = (H/2)/Math.tan(cam.fov*Math.PI/360);
+  ctx.fillStyle=P.bg; ctx.fillRect(0,0,W,H);
+
+  const polys=[];
+  for(const o of BOXES){
+    if(hidden.has(o.g)) continue;
+    const pts=o.v.map(p=>project(p,vw,k));
+    for(let i=0;i<6;i++){
+      const f=FACES[i], q=[pts[f[0]],pts[f[1]],pts[f[2]],pts[f[3]]];
+      if(q.some(p=>!p)) continue;
+      const area=(q[1][0]-q[0][0])*(q[2][1]-q[0][1])-(q[2][0]-q[0][0])*(q[1][1]-q[0][1]);
+      if(area<=0) continue;                       // back-face cull
+      polys.push({q, z:(q[0][2]+q[1][2]+q[2][2]+q[3][2])/4, g:o.g, s:SHADE[i]});
+    }
+  }
+  polys.sort((a,b)=>b.z-a.z);
+
+  ctx.lineJoin='round';
+  for(const p of polys){
+    ctx.beginPath();
+    ctx.moveTo(p.q[0][0],p.q[0][1]);
+    for(let i=1;i<4;i++) ctx.lineTo(p.q[i][0],p.q[i][1]);
+    ctx.closePath();
+    ctx.fillStyle=shade(P[p.g]||P.Walls, p.s);
+    ctx.fill();
+    ctx.strokeStyle=P.edge; ctx.globalAlpha=0.32; ctx.lineWidth=0.6;
+    ctx.stroke(); ctx.globalAlpha=1;
+  }
+  readout();
+}
+
+function shade(hex,f){
+  const n=parseInt(hex.slice(1),16);
+  const c=[n>>16&255,n>>8&255,n&255].map(v=>Math.max(0,Math.min(255,Math.round(v*f))));
+  return `rgb(${c[0]},${c[1]},${c[2]})`;
+}
+
+function readout(){
+  const r=document.getElementById('readout');
+  const shown=BOXES.filter(o=>!hidden.has(o.g)).length;
+  r.innerHTML = cam.fpv
+    ? `<b>${cam.fpv.id}</b> &mdash; ${cam.fpv.note}<br>eye ${cam.fpv.pos[2]} mm &middot; bearing ${cam.fpv.bearing}&deg;<br>${shown} of ${BOXES.length} objects`
+    : `orbit ${Math.round(cam.az)}&deg; &middot; elev ${Math.round(cam.el)}&deg;<br>range <b>${(cam.dist/1000).toFixed(1)} m</b><br>${shown} of ${BOXES.length} objects`;
+}
+
+/* ---- controls ------------------------------------------------------- */
+const layers=document.getElementById('layers');
+[...new Set(BOXES.map(o=>o.g))].forEach(g=>{
+  const b=document.createElement('button');
+  b.className='chip'+(hidden.has(g)?'':' is-on');
+  const P=palette();
+  b.innerHTML=`<span class="swatch" style="background:${P[g]||P.Walls}"></span>${g}`;
+  b.setAttribute('aria-pressed', hidden.has(g)?'false':'true');
+  b.onclick=()=>{
+    hidden.has(g)?hidden.delete(g):hidden.add(g);
+    b.classList.toggle('is-on');
+    b.setAttribute('aria-pressed', hidden.has(g)?'false':'true');
+    draw();
+  };
+  layers.appendChild(b);
+});
+
+const cams=document.getElementById('cams');
+SCENE.cameras.forEach(([id,x,y,z,bearing,note])=>{
+  const b=document.createElement('button');
+  b.className='chip'; b.textContent=id;
+  b.title=note;
+  b.onclick=()=>{
+    document.querySelectorAll('#cams .chip').forEach(c=>c.classList.remove('is-on'));
+    b.classList.add('is-on');
+    cam.fpv={id,pos:[x,y,z],bearing,note}; cam.fov=78;
+    hidden.add('Ceiling'); draw();
+  };
+  cams.appendChild(b);
+});
+
+const PRESETS={
+  iso:{az:-40,el:38,dist:20000,t:CENTRE},
+  plan:{az:0,el:88,dist:19000,t:CENTRE},
+  hall:{az:-25,el:26,dist:13000,t:[6200,2800,1300]},
+  kitchen:{az:150,el:30,dist:8500,t:[2400,7500,1300]},
+};
+document.querySelectorAll('[data-view]').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('#cams .chip').forEach(c=>c.classList.remove('is-on'));
+    const p=PRESETS[b.dataset.view];
+    Object.assign(cam,{az:p.az,el:p.el,dist:p.dist,target:[...p.t],fov:42,fpv:null});
+    draw();
+  };
+});
+
+let drag=null;
+cv.addEventListener('pointerdown',e=>{
+  drag={x:e.clientX,y:e.clientY}; cv.setPointerCapture(e.pointerId);
+});
+cv.addEventListener('pointermove',e=>{
+  if(!drag) return;
+  const dx=e.clientX-drag.x, dy=e.clientY-drag.y;
+  drag={x:e.clientX,y:e.clientY};
+  if(cam.fpv){ cam.fpv.bearing=(cam.fpv.bearing-dx*0.3+360)%360; }
+  else { cam.az-=dx*0.35; cam.el=Math.max(-12,Math.min(89,cam.el+dy*0.3)); }
+  draw();
+});
+addEventListener('pointerup',()=>drag=null);
+cv.addEventListener('wheel',e=>{
+  e.preventDefault();
+  if(cam.fpv) cam.fov=Math.max(40,Math.min(110,cam.fov+e.deltaY*0.05));
+  else cam.dist=Math.max(3000,Math.min(46000,cam.dist*(1+e.deltaY*0.0012)));
+  draw();
+},{passive:false});
+
+/* ---- drawing tabs --------------------------------------------------- */
+document.querySelectorAll('.tab').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>{
+      x.classList.remove('is-on'); x.setAttribute('aria-selected','false');
+    });
+    document.querySelectorAll('.sheet').forEach(x=>x.classList.remove('is-on'));
+    t.classList.add('is-on'); t.setAttribute('aria-selected','true');
+    document.querySelector(`.sheet[data-sheet="${t.dataset.sheet}"]`).classList.add('is-on');
+  };
+});
+
+addEventListener('resize',resize);
+matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{
+  document.querySelectorAll('#layers .chip .swatch').forEach((s,i)=>{
+    const g=[...new Set(BOXES.map(o=>o.g))][i], P=palette();
+    s.style.background=P[g]||P.Walls;
+  });
+  draw();
+});
+resize();
+</script>
