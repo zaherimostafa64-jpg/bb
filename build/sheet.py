@@ -1,6 +1,9 @@
 import sys, pymupdf
-pdf = pymupdf.open("dist/PAYA-ORIGIN-Company-Profile-2026.pdf")
-pages = [int(a) for a in sys.argv[1:]]
+DOCS = {"profile": "dist/PAYA-ORIGIN-Company-Profile-2026.pdf",
+        "kiwi": "dist/PAYA-ORIGIN-Iranian-Fresh-Green-Kiwi-2026.pdf"}
+which = next((a for a in sys.argv[1:] if a in DOCS), "profile")
+pdf = pymupdf.open(DOCS[which])
+pages = [int(a) for a in sys.argv[1:] if a not in DOCS]
 C = 2 if len(pages) <= 4 else 3
 W, H = int(595*.78), int(842*.78)
 rows = (len(pages)+C-1)//C

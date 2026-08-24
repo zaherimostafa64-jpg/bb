@@ -272,6 +272,12 @@ def main():
     scene("pack-carton-grape",  "x0374.jpeg", (4, 3), focus=(0.5, 0.5), width=1000, studio=True)
     scene("pack-carton-pepper", "x0413.jpeg", (4, 3), focus=(0.5, 0.5), width=1000, studio=True)
 
+    # -- KIWI CATALOGUE ----------------------------------------------------
+    # One kiwi photograph exists in the library (800x800). It is used at sizes
+    # that stay above 200 dpi rather than stretched to full bleed.
+    specimen("kiwi-plate",  "x0369.jpeg", "content", zoom=1.30, size=800)
+    specimen("kiwi-detail", "x0369.jpeg", "content", zoom=2.10, shift=(-0.10, 0.06), size=760)
+
     print("\nREJECTED (deliberately unused):")
     for src, why in [
         ("x0457.jpeg", "3D relief world map + ship + produce — generic stock trade visual"),
