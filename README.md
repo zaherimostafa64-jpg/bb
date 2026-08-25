@@ -139,8 +139,22 @@ Decisions worth keeping:
   firmness are indicative benchmarks, and the class definitions are flagged for
   alignment with UNECE FFV-50 before issue.
 
-Outstanding: there is no studio photograph of Fuji, only packed cartons. Its
-frame on the variety plate is labelled as packed fruit rather than disguised.
+A second photo delivery closed the Fuji gap — all five varieties now have a
+studio cutout — and brought 2000–3000 px plate material, which is what makes
+the full-bleed pages possible at print resolution rather than only on screen.
+Every page in the catalogue now carries a photograph, and no scene photograph
+is used twice. The five cutouts appear twice each by design: once on the
+comparison plate, once on the variety's own page.
+
+**One file was deleted rather than used.** `123f.jpg` in the second delivery is
+a watermarked Unsplash+ preview with "unsplash+" tiled across the frame. It was
+the best mixed green-and-red mass in the set and had been placed as a full-bleed
+plate before the watermark was spotted at full resolution. A comp file cannot go
+into a client's catalogue — the watermark means the licence has not been bought
+— so it is deleted, not retouched, and the plate was rebuilt from a clean frame.
+Every other image in both deliveries was checked at 1:1 and is clean.
+
+Still outstanding: photography of PAYA's own packing line.
 
 ## The Word exports
 

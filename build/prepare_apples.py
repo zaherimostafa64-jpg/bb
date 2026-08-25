@@ -10,10 +10,19 @@ plus one this library makes possible for the first time:
              apples, so the silhouette has to survive; a frame-filling crop
              would destroy exactly the information the page is selling.
 
-Studio cutouts exist for Gala, Golden Delicious, Red Delicious and Granny
-Smith. There is no studio shot of Fuji in the library — only packed cartons —
-so Fuji's second frame is a carton crop, captioned as such rather than
-disguised. That gap is listed at the bottom of this file.
+Studio cutouts now exist for all five varieties. The Fuji gap flagged in the
+first edition was closed by a dedicated studio frame supplied afterwards, and
+the packed-carton stand-in has been retired.
+
+The second delivery also brought high-resolution plate material — several
+frames at 2000-3000 px on the long edge — which is what makes full-bleed pages
+possible at print resolution rather than merely on screen.
+
+One file from that delivery (the mixed green-and-red mass, 123f.jpg) was a
+watermarked Unsplash+ preview, with "unsplash+" tiled across the frame. It is
+deleted rather than retouched: the watermark means the licence has not been
+bought, and a comp file cannot go into a client's catalogue. Every other frame
+in the delivery was checked at full resolution and is clean.
 """
 
 import os
@@ -123,24 +132,23 @@ def main():
     print("preparing apple assets\n")
 
     # -- CUTOUTS: whole fruit, silhouette preserved --------------------------
+    # Frame-filling crops of these were built first and dropped: they destroy
+    # the silhouette, and shape is a specification field for apples.
     cutout("cut-gala",   "gala-royal-gala-2.jpg")
     cutout("cut-golden", "golden-delicious-3.jpg")
     cutout("cut-red",    "red-delicious-7.jpg")
     cutout("cut-granny", "granny-smith-4.jpg")
-
-    # Frame-filling crops of the same four were built first and dropped: they
-    # destroy the silhouette, and shape is a specification field for apples.
-    # No studio Fuji exists, so its frame on the variety plate is the cleanest
-    # carton in the library — plain board, no third-party stickers — captioned
-    # as packed fruit rather than passed off as a studio specimen.
-    specimen("fuji-packed", "fuji-3.jpg", box=(150, 105, 620, 575), zoom=1.15, size=820)
+    cutout("cut-fuji",   "fuji-studio.png")
 
     # -- SCENES: one orchard or tree frame per variety, all five present ------
     scene("sc-gala",   "gala-royal-gala.jpg",  (4, 3), focus=(0.5, 0.5), width=1300)
     scene("sc-golden", "golden-delicious.jpg", (4, 3), focus=(0.5, 0.5), width=1300)
-    scene("sc-red",    "red-delicious.jpg",    (4, 3), focus=(0.5, 0.42), width=1300)
+    scene("sc-red",    "red-delicious-2.webp", (4, 3), focus=(0.5, 0.5),  width=640)
     scene("sc-granny", "granny-smith.jpg",     (4, 3), focus=(0.5, 0.5), width=1400)
-    scene("sc-fuji",   "fuji.jpg",             (4, 3), focus=(0.5, 0.5), width=1000)
+
+    # Two packed-carton frames (granny-smith-2, red-delicious-4) are not built:
+    # they carry another company's label on every fruit and cannot appear in a
+    # PAYA ORIGIN catalogue.
 
     # -- SCENES: harvest, packing, transport ---------------------------------
     scene("sc-bin",        "golden-delicious-2.jpg", (4, 3), width=1300)
@@ -148,23 +156,35 @@ def main():
     scene("sc-branch",     "red-delicious-3.jpg",    (1, 1), width=800)
     scene("sc-gala-close", "gala-closeup.jpg",       (1, 1), focus=(0.5, 0.45), width=700)
 
-    scene("pk-granny", "granny-smith-2.jpeg", (3, 4), width=900)
-    scene("pk-red",    "red-delicious-4.jpg", (3, 4), width=1000)
     scene("pk-fuji",   "fuji-3.jpg",          (4, 3), focus=(0.5, 0.48), zoom=1.05, width=1200)
     scene("pk-crates", "fuji-5.jpg",          (16, 9), width=1280)
 
-    # -- COVER + PLATES ------------------------------------------------------
-    scene("cover-band",  "granny-smith.jpg", (210, 150), focus=(0.5, 0.5), width=1900)
-    scene("plate-wide",  "red-delicious.jpg", (210, 297), focus=(0.5, 0.45), width=1200)
-    scene("plate-orchard", "gala-royal-gala.jpg", (16, 7), focus=(0.5, 0.5), width=1400)
+    scene("sc-fuji-tree", "fuji-tree.jpg", (4, 3), focus=(0.5, 0.5), width=700)
+
+    # -- PLATES: the high-resolution second delivery -------------------------
+    # These are the frames big enough to run full-bleed at A4 without going
+    # soft, so this is where the catalogue spends its photography budget.
+    scene("plate-cover",  "hero-dark.jpg",   (210, 297), focus=(0.5, 0.52), width=2000,
+          contrast=1.03)
+    scene("plate-leaf",   "hero-leaf.png",   (210, 297), focus=(0.5, 0.54), width=2000)
+    scene("plate-wide",   "red-delicious.jpg", (210, 297), focus=(0.5, 0.45), width=1200)
+
+    # tall columns, for pages that carry an image full height beside the text
+    scene("col-massred",  "mass-red.jpg",    (2, 3), focus=(0.5, 0.5),  width=736)
+    scene("col-drops",    "drops.jpg",       (2, 3), focus=(0.5, 0.5),  width=938)
+    scene("col-branch",   "branch-bokeh.jpg",(2, 3), focus=(0.5, 0.5),  width=850)
+
+    # wide bands, for the foot or head of a page
+    scene("band-sky",     "branch-sky.jpg",  (2, 1), focus=(0.5, 0.62), width=736,
+          sat=0.80, contrast=1.06)
+    scene("band-table",   "hero-table.jpg",  (16, 6), focus=(0.5, 0.44), width=2000)
 
     print("""
-GAP — flag to the client:
-  Fuji has no studio photograph in the library, only packed cartons. Every
-  other variety has a clean single-fruit shot that shows shape and colour
-  coverage, both of which are specification fields. One studio session with
-  a single Fuji apple on a plain sweep would close the last inconsistency
-  in this catalogue.""")
+NOTE:
+  The Fuji studio gap is closed — all five varieties now have a cutout.
+  Still outstanding: photography of PAYA's own packing line. The packed
+  shots on file carry another company's labels on every fruit, so the three
+  packing formats are still drawn rather than photographed.""")
 
 
 if __name__ == "__main__":

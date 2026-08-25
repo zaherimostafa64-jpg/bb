@@ -73,7 +73,7 @@
 }
 .hcal .row {
   display: grid; grid-template-columns: 42mm repeat(12, 1fr);
-  align-items: center; height: 24mm;
+  align-items: center; height: 19mm;
   border-bottom: .25mm solid var(--rule-soft);
 }
 .hcal .row .name { padding-right: 3mm; }
@@ -83,8 +83,8 @@
   color: var(--ink-4); display: block; margin-top: .8mm;
 }
 .hcal .row .cell { height: 100%; border-left: .25mm solid var(--rule-soft); position: relative; }
-.hcal .bar { position: absolute; left: 0; right: 0; top: 9mm; height: 6mm; }
-.hcal .bar.is-stored { top: 11.2mm; height: 2mm; opacity: .55; }
+.hcal .bar { position: absolute; left: 0; right: 0; top: 6.8mm; height: 5.4mm; }
+.hcal .bar.is-stored { top: 8.6mm; height: 1.8mm; opacity: .55; }
 
 /* --------------------------------------------------------------------------
    benchmark chart — Brix and firmness across the five varieties
@@ -152,3 +152,18 @@
 }
 .master .mrow .c { font-size: 7.2pt; color: var(--ink-2); line-height: 1.35; }
 .master .mrow .c.is-key { font-weight: 600; color: var(--ink); }
+
+/* The overview page runs its data rows in a narrow column beside a
+   full-height image, so it needs a tighter step than the corporate page the
+   component comes from. */
+.compact .data-row { padding: 5mm 0 4.2mm; }
+.compact .data-row .num { font-size: 19pt; }
+.compact .data-row .k { font-size: 9.4pt; }
+.compact .data-row .v { font-size: 7.6pt; }
+.compact .output .o-t { font-size: 8pt; }
+.compact .output .o-d { font-size: 6.8pt; }
+
+/* the compliance page carries five entries, a document table, a shaded note,
+   a spec strip and a photographic band; its list needs a tighter step */
+.tight-list .rule-list .item { padding: 4mm 0; }
+.tight-list .rule-list .item p { font-size: 7.6pt; }

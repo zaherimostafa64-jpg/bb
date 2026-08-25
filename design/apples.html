@@ -23,64 +23,40 @@
 
 
 <!-- 01 — COVER -------------------------------------------------------------- -->
-<section class="page" data-archetype="cover">
-  <div class="page-mark"><img src="assets/logo-burgundy.png" alt="PAYA ORIGIN"></div>
+<section class="page no-grain" data-archetype="cover">
+  <div class="plate scrim-t scrim-b">
+    <img src="assets/apples/plate-cover.jpg" alt="Iranian apple">
+  </div>
+  <div class="page-mark on-image"><img src="assets/logo-white.png" alt="PAYA ORIGIN"></div>
 
-  <div style="position:absolute; left:20mm; top:38mm; right:20mm;">
-    <div class="label" style="color:var(--ink-4);">Export Catalogue · 2026</div>
+  <div style="position:absolute; left:20mm; right:20mm; top:36mm; z-index:20; color:#fff;">
+    <div class="label" style="color:rgba(255,255,255,.68);">Export Catalogue · 2026</div>
     <h1 class="display" style="font-size:38pt; line-height:1.02; letter-spacing:-.02em;
-        margin-top:5mm; max-width:150mm;
+        margin-top:5mm; max-width:150mm; color:#fff;
         font-variation-settings:'SOFT' 0,'WONK' 0,'opsz' 144;">
       Iranian<br>Fresh Apples
     </h1>
-    <div style="width:24mm; height:.5mm; background:var(--burgundy); margin:7mm 0 5mm;"></div>
-    <p style="max-width:104mm; font-size:9.6pt; line-height:1.5; color:var(--ink-2);">
+    <div style="width:24mm; height:.5mm; background:var(--amber-bright); margin:7mm 0 5mm;"></div>
+    <p style="max-width:104mm; font-size:9.6pt; line-height:1.5; color:rgba(255,255,255,.82);">
       Gala · Golden Delicious · Red Delicious · Granny Smith · Fuji.
       Fresh whole fruit, specified and packed for the European Union market.
     </p>
   </div>
 
-  <div style="position:absolute; left:20mm; top:118mm; width:120mm; overflow:hidden;">
-    <img src="assets/apples/cut-red.jpg" style="width:100%; display:block;"
-         alt="Iranian Red Delicious apple">
-  </div>
-
-  <div style="position:absolute; right:20mm; top:118mm; width:44mm;">
-    <div class="label is-muted mb2">Identity</div>
-    <div style="border-top:.5mm solid var(--ink); padding-top:3mm;">
-      <div style="margin-bottom:4.5mm;">
-        <div class="mono" style="color:var(--ink-4); font-size:5.8pt; letter-spacing:.14em;">BOTANICAL NAME</div>
-        <div style="font-size:9.4pt; font-weight:600; font-style:italic; margin-top:1mm;">Malus domestica</div>
-      </div>
-      <div style="margin-bottom:4.5mm;">
-        <div class="mono" style="color:var(--ink-4); font-size:5.8pt; letter-spacing:.14em;">HS CODE</div>
-        <div style="font-size:9.4pt; font-weight:600; margin-top:1mm;">0808.10</div>
-      </div>
-      <div style="margin-bottom:4.5mm;">
-        <div class="mono" style="color:var(--ink-4); font-size:5.8pt; letter-spacing:.14em;">ORIGIN</div>
-        <div style="font-size:9.4pt; font-weight:600; margin-top:1mm;">Iran</div>
-      </div>
-      <div style="margin-bottom:4.5mm;">
-        <div class="mono" style="color:var(--ink-4); font-size:5.8pt; letter-spacing:.14em;">PRODUCT FORM</div>
-        <div style="font-size:9.4pt; font-weight:600; margin-top:1mm;">Fresh, whole fruit</div>
-      </div>
-      <div>
-        <div class="mono" style="color:var(--ink-4); font-size:5.8pt; letter-spacing:.14em;">VARIETIES</div>
-        <div style="font-size:9.4pt; font-weight:600; margin-top:1mm;">Five</div>
-      </div>
+  <div style="position:absolute; left:20mm; right:20mm; bottom:24mm; z-index:20;">
+    <div class="spec-strip" style="border-top-color:rgba(255,255,255,.5); border-bottom-color:rgba(255,255,255,.18);">
+      <div><span class="k" style="color:rgba(255,255,255,.55);">Botanical name</span>
+        <span class="v" style="color:#fff; font-style:italic; font-weight:400;">Malus domestica</span></div>
+      <div><span class="k" style="color:rgba(255,255,255,.55);">HS code</span>
+        <span class="v" style="color:#fff;">0808.10</span></div>
+      <div><span class="k" style="color:rgba(255,255,255,.55);">Calibre</span>
+        <span class="v" style="color:#fff;">65 – 100 mm</span></div>
+      <div><span class="k" style="color:rgba(255,255,255,.55);">Classes</span>
+        <span class="v" style="color:#fff;">Extra / I / II</span></div>
     </div>
   </div>
 
-  <div style="position:absolute; left:20mm; right:20mm; bottom:24mm;">
-    <div class="spec-strip">
-      <div><span class="k">Market</span><span class="v">European Union</span></div>
-      <div><span class="k">Harvest</span><span class="v">Aug – Nov</span></div>
-      <div><span class="k">Calibre</span><span class="v">65 – 100 mm</span></div>
-      <div><span class="k">Classes</span><span class="v">Extra / I / II</span></div>
-    </div>
-  </div>
-
-  <div class="running" style="bottom:12mm;">
+  <div class="running on-image" style="bottom:12mm;">
     <span>Fresh · whole fruit · Iranian origin</span>
     <span class="folio">payaorigin.com</span>
   </div>
@@ -89,22 +65,25 @@
 
 <!-- 02 — PRODUCT OVERVIEW --------------------------------------------------- -->
 <section class="page" data-archetype="data">
+  <div style="position:absolute; top:28mm; right:0; bottom:0; width:72mm; overflow:hidden;">
+    <img src="assets/apples/col-branch.jpg"
+         style="width:100%; height:100%; object-fit:cover; display:block;"
+         alt="Iranian apple on the branch">
+  </div>
   <div class="marker"><span class="label">01 — Product overview</span><span class="rule"></span></div>
   <div class="page-mark"><img src="assets/logo-burgundy.png" alt="PAYA ORIGIN"></div>
 
-  <div class="frame" style="top:38mm;">
-    <div class="grid" style="grid-template-columns:1fr 66mm; gap:0 12mm; align-items:end;">
-      <h2 class="display d-lg">Five varieties, one export specification.</h2>
-      <p class="small" style="padding-bottom:1.5mm;">
-        The commercial specification below is common to all five. What changes
-        between them is colour, texture, sugar, firmness and — most usefully for
-        planning — the week they come off the tree.
-      </p>
-    </div>
+  <div class="frame compact" style="top:38mm; right:80mm;">
+    <h2 class="display d-lg">Five varieties, one export specification.</h2>
+    <p class="lede mt3">
+      The commercial specification below is common to all five. What changes
+      between them is colour, texture, sugar, firmness and — most usefully for
+      planning — the week they come off the tree.
+    </p>
 
     <div class="mt5">
       <div class="label mb3">Main commercial varieties</div>
-      <div class="grid" style="grid-template-columns:repeat(5,1fr); gap:4mm;">
+      <div class="grid" style="grid-template-columns:repeat(2,1fr); gap:3mm 6mm;">
         <div class="output"><span class="o-n">01</span><span class="o-t">Gala</span>
           <span class="o-d">Royal Gala. Red striped over cream.</span></div>
         <div class="output"><span class="o-n">02</span><span class="o-t">Golden Delicious</span>
@@ -115,38 +94,31 @@
           <span class="o-d">Bright green, firm, acidic.</span></div>
         <div class="output"><span class="o-n">05</span><span class="o-t">Fuji</span>
           <span class="o-d">Pink-red blush, highest sugar.</span></div>
+        <div></div>
       </div>
     </div>
 
-    <div class="mt6">
+    <div class="mt4">
       <div class="label mb3">Common export specification</div>
-      <div class="data-row">
+      <div class="data-row" style="grid-template-columns:28mm 1fr;">
         <span class="num" style="font-size:22pt;">65<span style="font-size:12pt;">–100</span></span>
-        <div><span class="k">Commercial calibre, millimetres</span>
-          <p class="v mt1" style="max-width:74mm;">One sizing range across all five varieties. Packing is
-            calibre- and buyer-specific.</p></div>
-        <span class="mono muted" style="text-align:right;">SIZE</span>
+        <div><span class="k">Commercial calibre, mm</span>
+          <p class="v mt1">One sizing range across all five varieties.</p></div>
       </div>
-      <div class="data-row">
+      <div class="data-row" style="grid-template-columns:28mm 1fr;">
         <span class="num" style="font-size:22pt;">80<span style="font-size:12pt;">–180</span></span>
-        <div><span class="k">Commercial fruit weight, grams</span>
-          <p class="v mt1" style="max-width:74mm;">Reported Iranian commercial bands are 80–120 g and
-            130–180 g.</p></div>
-        <span class="mono muted" style="text-align:right;">WEIGHT</span>
+        <div><span class="k">Commercial fruit weight, g</span>
+          <p class="v mt1">Reported bands are 80–120 g and 130–180 g.</p></div>
       </div>
-      <div class="data-row">
+      <div class="data-row" style="grid-template-columns:28mm 1fr;">
         <span class="num" style="font-size:19pt;">3</span>
         <div><span class="k">Quality classes</span>
-          <p class="v mt1" style="max-width:74mm;">Extra, Class I and Class II — to be aligned with
-            UNECE FFV-50 before issue.</p></div>
-        <span class="mono muted" style="text-align:right;">CLASS</span>
+          <p class="v mt1">Extra, Class I and Class II — to be aligned with UNECE FFV-50.</p></div>
       </div>
-      <div class="data-row">
+      <div class="data-row" style="grid-template-columns:28mm 1fr;">
         <span class="num" style="font-size:19pt;">2<span style="font-size:12pt;">–7</span></span>
         <div><span class="k">Months of cold storage</span>
-          <p class="v mt1" style="max-width:74mm;">At approximately −1 to +4 °C and 90–95 % RH, depending on
-            variety and handling.</p></div>
-        <span class="mono muted" style="text-align:right;">STORAGE</span>
+          <p class="v mt1">At approximately −1 to +4 °C and 90–95 % RH.</p></div>
       </div>
     </div>
 
@@ -210,13 +182,12 @@
           the five.</p>
       </div>
       <div class="variety">
-        <div class="frame-img"><img src="assets/apples/fuji-packed.jpg" alt="Fuji apples packed for export"></div>
+        <div class="frame-img"><img src="assets/apples/cut-fuji.jpg" alt="Fuji apple"></div>
         <div class="swatch" style="background:var(--fuji);"></div>
         <h3>Fuji</h3>
         <span class="cov">&gt; 60 % red blush</span>
         <p>Pinkish-red blush over green, yellow flesh. Slightly elongated,
           flattened at base and apex.</p>
-        <span class="pending">Shown packed — studio frame pending</span>
       </div>
 
       <div class="variety" style="display:flex; flex-direction:column; justify-content:flex-end;">
@@ -294,9 +265,9 @@
            data-harvest="10-11" data-stored="12-5" data-colour="var(--granny)"></div>
     </div>
 
-    <div style="position:absolute; left:0; right:0; bottom:0;">
+    <div style="position:absolute; left:0; right:0; bottom:56mm;">
       <div class="hr mb3"></div>
-      <div class="grid g3" style="gap:0 10mm; margin-bottom:5mm;">
+      <div class="grid g3" style="gap:0 10mm; margin-bottom:4mm;">
         <div>
           <div class="label mb1">Programme, not spot</div>
           <p class="small" style="font-size:7.8pt;">A buyer taking Gala in September and Granny Smith in
@@ -319,7 +290,19 @@
     </div>
   </div>
 
-  <div class="running"><span>Harvest calendar</span><span class="folio">04</span></div>
+  <div style="position:absolute; right:0; bottom:0; width:106mm; height:50mm; overflow:hidden;">
+    <img src="assets/apples/band-sky.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"
+         alt="Apples ripening on the branch">
+  </div>
+
+  <div style="position:absolute; left:20mm; bottom:16mm; width:84mm;">
+    <div class="label mb2">Reading the calendar</div>
+    <p class="small" style="font-size:7.8pt;">The solid bar is harvest. The thin bar is availability from
+      controlled storage, drawn at six months from the end of harvest — indicative only, because the
+      source gives a single range across all five varieties.</p>
+  </div>
+
+  <div class="running" style="right:114mm;"><span>Harvest calendar</span><span class="folio">04</span></div>
 </section>
 
 
@@ -576,15 +559,14 @@
 
     <div class="grid" style="grid-template-columns:74mm 1fr; gap:0 12mm;">
       <div>
-        <div style="overflow:hidden;"><img src="assets/apples/fuji-packed.jpg"
-          style="width:100%; display:block;" alt="Fuji apples packed for export"></div>
-        <div class="caption mt1">FIG. 09 — Fuji, packed for export. A single-fruit studio frame is
-          outstanding for this variety.</div>
+        <div style="overflow:hidden;"><img src="assets/apples/cut-fuji.jpg"
+          style="width:100%; display:block;" alt="Fuji apple, whole"></div>
+        <div class="caption mt1">FIG. 09 — Fuji. Pinkish-red blush over a paler ground.</div>
         <div class="mt3" style="aspect-ratio:4/3; overflow:hidden;">
-          <img src="assets/apples/sc-fuji.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"
-               alt="Fuji orchard">
+          <img src="assets/apples/sc-fuji-tree.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"
+               alt="Fuji on the tree">
         </div>
-        <div class="caption mt1">FIG. 10 — Fuji orchard under protective netting.</div>
+        <div class="caption mt1">FIG. 10 — Fuji on the tree.</div>
       </div>
 
       <div>
@@ -621,19 +603,45 @@
 </section>
 
 
-<!-- 10 — BENCHMARKS --------------------------------------------------------- -->
+<!-- 10 — PLATE · the range -------------------------------------------------- -->
+<section class="page no-grain" data-archetype="plate">
+  <div class="plate scrim-t">
+    <img src="assets/apples/plate-leaf.jpg" alt="Iranian apple on the branch">
+  </div>
+  <div class="page-mark on-image"><img src="assets/logo-white.png" alt="PAYA ORIGIN"></div>
+
+  <div class="plate-type at-top">
+    <div class="label" style="color:var(--amber-bright); margin-bottom:5mm;">The range</div>
+    <h2 class="display d-lg" style="max-width:126mm; color:#fff;">
+      One programme,<br>one specification.
+    </h2>
+    <p style="max-width:100mm; margin-top:6mm; font-size:8.8pt;">
+      Five varieties sourced, graded and shipped to a single specification — so a
+      buyer holds one supplier across the whole Iranian autumn.
+    </p>
+  </div>
+
+  <div class="running on-image"><span>The range</span><span class="folio">10</span></div>
+</section>
+
+
+<!-- 11 — BENCHMARKS --------------------------------------------------------- -->
 <section class="page" data-archetype="dataviz">
   <div class="marker"><span class="label">05 — Maturity benchmarks</span><span class="rule"></span></div>
   <div class="page-mark"><img src="assets/logo-burgundy.png" alt="PAYA ORIGIN"></div>
 
   <div class="frame" style="top:38mm;">
-    <div class="grid" style="grid-template-columns:1fr 66mm; gap:0 12mm; align-items:end;">
+    <div class="grid" style="grid-template-columns:1fr 52mm 40mm; gap:0 10mm; align-items:end;">
       <h2 class="display d-lg">Sugar and firmness,<br>side by side.</h2>
       <p class="small" style="padding-bottom:1.5mm;">
         These are benchmarks, not guarantees. They exist so a buyer can see how
         the varieties differ from each other — which is the question the numbers
         can actually answer.
       </p>
+      <div style="aspect-ratio:1/1; overflow:hidden;">
+        <img src="assets/apples/sc-gala-close.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"
+             alt="Apple on the tree at commercial maturity">
+      </div>
     </div>
 
     <div class="bench" style="margin-top:14mm;">
@@ -751,27 +759,31 @@
     </div>
   </div>
 
-  <div class="running"><span>Maturity benchmarks</span><span class="folio">10</span></div>
+  <div class="running"><span>Maturity benchmarks</span><span class="folio">11</span></div>
 </section>
 
 
 <!-- 11 — SIZING ------------------------------------------------------------- -->
 <section class="page" data-archetype="table">
+  <div style="position:absolute; top:28mm; right:0; bottom:0; width:60mm; overflow:hidden;">
+    <img src="assets/apples/col-massred.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"
+         alt="Graded apples, size variation">
+  </div>
   <div class="marker"><span class="label">06 — Size &amp; calibre</span><span class="rule"></span></div>
   <div class="page-mark"><img src="assets/logo-burgundy.png" alt="PAYA ORIGIN"></div>
 
-  <div class="frame" style="top:38mm;">
-    <h2 class="display d-lg" style="max-width:120mm;">One sizing table, all five varieties.</h2>
-    <p class="lede mt3" style="max-width:116mm;">
+  <div class="frame" style="top:38mm; right:68mm;">
+    <h2 class="display d-lg">One sizing table, all five varieties.</h2>
+    <p class="lede mt3">
       Rather than invent a separate calibre scale per variety, the catalogue
       uses a single commercial sizing table across the range — which is how the
       fruit is actually sorted.
     </p>
 
     <div class="mt5">
-      <div class="size-row is-head">
-        <span class="mono">COMMERCIAL SIZE</span>
-        <span class="mono">APPROX. FRUIT WEIGHT</span>
+      <div class="size-row is-head" style="grid-template-columns:28mm 34mm 1fr;">
+        <span class="mono">SIZE</span>
+        <span class="mono">FRUIT WEIGHT</span>
         <span class="mono">TYPICAL USE</span>
       </div>
       <div class="size-row">
@@ -809,7 +821,7 @@
 
     <div style="position:absolute; left:0; right:0; bottom:0;">
       <div class="hr mb3"></div>
-      <div class="grid g2" style="gap:0 12mm; margin-bottom:5mm;">
+      <div class="grid" style="grid-template-columns:1fr; gap:5mm; margin-bottom:5mm;">
         <div>
           <div class="label mb2">Uniformity inside the package</div>
           <p class="small">UNECE FFV-50 permits sizing by diameter or by weight and sets limits on uniformity
@@ -825,25 +837,29 @@
     </div>
   </div>
 
-  <div class="running"><span>Size &amp; calibre</span><span class="folio">11</span></div>
+  <div class="running"><span>Size &amp; calibre</span><span class="folio">12</span></div>
 </section>
 
 
 <!-- 12 — QUALITY ------------------------------------------------------------ -->
 <section class="page" data-archetype="matrix">
+  <div style="position:absolute; top:28mm; right:0; bottom:0; width:58mm; overflow:hidden;">
+    <img src="assets/apples/col-drops.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"
+         alt="Sound, clean, firm fruit">
+  </div>
   <div class="marker"><span class="label">07 — Quality</span><span class="rule"></span></div>
   <div class="page-mark"><img src="assets/logo-burgundy.png" alt="PAYA ORIGIN"></div>
 
-  <div class="frame" style="top:38mm;">
-    <h2 class="display d-lg" style="max-width:122mm;">The core promise, before the classes.</h2>
-    <p class="lede mt3" style="max-width:116mm;">
+  <div class="frame" style="top:38mm; right:66mm;">
+    <h2 class="display d-lg">The core promise, before the classes.</h2>
+    <p class="lede mt3">
       Class describes presentation. Everything on this list applies to all three
       classes — it is the floor, not the grade.
     </p>
 
     <div class="mt5">
       <div class="label mb3">Fresh apples shall be</div>
-      <div class="req">
+      <div class="req" style="grid-template-columns:1fr;">
         <div>
           <div class="row"><span>Sound and clean</span><span class="s ok">Required</span></div>
           <div class="row"><span>Firm and commercially mature</span><span class="s ok">Required</span></div>
@@ -862,7 +878,7 @@
 
     <div class="mt6">
       <div class="label mb3">Quality classes</div>
-      <div class="grid g3" style="gap:0 8mm;">
+      <div class="grid" style="grid-template-columns:1fr; gap:4mm;">
         <div style="border-top:.5mm solid var(--burgundy); padding-top:3.5mm;">
           <div style="font-size:13pt; font-weight:600; letter-spacing:-.01em;">Extra</div>
           <p class="small mt2" style="font-size:8pt;">Premium presentation, with stricter appearance
@@ -893,7 +909,7 @@
     </div>
   </div>
 
-  <div class="running"><span>Quality</span><span class="folio">12</span></div>
+  <div class="running"><span>Quality</span><span class="folio">13</span></div>
 </section>
 
 
@@ -915,7 +931,7 @@
     </p>
   </div>
 
-  <div class="running on-image"><span>Iranian apple harvest</span><span class="folio">13</span></div>
+  <div class="running on-image"><span>Iranian apple harvest</span><span class="folio">14</span></div>
 </section>
 
 
@@ -1034,7 +1050,7 @@
     </div>
   </div>
 
-  <div class="running"><span>Packaging</span><span class="folio">14</span></div>
+  <div class="running"><span>Packaging</span><span class="folio">15</span></div>
 </section>
 
 
@@ -1128,18 +1144,22 @@
     </div>
   </div>
 
-  <div class="running"><span>Pallet &amp; container</span><span class="folio">15</span></div>
+  <div class="running"><span>Pallet &amp; container</span><span class="folio">16</span></div>
 </section>
 
 
 <!-- 16 — COLD CHAIN --------------------------------------------------------- -->
 <section class="page" data-archetype="diagram">
+  <div style="position:absolute; top:28mm; right:0; height:78mm; width:66mm; overflow:hidden;">
+    <img src="assets/apples/sc-branch.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"
+         alt="Fruit on the tree before harvest">
+  </div>
   <div class="marker"><span class="label">10 — Cold chain</span><span class="rule"></span></div>
   <div class="page-mark"><img src="assets/logo-burgundy.png" alt="PAYA ORIGIN"></div>
 
   <div class="frame" style="top:38mm;">
-    <h2 class="display d-lg" style="max-width:120mm;">Two to seven months is a range, and it is earned.</h2>
-    <p class="lede mt3" style="max-width:116mm;">
+    <h2 class="display d-lg" style="max-width:112mm;">Two to seven months is a range, and it is earned.</h2>
+    <p class="lede mt3" style="max-width:112mm;">
       Storage life for Iranian apples is reported at 2–7 months depending on
       variety and handling. Which end of that range a lot reaches is decided
       before it goes into store, not after.
@@ -1189,15 +1209,41 @@
       <div>
         <div class="label mb2">What decides the storage outcome</div>
         <p class="small">Variety, harvest maturity, speed into pre-cooling, storage temperature and humidity
-          stability, and whether the chain is broken at any hand-off. Granny Smith and Red Delicious sit at
-          the long end of the range; earlier, softer varieties do not.</p>
+          stability, and whether the chain is broken at any hand-off.</p>
       </div>
       <div>
         <div class="label mb2">Records</div>
         <p class="small">Temperature recording through storage and transit is recommended and is provided
-          where the buyer requires it. A cold-chain record is part of the shipment documentation set on
-          page 17.</p>
+          where the buyer requires it. A cold-chain record is part of the shipment documentation set.</p>
       </div>
+    </div>
+
+    <div class="mt6">
+      <div class="hr mb3"></div>
+      <div class="label mb3">Where each variety sits in the range</div>
+      <div class="grid" style="grid-template-columns:repeat(3,1fr); gap:0 10mm;">
+        <div>
+          <div class="mono mb1" style="color:var(--granny);">LONG END</div>
+          <div style="font-size:9.4pt; font-weight:600; margin-bottom:1.4mm;">Granny Smith</div>
+          <p class="small" style="font-size:7.6pt;">The firmest and most acidic of the five, harvested last.
+            The variety that carries supply furthest into the following year.</p>
+        </div>
+        <div>
+          <div class="mono mb1" style="color:var(--red);">LONG END</div>
+          <div style="font-size:9.4pt; font-weight:600; margin-bottom:1.4mm;">Red Delicious</div>
+          <p class="small" style="font-size:7.6pt;">Shown by Iranian commercial sources in the stored export
+            calendar through winter and into spring.</p>
+        </div>
+        <div>
+          <div class="mono mb1" style="color:var(--gala);">SHORTER</div>
+          <div style="font-size:9.4pt; font-weight:600; margin-bottom:1.4mm;">Gala &amp; Fuji</div>
+          <p class="small" style="font-size:7.6pt;">Earlier and softer at the benchmark. Planned closer to
+            harvest rather than held to the end of the range.</p>
+        </div>
+      </div>
+      <p class="note mt3">The source gives 2–7 months across all five and does not publish a figure per
+        variety. The placement above follows harvest order and firmness, and is a planning guide rather
+        than a stated storage life.</p>
     </div>
 
     <div style="position:absolute; left:0; right:0; bottom:0;">
@@ -1210,7 +1256,7 @@
     </div>
   </div>
 
-  <div class="running"><span>Cold chain</span><span class="folio">16</span></div>
+  <div class="running"><span>Cold chain</span><span class="folio">17</span></div>
 </section>
 
 
@@ -1219,7 +1265,7 @@
   <div class="marker"><span class="label">11 — EU export compliance</span><span class="rule"></span></div>
   <div class="page-mark"><img src="assets/logo-burgundy.png" alt="PAYA ORIGIN"></div>
 
-  <div class="frame" style="top:38mm;">
+  <div class="frame tight-list" style="top:38mm;">
     <h2 class="display d-lg" style="max-width:122mm;">Compliance and documentation, kept separate from the fruit.</h2>
     <p class="lede mt3" style="max-width:116mm;">
       What follows applies to every variety and every shipment, which is why it
@@ -1264,17 +1310,12 @@
           </div>
         </div>
 
-        <div class="mt5 tint" style="padding:6mm 7mm;">
-          <div class="label mb2">Named, not implied</div>
-          <p class="small" style="font-size:8.2pt; color:var(--ink-2);">
-            Certification held is named explicitly per shipment. Where a buyer's programme requires a
-            certificate we do not hold, we say so before contracting rather than after inspection.
-          </p>
-        </div>
+        <p class="note mt3">Certification held is named explicitly per shipment. Where a buyer's programme
+          requires a certificate we do not hold, we say so before contracting rather than after inspection.</p>
       </div>
     </div>
 
-    <div style="position:absolute; left:0; right:0; bottom:0;">
+    <div style="position:absolute; left:0; right:0; bottom:40mm;">
       <div class="spec-strip">
         <div><span class="k">Residue target</span><span class="v">No MRL exceedance</span></div>
         <div><span class="k">Certificate</span><span class="v">Per destination</span></div>
@@ -1284,7 +1325,14 @@
     </div>
   </div>
 
-  <div class="running"><span>EU export compliance</span><span class="folio">17</span></div>
+  <div style="position:absolute; left:0; right:0; bottom:0; height:34mm; overflow:hidden;">
+    <img src="assets/apples/sc-picking.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"
+         alt="Harvest in the orchard">
+    <div style="position:absolute; left:0; right:0; bottom:0; height:55%;
+                background:linear-gradient(to top, rgba(14,11,8,.60), rgba(14,11,8,0));"></div>
+  </div>
+
+  <div class="running on-image"><span>EU export compliance</span><span class="folio">18</span></div>
 </section>
 
 
@@ -1294,12 +1342,16 @@
   <div class="page-mark"><img src="assets/logo-burgundy.png" alt="PAYA ORIGIN"></div>
 
   <div class="frame" style="top:38mm;">
-    <div class="grid" style="grid-template-columns:1fr 66mm; gap:0 12mm; align-items:end;">
+    <div class="grid" style="grid-template-columns:1fr 50mm 38mm; gap:0 10mm; align-items:end;">
       <h2 class="display d-lg">All five, one page.</h2>
       <p class="small" style="padding-bottom:1.5mm;">
         The page to send when a buyer asks for the specification and does not
-        want a nineteen-page document.
+        want a twenty-page document.
       </p>
+      <div style="aspect-ratio:1/1; overflow:hidden;">
+        <img src="assets/apples/sc-golden.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"
+             alt="Golden Delicious in the orchard">
+      </div>
     </div>
 
     <div class="master" style="margin-top:12mm;">
@@ -1376,15 +1428,21 @@
     </div>
   </div>
 
-  <div class="running"><span>Master data sheet</span><span class="folio">18</span></div>
+  <div class="running"><span>Master data sheet</span><span class="folio">19</span></div>
 </section>
 
 
 <!-- 19 — CLOSING ------------------------------------------------------------ -->
 <section class="page is-dark" data-archetype="dark">
-  <div class="page-mark"><img src="assets/logo-white.png" alt="PAYA ORIGIN"></div>
+  <div style="position:absolute; left:0; right:0; top:0; height:104mm; overflow:hidden;">
+    <img src="assets/apples/band-table.jpg" style="width:100%;height:100%;object-fit:cover;display:block; opacity:.9;"
+         alt="Iranian apple">
+    <div style="position:absolute; inset:0;
+                background:linear-gradient(to bottom, rgba(22,18,14,.10) 0%, rgba(22,18,14,.55) 62%, rgba(22,18,14,1) 100%);"></div>
+  </div>
+  <div class="page-mark on-image"><img src="assets/logo-white.png" alt="PAYA ORIGIN"></div>
 
-  <div style="position:absolute; left:20mm; right:20mm; top:52mm;">
+  <div style="position:absolute; left:20mm; right:20mm; top:120mm;">
     <div class="label on-dark mb4">Iranian Fresh Apples · five varieties · EU market</div>
     <h2 class="display d-lg" style="max-width:136mm; color:#F6F1E8;">
       Tell us the variety, the calibre and the month. We will tell you what the
@@ -1402,7 +1460,7 @@
     </p>
   </div>
 
-  <div style="position:absolute; left:20mm; right:20mm; bottom:56mm;">
+  <div style="position:absolute; left:20mm; right:20mm; bottom:52mm;">
     <div class="hr mb4"></div>
     <div class="grid" style="grid-template-columns:repeat(3,1fr); gap:0 10mm;">
       <div>
