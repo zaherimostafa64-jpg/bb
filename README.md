@@ -11,6 +11,7 @@ headless Chromium.
 | `dist/…-layout.docx` | Word, layout-faithful: each page placed as a full-bleed A4 picture. Looks identical, text not editable. |
 | `dist/…-editable.docx` | Word, re-authored natively: real headings, tables and pictures. Fully editable, flows like a Word document. |
 | `dist/PAYA-ORIGIN-Iranian-Fresh-Green-Kiwi-2026.pdf` | 19-page product catalogue for Hayward kiwi, EU market. Built from the Rev. 2 technical specification and the four-language export summary. |
+| `dist/PAYA-ORIGIN-Iranian-Fresh-Apples-2026.pdf` | 19-page export catalogue for five apple varieties, EU market. |
 
 The art-direction review that produced this edition — including what was wrong
 with the previous profile and what to confirm before it goes to buyers — is in
@@ -24,9 +25,13 @@ with the previous profile and what to confirm before it goes to buyers — is in
 design/
   profile.html        corporate profile — one <section class="page"> per page
   kiwi.html           kiwi product catalogue
+  apples.html         apple export catalogue
   styles.css          the design system: tokens, archetypes, components
-  kiwi.css            catalogue component layer (weight chart, gauges,
-                      cold-chain plot, carton label) on top of styles.css
+  catalogue.css       shared catalogue components (gauges, cold-chain plot,
+                      traceability chain, carton label, spec strips)
+  kiwi.css            kiwi-only additions
+  apples.css          apple-only additions (variety plate, harvest calendar,
+                      benchmark chart, master data sheet)
   fonts/              Fraunces, Inter Tight, IBM Plex Mono (self-hosted woff2)
   assets/             art-directed images, logo colourways, map geometry
 build/
@@ -47,6 +52,8 @@ Requires Python (Pillow, PyMuPDF) and Node with Playwright's Chromium.
 python3 build/prepare_assets.py     # raw library -> art-directed assets
 node    build/render.mjs            # -> every document in dist/
 node    build/render.mjs kiwi       # -> just the kiwi catalogue
+python3 build/prepare_apples.py     # apple photography -> design/assets/apples
+node    build/render.mjs apples     # -> just the apple catalogue
 
 python3 build/pdf-to-pages.py 170   # page rasters for the layout export
 node    build/docx-layout.mjs       # -> dist/*-layout.docx
@@ -108,6 +115,32 @@ The calibre page started as discs scaled by fruit weight. Across a 65–125 g
 range no honest encoding separates nine steps enough to read, so it became a
 weight axis with the three class thresholds drawn on it — which also shows
 *why* calibres 54 and 60 are Class II, rather than just asserting it.
+
+## The apple catalogue
+
+Five varieties — Gala, Golden Delicious, Red Delicious, Granny Smith, Fuji —
+built from the client's raw data sheet. Unlike the kiwi catalogue this one has
+real photography for every variety, so it is photographic where the kiwi one is
+diagrammatic.
+
+Decisions worth keeping:
+
+- **Cutouts, not frame-filling crops.** `prepare_apples.py` lifts each fruit off
+  its studio sweep onto the paper tone. Shape and colour coverage are both
+  specification fields for apples, so the silhouette has to survive; a
+  frame-filling crop destroys exactly what the page is selling.
+- **Pages 05–09 are deliberately identical.** They are read against each other,
+  so comparability beats variation. The pages around them carry the rhythm.
+- **The packing formats are drawn, not photographed.** Two of the three packed
+  photographs on file carry another company's labels on every fruit. One
+  sticker-free carton is shown as a figure; the formats themselves are line art.
+- **The source's own caveats are carried through**, not tidied away: the sizing
+  table is marked a working specification pending PAYA's sorting data, Brix and
+  firmness are indicative benchmarks, and the class definitions are flagged for
+  alignment with UNECE FFV-50 before issue.
+
+Outstanding: there is no studio photograph of Fuji, only packed cartons. Its
+frame on the variety plate is labelled as packed fruit rather than disguised.
 
 ## The Word exports
 

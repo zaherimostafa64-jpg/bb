@@ -1,0 +1,338 @@
+@import url("styles.css");
+
+/* ==========================================================================
+   PAYA ORIGIN — product catalogue component layer.
+
+   Shared by every product catalogue (kiwi, apples, …) and sitting on top of
+   the corporate design system in styles.css. Page furniture, palette and
+   typefaces are inherited unchanged; what is added here is instrumentation —
+   scales, gauges, a cold-chain plot, a traceability chain, a carton label,
+   and the multilingual summary blocks. A catalogue argues with data.
+   ========================================================================== */
+
+:root {
+  --kiwi:        #6C7B2E;   /* flesh green — used only for the product itself */
+  --kiwi-deep:   #4A5520;
+  --class-extra: #831D23;
+  --class-one:   #C08018;
+  --class-two:   #A79C90;
+}
+
+/* --------------------------------------------------------------------------
+   spec strip — the identity block that opens the document
+   -------------------------------------------------------------------------- */
+
+.spec-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gut);
+  border-top: .5mm solid var(--ink);
+  border-bottom: .3mm solid var(--rule);
+  padding: 4mm 0 4.5mm;
+}
+.spec-strip .k {
+  font-family: "IBM Plex Mono", monospace; font-size: 6pt; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--ink-4);
+  display: block; margin-bottom: 1.8mm;
+}
+.spec-strip .v { font-size: 10.5pt; font-weight: 600; letter-spacing: -.008em; color: var(--ink); }
+.spec-strip .v em { font-style: italic; font-weight: 400; color: var(--ink); }
+.is-dark .spec-strip { border-top-color: #F2ECE2; border-bottom-color: var(--dark-rule); }
+.is-dark .spec-strip .v { color: #F6F1E8; }
+.is-dark .spec-strip .k { color: var(--dark-ink-3); }
+
+/* --------------------------------------------------------------------------
+   calibre scale — fruit drawn to relative size, coloured by class
+   -------------------------------------------------------------------------- */
+
+.calibre-scale { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5mm; }
+.cal-item { text-align: center; flex: 1; }
+.cal-disc {
+  border-radius: 50%;
+  margin: 0 auto 3.5mm;
+  border: .45mm solid var(--class-extra);
+  background: rgba(131,29,35,.07);
+}
+.cal-item.is-one   .cal-disc { border-color: var(--class-one); background: rgba(192,128,24,.09); }
+.cal-item.is-two   .cal-disc { border-color: var(--class-two); background: rgba(167,156,144,.14);
+                               border-style: dashed; }
+.cal-item .n {
+  font-family: "IBM Plex Mono", monospace; font-size: 8.4pt; font-weight: 600;
+  color: var(--ink); display: block; letter-spacing: .02em;
+}
+.cal-item .w {
+  font-size: 6.4pt; color: var(--ink-3); display: block; margin-top: .8mm; white-space: nowrap;
+}
+.cal-item .c {
+  font-family: "IBM Plex Mono", monospace; font-size: 5.6pt; letter-spacing: .1em;
+  text-transform: uppercase; display: block; margin-top: 1.4mm; color: var(--class-extra);
+}
+.cal-item.is-one .c { color: var(--class-one); }
+.cal-item.is-two .c { color: var(--class-two); }
+
+/* class threshold rules drawn across the scale */
+.threshold {
+  position: relative; border-top: .25mm dashed var(--rule);
+  margin-top: 3mm; padding-top: 2mm;
+}
+
+/* --------------------------------------------------------------------------
+   weight chart — calibres plotted on a real gram axis against the class
+   thresholds. Discs scaled by weight were tried first and rejected: across a
+   65–125 g range no honest encoding separates nine steps enough to read.
+   -------------------------------------------------------------------------- */
+
+.wchart { }
+.wchart .wc-axis {
+  display: grid; grid-template-columns: 14mm 1fr 26mm;
+  align-items: baseline; padding-bottom: 2mm;
+}
+.wchart .wc-ticks { display: flex; justify-content: space-between; }
+.wchart .wc-ticks span {
+  font-family: "IBM Plex Mono", monospace; font-size: 6pt;
+  color: var(--ink-4); letter-spacing: .06em;
+}
+.wchart .wc-body { position: relative; border-top: .5mm solid var(--ink); }
+.wchart .wc-thresholds { position: absolute; left: 14mm; right: 26mm; top: 0; bottom: 0; }
+.wchart .thr { position: absolute; top: 0; bottom: 0; width: .35mm; background: var(--ink); opacity: .30; }
+.wchart .thr.is-key { opacity: .55; background: var(--burgundy); }
+/* 65 g and 70 g are only 7 % of the axis apart, so the two labels are hung on
+   opposite sides of their rules rather than centred on them. */
+.wchart .thr-lab {
+  position: absolute; bottom: -7.5mm;
+  font-family: "IBM Plex Mono", monospace; font-size: 5.8pt;
+  letter-spacing: .08em; color: var(--burgundy); white-space: nowrap;
+}
+.wchart .thr-lab.to-left  { transform: translateX(-100%); padding-right: 1.5mm; }
+.wchart .thr-lab.to-right { padding-left: 1.5mm; }
+.wchart .thr-lab.centred  { transform: translateX(-50%); }
+.wchart .wc-row {
+  display: grid; grid-template-columns: 14mm 1fr 26mm;
+  align-items: center; height: 9.6mm;
+  border-bottom: .25mm solid var(--rule-soft);
+  position: relative;
+}
+.wchart .wc-row .cal {
+  font-family: "IBM Plex Mono", monospace; font-size: 8.6pt; font-weight: 600;
+  color: var(--ink); letter-spacing: .02em;
+}
+.wchart .wc-row .plot { position: relative; height: 100%; }
+.wchart .wc-row .bar {
+  position: absolute; top: 2.4mm; height: 3.6mm;
+  background: var(--class-extra);
+}
+.wchart .wc-row.is-one   .bar { background: var(--class-one); }
+.wchart .wc-row.is-two   .bar { background: var(--class-two); }
+.wchart .wc-row.is-split .bar { background: linear-gradient(to right, var(--class-one) 0 23%, var(--class-extra) 23% 100%); }
+.wchart .wc-row .cls {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.2pt; letter-spacing: .09em;
+  text-transform: uppercase; text-align: right; color: var(--class-extra);
+}
+.wchart .wc-row.is-one .cls { color: var(--class-one); }
+.wchart .wc-row.is-two .cls { color: var(--class-two); }
+.wchart .wc-row .w {
+  position: absolute; font-size: 6.2pt; color: var(--ink-3);
+  top: 2.5mm; white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   gauges — maturity parameters on a real axis
+   -------------------------------------------------------------------------- */
+
+.gauge { margin-bottom: 13mm; }
+.gauge .head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8.5mm; }
+.gauge .name { font-size: 10pt; font-weight: 600; letter-spacing: -.006em; color: var(--ink); }
+.gauge .target {
+  font-family: "IBM Plex Mono", monospace; font-size: 8pt; color: var(--burgundy); letter-spacing: .02em;
+}
+.gauge .track {
+  position: relative; height: 8.5mm;
+  background: var(--paper-2);
+  border-left: .3mm solid var(--rule); border-right: .3mm solid var(--rule);
+}
+.gauge .band { position: absolute; top: 0; bottom: 0; background: var(--burgundy); opacity: .85; }
+.gauge .band.is-soft { background: var(--amber); opacity: .5; }
+.gauge .mark { position: absolute; top: -1.5mm; bottom: -1.5mm; width: .45mm; background: var(--ink); }
+.gauge .axis {
+  display: flex; justify-content: space-between; margin-top: 1.6mm;
+  font-family: "IBM Plex Mono", monospace; font-size: 6pt; color: var(--ink-4); letter-spacing: .06em;
+}
+.gauge .note { border: 0; padding: 0; margin-top: 2.2mm; }
+.gauge .flag {
+  position: absolute; top: -5.2mm; transform: translateX(-50%);
+  font-family: "IBM Plex Mono", monospace; font-size: 5.8pt; color: var(--ink);
+  letter-spacing: .06em; white-space: nowrap;
+}
+.gauge .flag.to-left { transform: translateX(-100%); padding-right: 1.5mm; }
+
+/* --------------------------------------------------------------------------
+   cold chain plot
+   -------------------------------------------------------------------------- */
+
+.chain { position: relative; }
+.chain .stations { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; }
+.chain .st { position: relative; padding-top: 12mm; }
+.chain .st::before {
+  content: ""; position: absolute; top: 9.4mm; left: 50%; transform: translateX(-50%);
+  width: 2.8mm; height: 2.8mm; border-radius: 50%;
+  background: var(--paper); border: .45mm solid var(--burgundy);
+}
+.chain .st.is-key::before { background: var(--burgundy); }
+.chain .rail { position: absolute; top: 10.8mm; left: 8.3%; right: 8.3%; height: .3mm; background: var(--rule); }
+.chain .st .t {
+  font-family: "IBM Plex Mono", monospace; font-size: 7.4pt; color: var(--burgundy);
+  display: block; text-align: center; margin-bottom: 2mm; letter-spacing: .02em;
+}
+.chain .st .n {
+  font-size: 8.4pt; font-weight: 600; color: var(--ink); display: block;
+  text-align: center; line-height: 1.25;
+}
+.chain .st .d {
+  font-size: 6.6pt; color: var(--ink-3); display: block; text-align: center;
+  margin-top: 1.2mm; line-height: 1.35; padding: 0 1.5mm;
+}
+.chain .temps {
+  position: absolute; top: 0; left: 0; right: 0; height: 8mm;
+  display: grid; grid-template-columns: repeat(6, 1fr);
+}
+.chain .temps span {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.4pt; color: var(--ink-4);
+  text-align: center; letter-spacing: .04em;
+}
+
+/* --------------------------------------------------------------------------
+   traceability chain
+   -------------------------------------------------------------------------- */
+
+.trace { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2.5mm; }
+.trace .node {
+  border: .3mm solid var(--rule); border-top: .5mm solid var(--burgundy);
+  padding: 4mm 3.5mm 4.5mm; background: var(--paper-2);
+}
+.trace .node .i {
+  font-family: "IBM Plex Mono", monospace; font-size: 5.8pt; color: var(--amber);
+  letter-spacing: .1em; display: block; margin-bottom: 2mm;
+}
+.trace .node .n { font-size: 8.6pt; font-weight: 600; color: var(--ink); line-height: 1.25; display: block; }
+.trace .node .d { font-size: 6.6pt; color: var(--ink-3); display: block; margin-top: 1.4mm; line-height: 1.35; }
+
+/* --------------------------------------------------------------------------
+   packaging format cards — line art, not photographs of other products
+   -------------------------------------------------------------------------- */
+
+.formats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6mm; }
+.format .art {
+  height: 46mm; background: var(--paper-2); border: .3mm solid var(--rule);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 3.5mm;
+}
+.format .art svg { width: 100%; height: 100%; }
+.format .tag {
+  font-family: "IBM Plex Mono", monospace; font-size: 6pt; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--amber); display: block; margin-bottom: 1.6mm;
+}
+.format h3 { font-size: 10.4pt; font-weight: 600; letter-spacing: -.006em; margin-bottom: 2mm; }
+.format p { font-size: 7.8pt; line-height: 1.45; color: var(--ink-3); }
+.pack-line { fill: none; stroke: var(--ink-3); stroke-width: 1.4; }
+.pack-fill { fill: rgba(131,29,35,.06); stroke: var(--burgundy); stroke-width: 1.4; }
+.pack-fruit { fill: rgba(108,123,46,.28); stroke: var(--kiwi-deep); stroke-width: 1; }
+.pack-dim { stroke: var(--ink-4); stroke-width: .8; }
+.pack-txt { font-family: "IBM Plex Mono", monospace; font-size: 9px; fill: var(--ink-4); }
+
+/* --------------------------------------------------------------------------
+   carton label mock-up
+   -------------------------------------------------------------------------- */
+
+.label-mock {
+  border: .5mm solid var(--ink);
+  background: #FFFDF9;
+  padding: 0;
+  max-width: 104mm;
+}
+.label-mock .lm-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 4mm 5mm; border-bottom: .3mm solid var(--rule);
+}
+.label-mock .lm-head img { width: 22mm; display: block; }
+.label-mock .lm-head .hs {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.2pt; color: var(--ink-3); letter-spacing: .08em;
+}
+.label-mock .lm-title { padding: 4.5mm 5mm 3mm; }
+.label-mock .lm-title .p { font-size: 14pt; font-weight: 600; letter-spacing: -.01em; color: var(--ink); }
+.label-mock .lm-title .v { font-size: 8.4pt; color: var(--ink-3); margin-top: .8mm; }
+.label-mock .lm-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  border-top: .3mm solid var(--rule);
+}
+.label-mock .lm-grid div {
+  padding: 3mm 5mm; border-bottom: .25mm solid var(--rule-soft);
+}
+.label-mock .lm-grid div:nth-child(odd) { border-right: .25mm solid var(--rule-soft); }
+.label-mock .lm-grid .k {
+  font-family: "IBM Plex Mono", monospace; font-size: 5.6pt; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-4); display: block; margin-bottom: 1mm;
+}
+.label-mock .lm-grid .v { font-size: 8.6pt; font-weight: 500; color: var(--ink); }
+.label-mock .lm-foot {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 3.5mm 5mm; background: var(--ink);
+}
+.label-mock .lm-foot span {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.4pt; color: #F2ECE2; letter-spacing: .1em;
+}
+
+/* --------------------------------------------------------------------------
+   requirement list — the zero-tolerance table and similar
+   -------------------------------------------------------------------------- */
+
+.req { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 12mm; }
+.req .row {
+  display: grid; grid-template-columns: 1fr auto;
+  align-items: baseline; gap: 3mm;
+  padding: 2.9mm 0; border-bottom: .25mm solid var(--rule-soft);
+  font-size: 8.4pt;
+}
+.req .row .s {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.2pt; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--burgundy); white-space: nowrap;
+}
+.req .row .s.ok { color: var(--kiwi-deep); }
+
+/* --------------------------------------------------------------------------
+   multilingual summary
+   -------------------------------------------------------------------------- */
+
+.lang { border-top: .5mm solid var(--ink); padding-top: 4mm; }
+.lang .flagline {
+  display: flex; align-items: baseline; gap: 3mm; margin-bottom: 3mm;
+}
+.lang .code {
+  font-family: "IBM Plex Mono", monospace; font-size: 8pt; font-weight: 600;
+  letter-spacing: .12em; color: var(--burgundy);
+}
+.lang h3 { font-size: 12.5pt; font-weight: 600; letter-spacing: -.01em; line-height: 1.2; }
+.lang .sub { font-size: 7.6pt; color: var(--ink-3); margin-top: 1.2mm; }
+.lang .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 8mm; margin-top: 4mm; }
+.lang .blk { margin-bottom: 4mm; }
+.lang .blk .t {
+  font-family: "IBM Plex Mono", monospace; font-size: 5.8pt; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--amber); display: block; margin-bottom: 1.4mm;
+}
+.lang .blk ul { list-style: none; }
+.lang .blk li {
+  font-size: 7.2pt; line-height: 1.42; color: var(--ink-2);
+  padding-left: 3mm; position: relative; margin-bottom: .8mm;
+}
+.lang .blk li::before {
+  content: "—"; position: absolute; left: 0; color: var(--ink-4);
+}
+.lang .packs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; margin-top: 1mm; }
+.lang .packs .p { border-top: .3mm solid var(--rule); padding-top: 2mm; }
+.lang .packs .p .n {
+  font-family: "IBM Plex Mono", monospace; font-size: 5.8pt; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-4); display: block; margin-bottom: 1.2mm;
+}
+.lang .packs .p .d { font-size: 7pt; line-height: 1.35; color: var(--ink-2); }
+
+/* the calibre table runs nine rows plus notes; it needs a tighter step than
+   the corporate origin table it inherits from */
+.tight-rows .origin-row { padding: 5.1mm 0; }

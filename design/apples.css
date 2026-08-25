@@ -1,0 +1,154 @@
+@import url("catalogue.css");
+
+/* ==========================================================================
+   Iranian Fresh Apples — components only this catalogue uses.
+   Everything else comes from catalogue.css.
+   ========================================================================== */
+
+:root {
+  --gala:   #C4402F;
+  --golden: #C79A19;
+  --red:    #8E1B1E;
+  --granny: #6E8F2A;
+  --fuji:   #B75769;
+}
+
+/* --------------------------------------------------------------------------
+   variety plate — five frames on one page, cut out on the paper tone
+   -------------------------------------------------------------------------- */
+
+/* Five across leaves each fruit ~30mm wide, which wastes the page and the
+   photography. Three-by-two gives the fruit real size; the sixth cell carries
+   the comparison notes. */
+.varieties { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9mm 8mm; }
+.variety .frame-img {
+  aspect-ratio: 1/1; overflow: hidden; background: var(--paper);
+  border-bottom: .5mm solid var(--rule);
+}
+.variety .frame-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.variety .swatch { height: 1.8mm; margin-top: 3mm; }
+.variety h3 { font-size: 11pt; font-weight: 600; letter-spacing: -.006em; margin: 2.2mm 0 1.4mm; line-height: 1.2; }
+.variety .cov {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.6pt; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ink-4); display: block; margin-bottom: 2mm;
+}
+.variety p { font-size: 7.8pt; line-height: 1.42; color: var(--ink-3); }
+.variety .pending {
+  font-family: "IBM Plex Mono", monospace; font-size: 5.4pt; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--amber); display: block; margin-top: 1.4mm;
+}
+
+/* --------------------------------------------------------------------------
+   variety page header — colour rule tying the page to its variety
+   -------------------------------------------------------------------------- */
+
+.var-rule { height: 1.2mm; width: 26mm; margin-bottom: 5mm; }
+
+/* profile table used on each variety page */
+.profile-row {
+  display: grid; grid-template-columns: 38mm 1fr;
+  gap: var(--gut); padding: 2.9mm 0;
+  border-bottom: .25mm solid var(--rule-soft);
+  align-items: baseline;
+}
+.profile-row:first-of-type { border-top: .5mm solid var(--ink); }
+.profile-row .k {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.2pt; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-4);
+}
+.profile-row .v { font-size: 8.6pt; color: var(--ink); line-height: 1.35; }
+.profile-row .v b { font-weight: 600; }
+
+/* --------------------------------------------------------------------------
+   harvest calendar — five varieties, harvest solid, stored availability soft
+   -------------------------------------------------------------------------- */
+
+.hcal .months {
+  display: grid; grid-template-columns: 42mm repeat(12, 1fr);
+  padding-bottom: 2mm; border-bottom: .3mm solid var(--rule);
+}
+.hcal .months span {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.4pt; font-weight: 500;
+  letter-spacing: .05em; color: var(--ink-3); text-align: center;
+}
+.hcal .row {
+  display: grid; grid-template-columns: 42mm repeat(12, 1fr);
+  align-items: center; height: 24mm;
+  border-bottom: .25mm solid var(--rule-soft);
+}
+.hcal .row .name { padding-right: 3mm; }
+.hcal .row .name b { font-size: 10pt; font-weight: 600; color: var(--ink); display: block; }
+.hcal .row .name span {
+  font-family: "IBM Plex Mono", monospace; font-size: 5.8pt; letter-spacing: .08em;
+  color: var(--ink-4); display: block; margin-top: .8mm;
+}
+.hcal .row .cell { height: 100%; border-left: .25mm solid var(--rule-soft); position: relative; }
+.hcal .bar { position: absolute; left: 0; right: 0; top: 9mm; height: 6mm; }
+.hcal .bar.is-stored { top: 11.2mm; height: 2mm; opacity: .55; }
+
+/* --------------------------------------------------------------------------
+   benchmark chart — Brix and firmness across the five varieties
+   -------------------------------------------------------------------------- */
+
+.bench { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14mm; }
+.bench .bhead {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: .5mm solid var(--ink); padding-bottom: 2.2mm; margin-bottom: 3mm;
+}
+.bench .brow {
+  display: grid; grid-template-columns: 34mm 1fr 20mm;
+  align-items: center; height: 15mm;
+  border-bottom: .25mm solid var(--rule-soft);
+}
+.bench .brow .n { font-size: 8.4pt; font-weight: 500; color: var(--ink); }
+.bench .brow .track { position: relative; height: 100%; }
+.bench .brow .fill { position: absolute; top: 5.2mm; height: 5mm; left: 0; }
+.bench .brow .band { position: absolute; top: 5.2mm; height: 5mm; }
+.bench .brow .val {
+  font-family: "IBM Plex Mono", monospace; font-size: 7pt; text-align: right;
+  color: var(--ink); letter-spacing: .02em;
+}
+.bench .baxis {
+  display: flex; justify-content: space-between; margin-top: 2mm;
+  font-family: "IBM Plex Mono", monospace; font-size: 5.8pt;
+  color: var(--ink-4); letter-spacing: .05em;
+}
+.bench .bnote { margin-top: 3mm; }
+
+/* --------------------------------------------------------------------------
+   sizing table
+   -------------------------------------------------------------------------- */
+
+.size-row {
+  display: grid; grid-template-columns: 34mm 44mm 1fr;
+  gap: var(--gut); padding: 5.4mm 0;
+  border-top: .3mm solid var(--rule); align-items: baseline;
+}
+.size-row:last-of-type { border-bottom: .3mm solid var(--rule); }
+.size-row.is-head { border-top: .5mm solid var(--ink); padding: 2.4mm 0; }
+.size-row.is-head .mono { color: var(--ink-4); font-size: 6pt; letter-spacing: .13em; }
+.size-row .d { font-size: 11pt; font-weight: 600; letter-spacing: -.008em; color: var(--ink); }
+.size-row .w { font-family: "IBM Plex Mono", monospace; font-size: 8pt; color: var(--burgundy); }
+.size-row .u { font-size: 8.2pt; color: var(--ink-3); }
+
+/* --------------------------------------------------------------------------
+   master data sheet — five columns, one row per field
+   -------------------------------------------------------------------------- */
+
+.master { width: 100%; }
+.master .mrow {
+  display: grid; grid-template-columns: 30mm repeat(5, 1fr);
+  gap: 2.5mm; padding: 2.5mm 0;
+  border-bottom: .25mm solid var(--rule-soft);
+  align-items: baseline;
+}
+.master .mrow.is-head { border-bottom: .5mm solid var(--ink); padding-bottom: 3mm; }
+.master .mrow.is-head .h {
+  font-size: 8pt; font-weight: 600; color: var(--ink); letter-spacing: -.004em; line-height: 1.2;
+}
+.master .mrow .f {
+  font-family: "IBM Plex Mono", monospace; font-size: 5.8pt; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-4);
+}
+.master .mrow .c { font-size: 7.2pt; color: var(--ink-2); line-height: 1.35; }
+.master .mrow .c.is-key { font-weight: 600; color: var(--ink); }

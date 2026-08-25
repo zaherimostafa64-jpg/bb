@@ -17,6 +17,7 @@ const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const DOCS = {
   profile: { src: "profile.html", out: "PAYA-ORIGIN-Company-Profile-2026.pdf" },
   kiwi:    { src: "kiwi.html",    out: "PAYA-ORIGIN-Iranian-Fresh-Green-Kiwi-2026.pdf" },
+  apples:  { src: "apples.html",  out: "PAYA-ORIGIN-Iranian-Fresh-Apples-2026.pdf" },
 };
 const targets = process.argv.slice(2).filter((a) => DOCS[a]);
 const build = targets.length ? targets : Object.keys(DOCS);

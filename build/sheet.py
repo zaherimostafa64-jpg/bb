@@ -1,6 +1,7 @@
 import sys, pymupdf
 DOCS = {"profile": "dist/PAYA-ORIGIN-Company-Profile-2026.pdf",
-        "kiwi": "dist/PAYA-ORIGIN-Iranian-Fresh-Green-Kiwi-2026.pdf"}
+        "kiwi": "dist/PAYA-ORIGIN-Iranian-Fresh-Green-Kiwi-2026.pdf",
+        "apples": "dist/PAYA-ORIGIN-Iranian-Fresh-Apples-2026.pdf"}
 which = next((a for a in sys.argv[1:] if a in DOCS), "profile")
 pdf = pymupdf.open(DOCS[which])
 pages = [int(a) for a in sys.argv[1:] if a not in DOCS]
