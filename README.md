@@ -12,6 +12,7 @@ headless Chromium.
 | `dist/…-editable.docx` | Word, re-authored natively: real headings, tables and pictures. Fully editable, flows like a Word document. |
 | `dist/PAYA-ORIGIN-Iranian-Fresh-Green-Kiwi-2026.pdf` | 19-page product catalogue for Hayward kiwi, EU market. Built from the Rev. 2 technical specification and the four-language export summary. |
 | `dist/PAYA-ORIGIN-Iranian-Fresh-Apples-2026.pdf` | 19-page export catalogue for five apple varieties, EU market. |
+| `dist/PAYA-ORIGIN-Iranian-Pomegranates-2026.pdf` | 17-page export catalogue for five pomegranate varieties, EU market. Dark-first, image-led. |
 
 The art-direction review that produced this edition — including what was wrong
 with the previous profile and what to confirm before it goes to buyers — is in
@@ -26,12 +27,15 @@ design/
   profile.html        corporate profile — one <section class="page"> per page
   kiwi.html           kiwi product catalogue
   apples.html         apple export catalogue
+  pomegranate.html    pomegranate export catalogue
   styles.css          the design system: tokens, archetypes, components
   catalogue.css       shared catalogue components (gauges, cold-chain plot,
                       traceability chain, carton label, spec strips)
   kiwi.css            kiwi-only additions
   apples.css          apple-only additions (variety plate, harvest calendar,
                       benchmark chart, master data sheet)
+  pomegranate.css     pomegranate-only additions (dark palette, variety colour
+                      band, range charts, profile picker)
   fonts/              Fraunces, Inter Tight, IBM Plex Mono (self-hosted woff2)
   assets/             art-directed images, logo colourways, map geometry
 build/
@@ -54,6 +58,8 @@ node    build/render.mjs            # -> every document in dist/
 node    build/render.mjs kiwi       # -> just the kiwi catalogue
 python3 build/prepare_apples.py     # apple photography -> design/assets/apples
 node    build/render.mjs apples     # -> just the apple catalogue
+python3 build/prepare_pomegranate.py   # pomegranate photography, with dpi report
+node    build/render.mjs pomegranate
 
 python3 build/pdf-to-pages.py 170   # page rasters for the layout export
 node    build/docx-layout.mjs       # -> dist/*-layout.docx
@@ -71,6 +77,7 @@ page number and how far it overruns. A clean build reports `overflow: none`.
 ```bash
 python3 build/qa.py 150            # build/qa/profile/pNN.png + a contact sheet
 python3 build/qa.py kiwi 150       # same for the kiwi catalogue
+python3 build/qa.py pomegranate 150
 python3 build/sheet.py 11 12       # build/qa/sheet.png comparing named pages
 python3 build/sheet.py kiwi 5 6    # ditto, from the kiwi catalogue
 ```
@@ -155,6 +162,54 @@ into a client's catalogue — the watermark means the licence has not been bough
 Every other image in both deliveries was checked at 1:1 and is clean.
 
 Still outstanding: photography of PAYA's own packing line.
+
+## The pomegranate catalogue
+
+Five varieties — Saveh, Neyriz, Ferdows, Yazd, Badrud. The brief for this one
+was explicitly bold and image-led, so it breaks the house pattern on purpose:
+**dark-first**, near-black and deep crimson carrying most of the document, cream
+appearing twice as a deliberate flip for the data pages, and display type two to
+three times larger than anywhere else in the range.
+
+Pomegranate is the only product here whose colour can hold a page on its own.
+That is the whole argument for the treatment — and it is also what makes the
+pages work at the resolutions this library actually has, because **a colour
+field costs no pixels**.
+
+Decisions worth keeping:
+
+- **Resolution governs placement, and is printed.** `prepare_pomegranate.py`
+  reports the effective dpi of every asset at the width it is placed at, so the
+  decision is checkable rather than assumed. Only three frames in the library
+  hold up full-bleed at A4; everything else is bounded. A floor-to-ceiling
+  half-page column was the first idea for the variety pages and it fails on
+  arithmetic — cropping a 525 × 700 frame to 105 : 297 leaves 247 px of width,
+  which is 60 dpi. Nothing in the document runs below 137 dpi.
+- **The variety band is a colour field beside the photograph**, not a photograph
+  with space next to it. That is the same resolution decision made visible: the
+  band is full width, the picture only occupies as much of it as it can fill at
+  print resolution, and the rest is the variety's own colour.
+- **The cover photograph is a light studio frame**, so type set over it is
+  unreadable in any colour. It runs as a band with the title on solid ink
+  beneath it, rather than the picture being darkened to rescue the type.
+- **Two source files were deleted rather than used.** `badrud-market.jpg` is a
+  press-agency frame with "IMNA IMAGES" burnt in; `ferdows-hand.jpg` carries
+  another pomegranate exporter's logotype. Three more are kept but never placed
+  because every fruit in them wears another company's sticker. Same rule as the
+  watermarked Unsplash+ file in the apple catalogue: a watermark means the
+  licence was not bought, and retouching it out does not buy one.
+
+**Two gaps to close with photography**, both flagged by the asset script on
+every run:
+
+1. **Yazd has no photography at all.** Its variety page uses a general frame,
+   captioned as illustrative on the page itself. Yazd is the one variety sold on
+   being visibly larger and lighter in skin colour than the rest, so it is the
+   variety a photograph would do the most work for.
+2. **There is no grading, sorting or packhouse photography.** One file arrived
+   named `ferdows-packhouse.jpg` and is a picture of fruit on a tree. The quality
+   page therefore argues from the orchard and from packed fruit, and claims
+   nothing about a line nobody has photographed.
 
 ## The Word exports
 

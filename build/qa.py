@@ -5,7 +5,8 @@ import os, sys, pymupdf
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOCS = {"profile": "PAYA-ORIGIN-Company-Profile-2026.pdf",
         "kiwi": "PAYA-ORIGIN-Iranian-Fresh-Green-Kiwi-2026.pdf",
-        "apples": "PAYA-ORIGIN-Iranian-Fresh-Apples-2026.pdf"}
+        "apples": "PAYA-ORIGIN-Iranian-Fresh-Apples-2026.pdf",
+        "pomegranate": "PAYA-ORIGIN-Iranian-Pomegranates-2026.pdf"}
 which = next((a for a in sys.argv[1:] if a in DOCS), "profile")
 sys.argv = [a for a in sys.argv if a not in DOCS]
 pdf = os.path.join(root, "dist", DOCS[which])

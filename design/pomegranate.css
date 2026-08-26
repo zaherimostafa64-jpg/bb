@@ -1,0 +1,289 @@
+@import url("catalogue.css");
+
+/* ==========================================================================
+   PAYA ORIGIN — Iranian Pomegranates
+
+   The brief for this one was bold and image-led, so it breaks the house
+   pattern on purpose. The kiwi catalogue argues with data on cream; the apple
+   catalogue is photographic on cream. This one is dark-first: near-black and
+   deep crimson carry most of the document, cream appears twice as a deliberate
+   flip for the data pages, and type runs two to three times larger than
+   anywhere else in the range.
+
+   Pomegranate is the only product here whose colour can hold a page on its
+   own. That is the whole argument for the treatment — and it is also what
+   makes the page work at the resolutions this library actually has, because
+   a colour field costs no pixels.
+   ========================================================================== */
+
+:root {
+  --pom-ink:     #120809;   /* warm near-black, red undertone */
+  --pom-ink-2:   #1D0E10;
+  --pom-deep:    #5E0D1E;
+  --pom:         #97102C;
+  --pom-bright:  #C4152F;
+  --pom-aril:    #E0374F;
+  --pom-pale:    #F0B9C0;
+  --pom-rule:    #3A1D22;
+
+  /* the five, as a light ramp so they stay separable in a chart */
+  --v-saveh:     #5E0D1E;
+  --v-badrud:    #8A1526;
+  --v-neyriz:    #B01234;
+  --v-ferdows:   #C93A46;
+  --v-yazd:      #E4808F;
+}
+
+/* --------------------------------------------------------------------------
+   the dark page
+   -------------------------------------------------------------------------- */
+
+.page.pom      { background: var(--pom-ink); color: #F4E6E6; }
+.page.pom::after { display: none; }
+.page.crimson  { background: var(--pom-deep); color: #FBEDEE; }
+.page.crimson::after { display: none; }
+
+.pom .display, .pom h1, .pom h2 { color: #FBEFEF; }
+.pom p        { color: #D8B9BC; }
+.pom .lede    { color: #E4C9CB; }
+.pom .hr      { background: var(--pom-rule); }
+.pom .running,
+.pom .running .folio { color: #6E4448; }
+.pom .label   { color: var(--pom-aril); }
+.pom .mono    { color: #8E6165; }
+.pom .note    { color: #7C5155; border-color: var(--pom-rule); }
+
+.crimson .display, .crimson h1, .crimson h2 { color: #FFF; }
+.crimson p    { color: rgba(255,255,255,.80); }
+.crimson .label { color: var(--pom-pale); }
+.crimson .running, .crimson .running .folio { color: rgba(255,255,255,.42); }
+
+/* --------------------------------------------------------------------------
+   type, turned up
+   -------------------------------------------------------------------------- */
+
+.d-huge {
+  font-family: "Fraunces", Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 144;
+  font-weight: 300;
+  font-size: 74pt; line-height: .92; letter-spacing: -.028em;
+}
+.d-var {
+  font-family: "Fraunces", Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 144;
+  font-weight: 300;
+  font-size: 54pt; line-height: .94; letter-spacing: -.024em;
+  text-transform: uppercase;
+}
+.tagline {
+  font-size: 13pt; line-height: 1.28; letter-spacing: -.01em;
+  font-weight: 350;
+}
+
+/* --------------------------------------------------------------------------
+   cover
+   -------------------------------------------------------------------------- */
+
+.cover-key { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3mm; }
+.cover-key div {
+  font-family: "Fraunces", Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 120;
+  font-weight: 300; font-size: 13pt; letter-spacing: -.02em;
+  text-transform: uppercase; color: #FBEFEF; line-height: 1;
+}
+.cover-key i { display: block; width: 9mm; height: 2mm; margin-bottom: 3.4mm; }
+
+/* --------------------------------------------------------------------------
+   variety page
+
+   The band across the top is a colour field beside the photograph, not a
+   photograph with space next to it. That is a resolution decision as much as
+   an art-direction one: the variety sources top out around 525 px, so a frame
+   wide enough to fill the band alone would run at 60–90 dpi. A flat field
+   costs no pixels, and colour-codes the five pages while it is there.
+   -------------------------------------------------------------------------- */
+
+.var-bar { height: 2.4mm; width: 100%; }
+
+.v-band {
+  position: absolute; left: 0; top: 0; right: 0; height: 120mm;
+  display: grid; grid-template-columns: 114mm 96mm;
+}
+.v-field { position: relative; padding: 0 12mm 13mm var(--mx);
+           display: flex; flex-direction: column; justify-content: flex-end; }
+.v-field .v-no {
+  position: absolute; top: 15.4mm; left: var(--mx);
+  font-family: "IBM Plex Mono", monospace; font-size: 6.4pt;
+  letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.62);
+}
+.v-field .d-var { font-size: 44pt; color: #fff; }
+.v-field .tagline { margin-top: 5mm; color: rgba(255,255,255,.82); max-width: 78mm; }
+
+/* Yazd's colour is the pale end of the ramp — it takes ink, not white. */
+.v-field.on-light .v-no      { color: rgba(18,8,9,.62); }
+.v-field.on-light .d-var     { color: var(--pom-ink); }
+.v-field.on-light .tagline   { color: rgba(18,8,9,.78); }
+
+.v-shot { overflow: hidden; }
+.v-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6mm; }
+.stat .n {
+  font-family: "Fraunces", Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 144;
+  font-weight: 300; font-size: 34pt; line-height: 1; letter-spacing: -.02em;
+  color: #FBEFEF; display: block;
+}
+.stat .n .u { font-size: 14pt; letter-spacing: 0; }
+.stat .k {
+  font-family: "IBM Plex Mono", monospace; font-size: 6pt; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--pom-aril); display: block; margin-top: 2.4mm;
+}
+
+.spec-list { }
+.spec-list .r {
+  display: grid; grid-template-columns: 32mm 1fr;
+  padding: 4.2mm 0; border-bottom: .25mm solid var(--pom-rule);
+  align-items: baseline;
+}
+.spec-list .r .k {
+  font-family: "IBM Plex Mono", monospace; font-size: 6pt; letter-spacing: .12em;
+  text-transform: uppercase; color: #8E6165;
+}
+.spec-list .r .v { font-size: 9.4pt; color: #F0DDDE; }
+
+.why { display: grid; grid-template-columns: repeat(2, 1fr); gap: 3.4mm 6mm; }
+.why span {
+  font-size: 9pt; color: #E4C9CB; padding-left: 4mm; position: relative; line-height: 1.35;
+}
+.why span::before {
+  content: ""; position: absolute; left: 0; top: 1.6mm;
+  width: 2mm; height: 2mm; background: var(--pom-aril);
+}
+
+/* --------------------------------------------------------------------------
+   the five — index and profile picker
+   -------------------------------------------------------------------------- */
+
+.five { }
+.five .row {
+  display: grid; grid-template-columns: 6mm 46mm 1fr 44mm;
+  gap: 6mm; align-items: center;
+  padding: 7.5mm 0; border-bottom: .3mm solid var(--pom-rule);
+}
+.five .row .chip { width: 6mm; height: 20mm; }
+.five .row .nm {
+  font-family: "Fraunces", Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 120;
+  font-weight: 300; font-size: 24pt; letter-spacing: -.02em;
+  text-transform: uppercase; color: #FBEFEF; line-height: 1;
+}
+.five .row .pr { font-size: 8.6pt; color: #D8B9BC; line-height: 1.4; }
+.five .row .mk {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.2pt; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--pom-aril); text-align: right; line-height: 1.6;
+}
+
+/* The picker was five columns first. Five names in five columns puts FERDOWS
+   into YAZD's column and leaves a third of the page empty underneath, so it is
+   five full-width rows instead — which is also how the question is actually
+   asked: one line per profile, read top to bottom. */
+.pick { display: grid; grid-template-rows: repeat(5, 1fr); }
+.pick .prow {
+  display: grid; grid-template-columns: 26mm 1fr auto;
+  align-items: center; gap: 0 10mm;
+  padding-right: var(--mx);
+  border-top: .3mm solid rgba(255,255,255,.30);
+}
+.pick .prow:last-child { border-bottom: .3mm solid rgba(255,255,255,.30); }
+.pick .prow .sw { width: 100%; height: 100%; }
+.pick .prow .nm {
+  font-family: "Fraunces", Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 144;
+  font-weight: 300; font-size: 32pt; letter-spacing: -.022em;
+  text-transform: uppercase; color: #fff; line-height: 1;
+}
+.pick .prow .for {
+  font-family: "IBM Plex Mono", monospace; font-size: 7pt; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--pom-pale);
+  text-align: right; line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   comparison matrix — the cream flip
+   -------------------------------------------------------------------------- */
+
+.matrix-pom { width: 100%; }
+.matrix-pom .mrow {
+  display: grid; grid-template-columns: 30mm repeat(5, 1fr);
+  gap: 3mm; padding: 4mm 0;
+  border-bottom: .25mm solid var(--rule-soft);
+  align-items: baseline;
+}
+.matrix-pom .mrow.is-head {
+  border-bottom: .5mm solid var(--ink); padding-bottom: 3.5mm;
+}
+.matrix-pom .mrow.is-head .h {
+  font-family: "Fraunces", Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 120;
+  font-weight: 300; font-size: 15pt; letter-spacing: -.018em;
+  text-transform: uppercase; line-height: 1;
+}
+.matrix-pom .mrow .f {
+  font-family: "IBM Plex Mono", monospace; font-size: 6pt; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-4);
+}
+.matrix-pom .mrow .c { font-size: 8pt; color: var(--ink-2); line-height: 1.3; }
+.matrix-pom .mrow .c.hi { font-weight: 700; color: var(--pom); }
+
+/* --------------------------------------------------------------------------
+   range charts
+   -------------------------------------------------------------------------- */
+
+.chart { margin-bottom: 11mm; }
+.chart .head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: .4mm solid var(--pom-rule); padding-bottom: 2.4mm; margin-bottom: 3mm;
+}
+.chart .head .t { font-size: 10.5pt; font-weight: 600; color: #FBEFEF; letter-spacing: -.006em; }
+.chart .head .u {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.4pt;
+  letter-spacing: .12em; color: var(--pom-aril);
+}
+.chart .row {
+  display: grid; grid-template-columns: 26mm 1fr 26mm;
+  align-items: center; height: 9.6mm;
+}
+.chart .row .n {
+  font-family: "IBM Plex Mono", monospace; font-size: 7pt; letter-spacing: .06em;
+  text-transform: uppercase; color: #C9A5A8;
+}
+.chart .row .track { position: relative; height: 100%; }
+.chart .row .track::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 50%;
+  height: .25mm; background: var(--pom-rule);
+}
+.chart .row .band { position: absolute; top: 2.6mm; height: 4.4mm; }
+.chart .row .v {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.6pt;
+  color: #E4C9CB; text-align: right;
+}
+.chart .axis {
+  display: grid; grid-template-columns: 26mm 1fr 26mm; margin-top: 2mm;
+}
+.chart .axis .ticks {
+  display: flex; justify-content: space-between;
+  font-family: "IBM Plex Mono", monospace; font-size: 5.8pt;
+  letter-spacing: .06em; color: #7C5155;
+}
+
+/* --------------------------------------------------------------------------
+   plate type — bigger and lighter than the house plate
+   -------------------------------------------------------------------------- */
+
+.plate-type.pom-plate .display { color: #fff; }
+.plate-type.pom-plate p { color: rgba(255,255,255,.86); }
+
+.figure-cap {
+  font-size: 6.6pt; line-height: 1.35; color: #8E6165; letter-spacing: .002em;
+}
