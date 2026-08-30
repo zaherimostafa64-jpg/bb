@@ -19,6 +19,7 @@ const DOCS = {
   kiwi:    { src: "kiwi.html",    out: "PAYA-ORIGIN-Iranian-Fresh-Green-Kiwi-2026.pdf" },
   apples:  { src: "apples.html",  out: "PAYA-ORIGIN-Iranian-Fresh-Apples-2026.pdf" },
   pomegranate: { src: "pomegranate.html", out: "PAYA-ORIGIN-Iranian-Pomegranates-2026.pdf" },
+  papersheet:  { src: "papersheet.html",  out: "PAYA-ORIGIN-Company-Paper-2026.pdf" },
 };
 const targets = process.argv.slice(2).filter((a) => DOCS[a]);
 const build = targets.length ? targets : Object.keys(DOCS);

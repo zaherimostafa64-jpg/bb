@@ -1,0 +1,161 @@
+@import url("catalogue.css");
+
+/* ==========================================================================
+   PAYA ORIGIN — Company Paper (10 pages)
+
+   A condensed sheet, not a fifth catalogue. Everything here already exists in
+   the profile or one of the three product catalogues; the job of this document
+   is to let one reader get the whole story in ten pages and know where the
+   detail lives.
+
+   That changes the typography rather than the palette. The house system is
+   inherited unchanged — cream, burgundy, amber, Fraunces / Inter Tight / IBM
+   Plex Mono — but display sizes come down a step and the pages run denser,
+   because a summary earns its space by fitting.
+   ========================================================================== */
+
+:root {
+  /* variety accents, lifted from the catalogues so the product pages read as
+     extracts of them rather than as new artwork */
+  --gala:   #C4402F;
+  --golden: #C79A19;
+  --red:    #8E1B1E;
+  --granny: #6E8F2A;
+  --fuji:   #B75769;
+
+  --v-saveh:   #5E0D1E;
+  --v-neyriz:  #B01234;
+  --v-ferdows: #C93A46;
+  --v-yazd:    #E4808F;
+  --v-badrud:  #8A1526;
+}
+
+/* --------------------------------------------------------------------------
+   section head — every page after the cover opens the same way
+   -------------------------------------------------------------------------- */
+
+.sec-head { display: flex; justify-content: space-between; align-items: flex-end; }
+.sec-head .of {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.4pt; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--ink-4); padding-bottom: 2mm; white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   fact row — the five numbers that answer "who are they"
+   -------------------------------------------------------------------------- */
+
+.facts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0 5mm; }
+.facts > div { border-top: .5mm solid var(--ink); padding-top: 3mm; }
+.facts .n {
+  font-family: "Fraunces", Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 144;
+  font-weight: 300; font-size: 25pt; line-height: 1; letter-spacing: -.02em;
+  color: var(--burgundy); display: block;
+}
+.facts .n .u { font-size: 13pt; }
+.facts .k {
+  font-size: 8.2pt; font-weight: 600; letter-spacing: -.004em;
+  display: block; margin-top: 3mm;
+}
+.facts .d { font-size: 7.2pt; line-height: 1.4; color: var(--ink-3); display: block; margin-top: 1.4mm; }
+
+/* --------------------------------------------------------------------------
+   product strip — a row of named specimens with an origin / season line
+   -------------------------------------------------------------------------- */
+
+.pstrip { display: grid; gap: 0; }
+.pstrip .f { overflow: hidden; }
+.pstrip .f img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.pnames { display: grid; gap: 0 4mm; }
+.pnames .n { font-size: 8.6pt; font-weight: 600; letter-spacing: -.004em; display: block; }
+.pnames .o {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.2pt; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--ink-4); display: block; margin-top: .8mm;
+}
+
+/* --------------------------------------------------------------------------
+   variety row — used on the apple and pomegranate pages
+   -------------------------------------------------------------------------- */
+
+.vrow {
+  display: grid; grid-template-columns: 5mm 34mm 1fr 46mm;
+  gap: 0 6mm; align-items: center;
+  padding: 3.4mm 0; border-bottom: .25mm solid var(--rule);
+}
+.vrow .sw { width: 4mm; height: 4mm; }
+.vrow .nm { font-size: 10pt; font-weight: 600; letter-spacing: -.008em; }
+.vrow .ds { font-size: 7.8pt; line-height: 1.4; color: var(--ink-3); }
+.vrow .dt {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.6pt; letter-spacing: .06em;
+  color: var(--burgundy); text-align: right; line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   packing figure — the branded cartons, shown at a consistent size
+   -------------------------------------------------------------------------- */
+
+.pk { }
+.pk .f { overflow: hidden; background: var(--paper-2); }
+.pk .f img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pk .c { margin-top: 2mm; }
+.pk .c .n { font-size: 8.2pt; font-weight: 600; display: block; letter-spacing: -.004em; }
+.pk .c .o {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.2pt; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--ink-4); display: block; margin-top: .8mm;
+}
+
+/* A tighter rule-list for the pages that carry two subjects at once. Same
+   component, one step down — the summary's whole job is to fit. */
+.rule-list.tight .item { padding: 3.6mm 0; grid-template-columns: 8mm 1fr; }
+.rule-list.tight .item h3 { font-size: 8.8pt; margin-bottom: .8mm; }
+.rule-list.tight .item p  { font-size: 7.6pt; line-height: 1.4; }
+
+/* --------------------------------------------------------------------------
+   contact block
+   -------------------------------------------------------------------------- */
+
+.contact { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0 8mm; }
+.contact .k {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.2pt; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--ink-4); display: block; margin-bottom: 2mm;
+}
+.contact .v { font-size: 9pt; font-weight: 500; line-height: 1.4; }
+
+/* --------------------------------------------------------------------------
+   a compact where-to-look-next rail
+   -------------------------------------------------------------------------- */
+
+.more {
+  display: grid; grid-template-columns: 1fr auto; align-items: center;
+  border-top: .5mm solid var(--ink); padding-top: 3mm;
+}
+.more .t { font-size: 8.4pt; font-weight: 500; }
+.more .a {
+  font-family: "IBM Plex Mono", monospace; font-size: 6.4pt; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--burgundy);
+}
+
+/* --------------------------------------------------------------------------
+   calibre table — the kiwi page's one piece of real instrumentation
+
+   It replaces a second crop of the only kiwi photograph in the library. A
+   summary that shows the same fruit twice is padding; the table is the thing
+   a procurement desk actually reads.
+   -------------------------------------------------------------------------- */
+
+.ktab .r {
+  display: grid; grid-template-columns: 9mm 1fr 18mm; gap: 0 2mm;
+  padding: 1.5mm 0; border-bottom: .25mm solid var(--rule-soft);
+  font-size: 7.6pt; align-items: baseline;
+}
+.ktab .r.is-head {
+  border-bottom: .4mm solid var(--ink); padding-bottom: 1.6mm;
+  font-family: "IBM Plex Mono", monospace; font-size: 6pt;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-4);
+}
+.ktab .r span:first-child { font-family: "IBM Plex Mono", monospace; font-weight: 600; }
+.ktab .r span:last-child  { text-align: right; font-weight: 600; }
+.ktab .cx { color: var(--class-extra); }
+.ktab .c1 { color: var(--class-one); }
+.ktab .c2 { color: var(--class-two); }

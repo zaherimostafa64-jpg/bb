@@ -13,6 +13,7 @@ headless Chromium.
 | `dist/PAYA-ORIGIN-Iranian-Fresh-Green-Kiwi-2026.pdf` | 19-page product catalogue for Hayward kiwi, EU market. Built from the Rev. 2 technical specification and the four-language export summary. |
 | `dist/PAYA-ORIGIN-Iranian-Fresh-Apples-2026.pdf` | 19-page export catalogue for five apple varieties, EU market. |
 | `dist/PAYA-ORIGIN-Iranian-Pomegranates-2026.pdf` | 17-page export catalogue for five pomegranate varieties, EU market. Dark-first, image-led. |
+| `dist/PAYA-ORIGIN-Company-Paper-2026.pdf` | 10-page company paper: the whole story — company, categories, and the three product lines — condensed from the profile and the three catalogues. |
 
 The art-direction review that produced this edition — including what was wrong
 with the previous profile and what to confirm before it goes to buyers — is in
@@ -28,6 +29,7 @@ design/
   kiwi.html           kiwi product catalogue
   apples.html         apple export catalogue
   pomegranate.html    pomegranate export catalogue
+  papersheet.html     10-page company paper
   styles.css          the design system: tokens, archetypes, components
   catalogue.css       shared catalogue components (gauges, cold-chain plot,
                       traceability chain, carton label, spec strips)
@@ -36,6 +38,8 @@ design/
                       benchmark chart, master data sheet)
   pomegranate.css     pomegranate-only additions (dark palette, variety colour
                       band, range charts, profile picker)
+  papersheet.css      company-paper additions (fact row, variety row, packing
+                      figure, calibre table, contact block)
   fonts/              Fraunces, Inter Tight, IBM Plex Mono (self-hosted woff2)
   assets/             art-directed images, logo colourways, map geometry
 build/
@@ -60,6 +64,7 @@ python3 build/prepare_apples.py     # apple photography -> design/assets/apples
 node    build/render.mjs apples     # -> just the apple catalogue
 python3 build/prepare_pomegranate.py   # pomegranate photography, with dpi report
 node    build/render.mjs pomegranate
+node    build/render.mjs papersheet    # the 10-page company paper
 
 python3 build/pdf-to-pages.py 170   # page rasters for the layout export
 node    build/docx-layout.mjs       # -> dist/*-layout.docx
@@ -78,6 +83,7 @@ page number and how far it overruns. A clean build reports `overflow: none`.
 python3 build/qa.py 150            # build/qa/profile/pNN.png + a contact sheet
 python3 build/qa.py kiwi 150       # same for the kiwi catalogue
 python3 build/qa.py pomegranate 150
+python3 build/qa.py papersheet 150
 python3 build/sheet.py 11 12       # build/qa/sheet.png comparing named pages
 python3 build/sheet.py kiwi 5 6    # ditto, from the kiwi catalogue
 ```
@@ -210,6 +216,27 @@ every run:
    named `ferdows-packhouse.jpg` and is a picture of fruit on a tree. The quality
    page therefore argues from the orchard and from packed fruit, and claims
    nothing about a line nobody has photographed.
+
+## The company paper
+
+`design/papersheet.html` is a ten-page condensation, not a fifth catalogue:
+company and model (01–02), the three product categories (03–04), then two pages
+each on apples, pomegranates and kiwi (05–10), closing on contact details.
+It is aimed at a reader who has one sitting to understand the whole business.
+
+- **No new claims.** Every figure comes from the corporate profile or one of the
+  three catalogues, and each product section ends with a rail naming the
+  catalogue that carries the full specification.
+- **The source's caveats travel with the figures.** The apple sizing table is
+  still marked a working specification pending PAYA's sorting data; the kiwi
+  weight bands are still indicative pending the packing-house calibration
+  record; pomegranate calibre is still set with the order, not published.
+- **The packaging photography is the branded set** — bulk nut carton, retail
+  presentation, ventilated fruit carton, vegetable carton — plus one
+  sticker-free apple carton and the netted pomegranate pack.
+- **The one kiwi photograph appears once.** The space a second crop of it would
+  have filled carries the calibre-to-class table instead; a summary that shows
+  the same fruit twice is padding.
 
 ## The Word exports
 
